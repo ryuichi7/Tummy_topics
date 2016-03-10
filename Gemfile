@@ -22,6 +22,8 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'devise'
+gem 'rake', '< 11.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -32,9 +34,22 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+group :test, :development do
+  gem "rspec-rails"
+  gem "capybara"
+  gem "launchy"
+  gem "rack_session_access"
+  gem "capybara-webkit"
+  gem "selenium-webdriver"
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "factory_girl_rails"
+  gem "simplecov"
+  gem "database_cleaner"
+  gem "sqlite3"
+  gem "pry"
+  gem "guard-rspec", require: false
+  gem "thin"
 end
 
 group :development do
@@ -45,3 +60,12 @@ group :development do
   gem 'spring'
 end
 
+group :production do
+  gem "google-analytics-rails"
+  gem "rails_12factor"
+end
+
+gem "bootstrap-sass", "~> 3.1.1"
+gem "airbrake"
+gem "faker"
+gem "friendly_id"
