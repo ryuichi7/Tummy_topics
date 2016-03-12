@@ -1,0 +1,33 @@
+<div class='container'>
+	<%= form_for recipe do |f| %>
+		<%= f.hidden_field :user_id, value: current_user.id %>
+	
+		<div>
+			<%= f.label 'Recipe Name:' %><br>
+			<%= f.text_field :name %><br>
+		</div>
+
+		<div>
+			<%= f.label 'Directions:' %><br>
+			<%= f.text_area :directions,  cols: 60, rows: 10, placeholder: "Please press enter after every step" %><br>
+		</div>
+		
+		<%= f.fields_for :ingredient_attributes do |ingredients| %>
+			<div>
+				<%= ingredients.label "Add Ingredients: Please press enter after each entry", autofocus: true %><br>
+				<p>( add a " - " between measurment and ingredient )</p>
+				<%= ingredients.text_area :ingredients, cols: 60, rows: 10, placeholder: "ex: 1 1/2 cups - flour" %><br>
+			</div>
+		<% end %>
+		
+		<div>
+			<%= f.label 'Description:' %><br>
+			<%= f.text_area :description,  cols: 60, rows: 10 %><br>
+		</div>
+
+		<div>
+			<%= f.submit %><br>
+		</div>
+	<% end %>
+
+</div>

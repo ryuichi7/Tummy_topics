@@ -1,0 +1,17 @@
+<div class='container' >
+	<h2><%= @recipe.name %></h2><br>
+	<strong>Description:</strong><br>
+	<p><%= @recipe.description %></p>
+	<strong>Ingredients:</strong>
+	<ul>
+		<% @recipe.recipe_ingredients.each do |ingredient| %>
+			<li><%= ingredient.measurement %>  <%= ingredient.name.humanize %></li>
+		<% end %>
+	</ul>
+	<strong>Directions:</strong>
+	<ol>
+		<% @recipe.directions_to_list.each do |step| %>
+			<li><%= step.capitalize %></li>
+		<% end %>
+	</ol>
+</div>

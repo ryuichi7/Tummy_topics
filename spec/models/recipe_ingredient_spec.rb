@@ -10,6 +10,10 @@ RSpec.describe RecipeIngredient, type: :model do
 		it "has a measurement" do
 			expect(recipe_ingredient.measurement).to eq("1 cup")
 		end
+
+		it "has a name" do
+			expect(recipe_ingredient.name).to eq("salt")
+		end
 	end
 
 	describe "associations" do

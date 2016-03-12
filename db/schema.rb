@@ -11,19 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310214235) do
+ActiveRecord::Schema.define(version: 20160311144437) do
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
     t.integer  "recipe_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "commenter_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "ingredients", force: :cascade do |t|
     t.string   "name"
-    t.float    "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -33,9 +32,11 @@ ActiveRecord::Schema.define(version: 20160310214235) do
     t.integer  "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "rater_id"
   end
 
   create_table "recipe_ingredients", force: :cascade do |t|
+    t.string   "name"
     t.integer  "recipe_id"
     t.integer  "ingredient_id"
     t.string   "measurement"
@@ -46,10 +47,11 @@ ActiveRecord::Schema.define(version: 20160310214235) do
   create_table "recipes", force: :cascade do |t|
     t.string   "name"
     t.string   "directions"
-    t.float    "cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.float    "cooking_time"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.integer  "user_id"
+    t.string   "description"
   end
 
   create_table "users", force: :cascade do |t|
