@@ -10,8 +10,25 @@
 	</ul>
 	<strong>Directions:</strong>
 	<ol>
-		<% @recipe.directions_to_list.each do |step| %>
-			<li><%= step.capitalize %></li>
+		<% @recipe.directions_to_list.each do |direction| %>
+			<li><%= direction.capitalize %></li>
 		<% end %>
 	</ol>
+</div>
+
+<div class="container">
+	<% @recipe.try(:comments).each do |comment| %>
+		<strong><%= comment.commenter.email %></strong><br>
+		<%= comment.content %>
+	<% end %>
+</div>
+
+<div class="container">
+	<%= form_for @recipe.comments.build, action: comments_path, method: 'post' do |f| %>
+		<%= f.hidden_field :recipe_id, value: @recipe.id %>
+		<%= f.hidden_field :commenter_id, value: current_user.id %>
+		<%= f.label "Add a comment" %>
+		<%= f.text_area :content, cols: 60, rows: 10 %>
+		<%= f.submit %>
+	<% end %>
 </div>
