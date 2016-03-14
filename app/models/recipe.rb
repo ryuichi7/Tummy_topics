@@ -25,8 +25,19 @@ class Recipe < ActiveRecord::Base
 	end
 
 	def self.search(params)
-		where("name like ?", "%#{params}%")
+		where("name like ?", "%#{params.singularize}%") 
 	end
 
+	def self.ingredient_search(params)
+		joins(:ingredients).where("ingredients.name like ?", "%#{params.singularize}%") unless params.empty?
+	end
+
+	def self.rating_search(params)
+		joins(:ratings).where("ratings.score <= ?", params)
+	end
+
+	def rating_avg
+		ratings.average(:score)
+	end
 
 end

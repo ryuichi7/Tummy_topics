@@ -13,8 +13,15 @@
 		<%= render "layouts/nav" %>
 	</header>
 
-
-	<%= yield %>
+	<div class="container">
+		<% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+              <%= value %>
+        </div>
+  	<% end %>
+		
+		<%= yield %>
+	</div>
 
 </body>
 </html>

@@ -1,0 +1,27 @@
+<div class="container">
+	<h2>Other search options:</h2>
+
+	<strong>Search by ingredient:</strong>
+	<%= form_tag search_path, method: "get" do %>
+		<%= text_field_tag :ingredient, nil, class: "button3", placeholder: "ingredient" %><br>
+		<%= submit_tag 'Submit', class: "button3" %>
+	<% end %>
+
+	- or -<br>
+
+
+	<strong>Search by rating:</strong>
+	<%= form_tag search_path, method: "get" do %>
+		<%= text_field_tag :ingredient, nil, class: "button3", placeholder: "rating (1-5)" %><br>
+		<%= submit_tag 'Submit', class: "button3" %>
+	<% end %>
+</div>
+
+<div class="container">
+	<h2>Recipes:</h2>
+ 	<% @results.try(:each) do |recipe| %>
+	 	<p><%= link_to recipe.name, recipe_path(recipe) %></p>
+	 	<p><%= recipe.try(:rating) %></p>
+	<% end %>
+</div>
+

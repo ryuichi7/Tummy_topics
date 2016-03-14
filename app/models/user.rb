@@ -8,4 +8,9 @@ class User < ActiveRecord::Base
   has_many :reviews, through: :recipes, source: "comments"
   has_many :received_ratings, through: :recipes, source: "ratings"
   has_many :ratings, foreign_key: :rater_id
+
+  def email_name
+  	email.split("@").first
+  end
+
 end

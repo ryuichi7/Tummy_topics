@@ -8,6 +8,14 @@ class RecipesController < ApplicationController
 		end
 	end
 
+	def search
+		if params[:ingredient]
+			@results = Recipe.ingredient_search(params[:ingredient])
+		else params[:rating]
+			@results = Recipe.rating_search(params[:rating])
+		end
+	end
+
 	def new
 		@recipe = Recipe.new
 	end
@@ -19,7 +27,6 @@ class RecipesController < ApplicationController
 
 	def show
 		@recipe = Recipe.find(params[:id])
-		# @comment = @recipe.comments.build
 	end
 
 	private
@@ -27,4 +34,9 @@ class RecipesController < ApplicationController
 	def recipe_params
 		params.require(:recipe).permit(:name, :user_id, :description, :directions, ingredient_attributes: [:ingredients])
 	end
+
+	# def check_for_duplicate_fields
+	# 	if (params[:ingredient] && params[:rating]) || (params[:ingredient].empty? && params[:rating].empty?)
+	# 		redirect_to :back, alert: 
+
 end

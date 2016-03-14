@@ -1,9 +1,12 @@
 <div class='container' >
 	<div class='container' id='comment'>
 		<h2 class="title"><%= @recipe.name %></h2> by 
-			<%= link_to @recipe.user.email, user_path(@recipe.user.id) %> 
+			<%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %> 
 			<p>posted on: <%= post_date(@recipe) %></p>
 		<p></p>
+
+		<%= "Overall rating: #{@recipe.rating_avg}" unless @recipe.ratings.empty? %><br>
+
 		<strong>Description:</strong><br>
 		
 		<p><%= @recipe.description %></p>
@@ -33,7 +36,7 @@
 	
 		<% @recipe.comments.each do |comment| %>
 			<div class="container" id="comment">
-				<strong><%= link_to comment.commenter.email, user_path(comment) %></strong> 
+				<strong><%= link_to comment.commenter.email_name, user_path(comment) %></strong> 
 					posted on: <%= post_date(comment) %><br>
 				<p><%= comment.content %></p>
 			</div>
@@ -56,3 +59,35 @@
 		<% end %>
 	</div>
 </div>
+
+<div class="container">
+	<strong>Rate this recipe:</strong>
+	
+	<div class="container" id="comment">
+			<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
+				<%= f.hidden_field :recipe_id, value: @recipe.id %>
+				<% if user_signed_in? %>
+					<%= f.hidden_field :rater_id, value: current_user.id %>
+				<% end %>
+				<%= f.label "Add a rating" %>
+				<%= f.select :score, [1,2,3,4,5] %>
+				<%= f.submit "submit", class: "button3" %>
+			<% end %>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

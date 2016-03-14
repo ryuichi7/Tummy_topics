@@ -3,8 +3,10 @@ Rails.application.routes.draw do
   resources :comments
   resources :ingredients
   resources :recipes
+  resources :ratings
   devise_for :users
   resources :users
+  get "/search" => "recipes#search"
 
   root "welcome#index"
   # The priority is based upon order of creation: first created -> highest priority.

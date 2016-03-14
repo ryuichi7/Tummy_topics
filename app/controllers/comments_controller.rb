@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 	def create
 		if !params[:comment][:content].empty?
 			@comment = Comment.create(comment_params)
-			redirect_to recipe_path(@comment.recipe)
+			redirect_to recipe_path(@comment.recipe), notice: "Thanks for your comment!"
 		else
 			redirect_to :back
 		end
