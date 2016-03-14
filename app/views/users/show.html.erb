@@ -1,0 +1,14 @@
+<div class="container">
+	<h2><%= @user.email %></h2>
+
+	<strong>Recipes:</strong>
+
+	<% if !@user.recipes.empty? %>
+		<% @user.recipes.each do |recipe| %>
+			<p><%= link_to recipe.name, recipe_path(recipe) %></p>
+		<% end %>
+	<% else %>
+		<p><%= @user.email %> has no recipes listed yet!</p>
+	<% end %>
+
+</div>

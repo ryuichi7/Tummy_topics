@@ -8,8 +8,8 @@
 		</div>
 
 		<div>
-			<%= f.label 'Directions:' %><br>
-			<%= f.text_area :directions,  cols: 60, rows: 10, placeholder: "Please press enter after every step" %><br>
+			<%= f.label 'Description:' %><br>
+			<%= f.text_area :description,  cols: 60, rows: 10 %><br>
 		</div>
 		
 		<%= f.fields_for :ingredient_attributes do |ingredients| %>
@@ -21,10 +21,10 @@
 		<% end %>
 		
 		<div>
-			<%= f.label 'Description:' %><br>
-			<%= f.text_area :description,  cols: 60, rows: 10 %><br>
+			<%= f.label 'Directions:' %><br>
+			<%= f.text_area :directions,  cols: 60, rows: 10, placeholder: "Please press enter after every step" %><br>
 		</div>
-
+	
 		<div>
 			<%= f.submit %><br>
 		</div>
