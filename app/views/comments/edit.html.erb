@@ -1,0 +1,19 @@
+<div class="panel panel-default comment">
+	<div class="panel-heading">
+		Edit comment
+	</div>
+	<div class="panel-body">
+		<%= form_for @comment do |f| %>
+			<%= f.hidden_field :recipe_id, value: @comment.recipe_id %>
+			<% if user_signed_in? %>
+				<%= f.hidden_field :commenter_id, value: current_user.id %>
+			<% end %>
+			<div class="form-group">
+				<%= f.label "Change your comment" %>
+				<%= f.text_area :content, cols: 55, rows: 5, class: "form-control" %>
+			</div>
+			<%= f.submit class: "btn btn-primary" %>
+		<% end %>
+	</div>			
+
+</div>

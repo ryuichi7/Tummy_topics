@@ -1,33 +1,58 @@
 class RecipesController < ApplicationController
+	load_and_authorize_resource
 
 	def index
-		if params[:search]
+		if !params[:search].blank?
 			@recipes = Recipe.search(params[:search])
+			validate_search(@recipes)
 		else
-			@recipes = Recipe.all
+			if params[:user_id]
+				@recipes = User.find(params[:user_id]).recipes
+			else
+				@recipes = Recipe.all
+			end
 		end
 	end
 
 	def search
-		if params[:ingredient]
+		if !params[:ingredient].blank?
 			@results = Recipe.ingredient_search(params[:ingredient])
-		else params[:rating]
+			validate_search(@results)
+		elsif !params[:rating].blank?
 			@results = Recipe.rating_search(params[:rating])
+			validate_search(@results)
 		end
+
 	end
 
 	def new
 		@recipe = Recipe.new
 	end
 
-	def create
-		@recipe = Recipe.create(recipe_params)
-		redirect_to @recipe
+	def show	
 	end
 
-	def show
-		@recipe = Recipe.find(params[:id])
+	def edit	
 	end
+
+	def update
+		if @recipe.update(recipe_params)
+			redirect_to @recipe, alert: "recipe successfully updated"
+		else
+			render :edit, alert: "please fill in all fields"
+		end
+	end
+
+
+	def create
+		@recipe = Recipe.new(recipe_params)
+		if @recipe.save
+			redirect_to @recipe
+		else
+			render new_recipe_path, alert: "please fill in all fields"
+		end
+	end
+
 
 	private
 
@@ -35,8 +60,12 @@ class RecipesController < ApplicationController
 		params.require(:recipe).permit(:name, :user_id, :description, :directions, ingredient_attributes: [:ingredients])
 	end
 
-	# def check_for_duplicate_fields
-	# 	if (params[:ingredient] && params[:rating]) || (params[:ingredient].empty? && params[:rating].empty?)
-	# 		redirect_to :back, alert: 
+	def validate_search(results)
+		if results.blank?
+			redirect_to :back, alert: "Sorry no results found"
+		end
+	end
+
+
 
 end

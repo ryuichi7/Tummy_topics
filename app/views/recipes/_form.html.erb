@@ -1,33 +1,33 @@
-<div class='container'>
-	<%= form_for recipe do |f| %>
-		<%= f.hidden_field :user_id, value: current_user.id %>
-	
-		<div>
-			<%= f.label 'Recipe Name:' %><br>
-			<%= f.text_field :name %><br>
-		</div>
 
-		<div>
-			<%= f.label 'Description:' %><br>
-			<%= f.text_area :description,  cols: 60, rows: 10 %><br>
-		</div>
-		
-		<%= f.fields_for :ingredient_attributes do |ingredients| %>
-			<div>
-				<%= ingredients.label "Add Ingredients: Please press enter after each entry", autofocus: true %><br>
-				<p>( add a " - " between measurment and ingredient )</p>
-				<%= ingredients.text_area :ingredients, cols: 60, rows: 10, placeholder: "ex: 1 1/2 cups - flour" %><br>
-			</div>
-		<% end %>
-		
-		<div>
-			<%= f.label 'Directions:' %><br>
-			<%= f.text_area :directions,  cols: 60, rows: 10, placeholder: "Please press enter after every step" %><br>
-		</div>
+<%= form_for recipe do |f| %>
+	<%= f.hidden_field :user_id, value: current_user.id %>
+
+	<div class="form-group">
+		<%= f.label 'Recipe Name:' %><br>
+		<%= f.text_field :name, class: "form-control" %><br>
+	</div>
+
+	<div class="form-group">
+		<%= f.label 'Description:' %><br>
+		<%= f.text_area :description,  cols: 55, rows: 10, class: "form-control" %><br>
+	</div>
 	
-		<div>
-			<%= f.submit %><br>
+	<%= f.fields_for :ingredient_attributes do |ingredients| %>
+		<div class="form-group">
+			<%= ingredients.label "Add Ingredients: Please put each ingredient on a separate line", autofocus: true %><br>
+			<p>( add a " - " between measurment and ingredient )</p>
+			<%= ingredients.text_area :ingredients, cols: 55, rows: 10, placeholder: "ex: 1 1/2 cups - flour", class: "form-control" %><br>
 		</div>
 	<% end %>
+	
+	<div class="form-group">
+		<%= f.label 'Directions:' %><br>
+		<%= f.text_area :directions,  cols: 55, rows: 10, placeholder: "Please put each step on a separate line", class: "form-control" %><br>
+	</div>
 
-</div>
+	<div>
+		<%= f.submit nil, class: "btn btn-primary" %><br>
+	</div>
+<% end %>
+
+

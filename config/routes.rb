@@ -4,8 +4,12 @@ Rails.application.routes.draw do
   resources :ingredients
   resources :recipes
   resources :ratings
-  devise_for :users
-  resources :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  resources :users do
+    resources :recipes, only: [:index, :show]
+    resources :comments, only: [:index]
+  end
+
   get "/search" => "recipes#search"
 
   root "welcome#index"

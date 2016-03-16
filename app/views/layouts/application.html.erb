@@ -15,9 +15,9 @@
 
 	<div class="container">
 		<% flash.each do |key, value| %>
-        <div class="<%= flash_class(key) %>">
-              <%= value %>
-        </div>
+    	<%= content_tag(:div, class: flash_class(key)) do %>
+    		<%= value %>
+    	<% end %>
   	<% end %>
 		
 		<%= yield %>

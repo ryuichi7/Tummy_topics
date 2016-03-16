@@ -1,8 +1,14 @@
 class RatingsController < ApplicationController
+	load_and_authorize_resource
 
 	def create
-		@rating = Rating.create(rating_params)
-		redirect_to recipe_path(@rating.recipe_id), notice: "Thanks for your rating!"
+		@rating = Rating.new(rating_params)
+		
+		if @rating.save
+			redirect_to recipe_path(@rating.recipe_id), notice: "Thanks for your rating!"
+		else
+			redirect_to :back, alert: "please select valid rating"
+		end
 	end
 
 	private

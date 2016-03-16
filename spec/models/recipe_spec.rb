@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
  
-	let(:recipe) { Recipe.create(name: "new recipe", directions: "ingredient directions") }
+	let(:recipe) { Recipe.create(name: "new recipe", directions: "ingredient directions", description: "yummy") }
 	let(:user) { User.create(email: "test@mail.com", password: "test1234") }
 	let(:ingredient) { Ingredient.create(name: "carrot") }
 	let(:ingredient2) { Ingredient.create(name: "steak") }
@@ -42,6 +42,14 @@ RSpec.describe Recipe, type: :model do
 
 			expect(recipe.ingredients).to include(ingredient)
 		end
+
+		it "destroys dependents when destroyed" do
+			comment = recipe.comments.create(content: "new comment")
+			recipe.destroy
+
+			expect(Comment.last).to_not eq(comment)
+		end
+
 	end
 
 

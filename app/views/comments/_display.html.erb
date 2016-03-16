@@ -1,0 +1,16 @@
+<div class="panel-body">
+		<% comments.each do |comment| %>
+			<div class="panel panel-default comment">
+				<div class="panel-heading">
+					<strong><%= link_to comment.commenter.email_name, user_path(comment.commenter) %></strong> 
+						posted on: <%= post_date(comment) %><br>
+						recipe: <%= link_to comment.recipe_name, recipe_path(comment.recipe) %>
+				</div>
+				<div class="panel-body">
+					<p><%= comment.content %></p>
+					<p><%= link_to "edit", edit_comment_path(comment) if can? :update, comment %>
+			 			<%= link_to "delete", comment_path(comment), method: "DELETE" if can? :destroy, comment %></p>
+				</div>
+			</div>
+		<% end %>
+	</div>

@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+
+	<div class="panel-heading">
+		<% if @reviews %>
+			<% @comments = @reviews %>
+			<h2>Reviews:</h2>
+		<% else %>
+			<h2>Comments:</h2>	
+		<% end %>
+	</div>
+	<% if !@comments.empty? || !@reviews.empty? %>
+
+		<%= render partial: 'display', locals: { comments: @comments } %>
+
+	<% else %>
+		<div class="panel-body">
+			no content to display
+		</div>
+	<% end %>
+</div>

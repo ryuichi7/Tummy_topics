@@ -1,4 +1,8 @@
-<div class='container'>
-	<h2>New Recipe:</h2>
+<div class="panel panel-default form">
+	<div class="panel-heading">
+		<h2>New Recipe:</h2>
+	</div>
+	<div class="panel-body">
+		<%= render partial: 'form', locals: { recipe: @recipe } %>
+	</div>
 </div>
-	<%= render partial: 'form', locals: { recipe: @recipe } %>
