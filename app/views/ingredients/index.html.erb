@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h2>Ingredients:</h2>
+	</div>
+	<div class="panel-body">
+		<% @ingredients.each do |ingredient| %>
+			<div class="container" id="display" >
+				<%= link_to ingredient.name.humanize, ingredient_path(ingredient) %>
+			</div>
+		<% end %>
+	</div>
+</div>

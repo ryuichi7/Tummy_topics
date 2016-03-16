@@ -1,0 +1,12 @@
+<div class="container">
+	<h2>Recipes that <%= @ingredient.name.humanize %> is in:</h2>
+	<% if !@ingredient.recipes.empty? %>
+		<% @ingredient.recipes.each do |recipe| %>
+			<div class="container" id="display" >
+				<%= link_to recipe.name.humanize, recipe_path(recipe) %>
+			</div>
+		<% end %>
+	<% else %>
+		oops! looks like this ingredient isn't in any recipes
+	<% end %>
+</div>
