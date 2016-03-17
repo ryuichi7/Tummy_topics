@@ -53,6 +53,11 @@ class RecipesController < ApplicationController
 		end
 	end
 
+	def destroy
+		@recipe.destroy
+		redirect_to user_path(current_user), alert: "Your recipe has been deleted"
+	end
+
 
 	private
 
