@@ -5,6 +5,7 @@ class Recipe < ActiveRecord::Base
 	has_many :comments, dependent: :destroy
 	has_many :ratings, dependent: :destroy
 	validates_presence_of :name, :description, :directions
+	extend Concerns::Sortable
 
 	def ingredient_attributes=(ingredient_attributes)
 		ingredient_attributes[:ingredients].split(/\r\n/).each do |ingredient|

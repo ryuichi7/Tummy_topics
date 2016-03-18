@@ -3,13 +3,13 @@ class RecipesController < ApplicationController
 
 	def index
 		if !params[:search].blank?
-			@recipes = Recipe.search(params[:search])
+			@recipes = Recipe.search(params[:search]).alphabetized
 			validate_search(@recipes)
 		else
 			if params[:user_id]
-				@recipes = User.find(params[:user_id]).recipes
+				@recipes = User.find(params[:user_id]).recipes.alphabetized
 			else
-				@recipes = Recipe.all
+				@recipes = Recipe.alphabetized
 			end
 		end
 	end

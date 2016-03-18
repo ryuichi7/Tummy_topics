@@ -64,7 +64,7 @@
 			<strong>Comments:</strong>
 		</div>
 		
-		<%= render partial: 'display_comment', locals: { comments: @recipe.comments } %>
+		<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
 	
 	</div>
 <% end %>

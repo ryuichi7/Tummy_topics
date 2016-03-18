@@ -3,11 +3,11 @@ class CommentsController < ApplicationController
 
 	def index
 		if params[:user_id]
-			@comments = User.find(params[:user_id]).comments
+			@comments = User.find(params[:user_id]).comments.dated
 		elsif params[:commenter_id]
-			@reviews = User.find(params[:commenter_id]).reviews
+			@reviews = User.find(params[:commenter_id]).reviews.dated
 		else 
-			@comments = Comment.all
+			@comments = Comment.dated
 		end
 	end
 

@@ -2,7 +2,7 @@ class IngredientsController < ApplicationController
 	load_and_authorize_resource
 
 	def index
-		@ingredients = Ingredient.all
+		@ingredients = Ingredient.alphabetized
 	end
 
 	def show
