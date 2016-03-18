@@ -29,7 +29,7 @@
 		</div>
 	 	<% @results.each do |recipe| %>
 		 	<div class="panel-body">
-			 	<p><%= link_to recipe.name, recipe_path(recipe) %></p>
+			 	<p><%= link_to titleize(recipe), recipe_path(recipe) %></p>
 			 	<p><%= recipe.try(:rating) %></p>
 			</div>
 		<% end %>

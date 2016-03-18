@@ -8,8 +8,8 @@
 				</div>
 				<div class="panel-body">
 					<p><%= comment.content %></p>
-					<p><%= link_to "edit", edit_comment_path(comment) if can? :update, comment %>
-			 			<%= link_to "delete", comment_path(comment), method: "DELETE" if can? :destroy, comment %></p>
+					<p><%= link_to "edit", edit_comment_path(comment), class: "btn btn-default btn-xs" if can? :update, comment %>
+			 			<%= link_to "delete", comment_path(comment), method: "DELETE", class: "btn btn-default btn-xs" if can? :destroy, comment %></p>
 				</div>
 			</div>
 		<% end %>

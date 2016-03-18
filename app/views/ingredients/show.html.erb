@@ -1,9 +1,9 @@
 <div class="container">
-	<h2>Recipes that <%= @ingredient.name.humanize %> is in:</h2>
+	<h2>Recipes that <%= titleize(@ingredient) %> is in:</h2>
 	<% if !@ingredient.recipes.empty? %>
 		<% @ingredient.recipes.each do |recipe| %>
 			<div class="container" id="display" >
-				<%= link_to recipe.name.humanize, recipe_path(recipe) %>
+				<%= link_to titleize(recipe), recipe_path(recipe) %>
 			</div>
 		<% end %>
 	<% else %>
