@@ -12,13 +12,19 @@
 		<%= f.text_area :description,  cols: 55, rows: 10, class: "form-control" %><br>
 	</div>
 	
-	<%= f.fields_for :ingredient_attributes do |ingredients| %>
-		<div class="form-group">
-			<%= ingredients.label "Add Ingredients: Please put each ingredient on a separate line", autofocus: true %><br>
-			<p>( add a " - " between measurment and ingredient )</p>
-			<%= ingredients.text_area :ingredients, cols: 55, rows: 10, placeholder: "ex: 1 1/2 cups - flour", class: "form-control" %><br>
+	<div class="panel panel-default">	
+		<div class="panel-heading"><%= f.label 'Ingredients:' %></div>
+		<div class="panel-body">
+			<%= f.fields_for :ingredients_attributes do |ingredients| %>
+				<%= render 'ingredients/fields', ingredients: ingredients %>
+			<% end %>
+			<div id="new-form"></div>
 		</div>
-	<% end %>
+	</div>
+	
+	<div class='form-group'>
+		<button class='btn btn-primary' id='button' data-url="/recipes/ingredients/new">add another ingredient</button>
+	</div>
 	
 	<div class="form-group">
 		<%= f.label 'Directions:' %><br>
