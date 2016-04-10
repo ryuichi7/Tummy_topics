@@ -3,6 +3,7 @@ class RatingsController < ApplicationController
 
 	def create
 		@rating = Rating.new(rating_params)
+		@rating.rater = current_user
 		
 		if @rating.save
 			redirect_to recipe_path(@rating.recipe_id), notice: "Thanks for your rating!"
@@ -14,6 +15,6 @@ class RatingsController < ApplicationController
 	private
 
 	def rating_params
-		params.require(:rating).permit(:score, :rater_id, :recipe_id)
+		params.require(:rating).permit(:score, :recipe_id)
 	end
 end

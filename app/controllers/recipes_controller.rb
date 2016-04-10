@@ -46,6 +46,7 @@ class RecipesController < ApplicationController
 
 	def create
 		@recipe = Recipe.new(recipe_params)
+		
 		if @recipe.save
 			redirect_to @recipe
 		else
@@ -62,7 +63,7 @@ class RecipesController < ApplicationController
 	private
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :user_id, :description, :directions, ingredient_attributes: [:ingredients])
+		params.require(:recipe).permit(:name, :user_id, :description, :directions, ingredients_attributes: [:name, :measurement])
 	end
 
 	def validate_search(results)

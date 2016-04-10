@@ -7,18 +7,21 @@ class Recipe < ActiveRecord::Base
 	validates_presence_of :name, :description, :directions
 	extend Concerns::Sortable
 
-	def ingredient_attributes=(ingredient_attributes)
-		ingredient_attributes[:ingredients].split(/\r\n/).each do |ingredient|
-			
-			x = ingredient.split("-")
-			measurment = x.first.strip
-			ingr_name = x.last.strip
-			
-			i = Ingredient.find_or_create_by(name: ingr_name.downcase.singularize)
-			
-			if !self.ingredients.include?(i)
-				self.recipe_ingredients.build(ingredient: i, measurement: measurment, name: ingr_name)
-			end
+	def ingredients_attributes=(ingredients)
+		# [{"name"=>"cheese", "measurement"=>"5"}, {"name"=>"curds", "measurement"=>"20"}]
+		ingredients.each do |ingredient|
+			# ingredient_attribute[:ingredients].split(/\r\n/).each do |ingredient|		
+			# 	x = ingredient.split("-")
+			# 	measurment = x.first.strip
+			# 	ingr_name = x.last.strip
+			ingr_name = ingredient[:name]
+			measurement = ingredient[:measurement]	
+				i = Ingredient.find_or_create_by(name: ingr_name.downcase.singularize)
+				
+				if !self.ingredients.include?(i)
+					self.recipe_ingredients.build(ingredient: i, measurement: measurement, name: ingr_name)
+				end
+			# end
 		end
 	end
 
@@ -47,3 +50,17 @@ class Recipe < ActiveRecord::Base
 	end
 	
 end
+
+# possible refactor? use ingredients_attributes macro
+
+# def ingredients_attributes=(ingredient_attributes)
+# 		ingredient_attributes.each do |index, ingredient_attribute|  
+# 			# {"delimited_description"=>"1 cup - flour\r\n2 tbsp - salt"}
+			
+# 			i = Ingredient.find_or_create_by_delimited_description(ingredient_attribute[:delimited_description])
+			
+# 			if !self.ingredients.include?(i)
+# 				self.recipe_ingredients.build(ingredient: i, measurement: measurement, name: ingr_name)
+# 			end
+# 		end
+# 	end

@@ -13,6 +13,8 @@ class CommentsController < ApplicationController
 
 	def create
 		@comment = Comment.new(comment_params)
+		@comment.commenter = current_user
+		
 		if @comment.save
 			redirect_to recipe_path(@comment.recipe), alert: "Thanks for your comment!"
 		else
@@ -40,7 +42,7 @@ class CommentsController < ApplicationController
 	private
 
 	def comment_params
-		params.require(:comment).permit(:content, :recipe_id, :commenter_id)
+		params.require(:comment).permit(:content, :recipe_id)
 	end
 
 end

@@ -28,7 +28,7 @@ feature 'create recipe' do
 		@recipe = Recipe.last
 		@recipe.reload
 		
-		expect(page).to have_content('cookies')
+		expect(page).to have_content('Cookies')
 		expect(page).to have_content('Salt')
 		expect(@recipe.ingredients.size).to eq(3)
 		  

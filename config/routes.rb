@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:index]
   end
 
+  get '/recipes/ingredients/new' => 'ingredients#new'
+  
   get "/search" => "recipes#search"
 
   root "welcome#index"
