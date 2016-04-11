@@ -11,9 +11,5 @@ class IngredientsController < ApplicationController
 
 	def new
 		render :new, layout: false
-		# respond_to do |f| 
-		# 	f.js
-		# 	f.html {render :layout => false}
-		# end
 	end
 end
