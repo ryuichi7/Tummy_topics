@@ -78,9 +78,6 @@
 	<div class="panel-body">
 		<%= form_for @recipe.comments.build, action: comments_path, method: 'post' do |f| %>
 			<%= f.hidden_field :recipe_id, value: @recipe.id %>
-			<% if user_signed_in? %>
-				<%= f.hidden_field :commenter_id, value: current_user.id %>
-			<% end %>
 			<div class="form-group">
 				<%= f.label "Add a comment" %>
 				<%= f.text_area :content, cols: 55, rows: 5, class: "form-control" %>
@@ -98,9 +95,6 @@
 	<div class="panel-body">
 		<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
 			<%= f.hidden_field :recipe_id, value: @recipe.id %>
-			<% if user_signed_in? %>
-				<%= f.hidden_field :rater_id, value: current_user.id %>
-			<% end %>
 			<div class="form-group">
 				<%= f.label "Add a rating" %>
 				<%= f.select :score, [1,2,3,4,5], { prompt: true }, class: "form-control" %>

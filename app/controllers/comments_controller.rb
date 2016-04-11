@@ -13,6 +13,8 @@ class CommentsController < ApplicationController
 
 	def create
 		@comment = Comment.new(comment_params)
+		@comment.commenter = current_user
+		
 		if @comment.save
 			redirect_to recipe_path(@comment.recipe), alert: "Thanks for your comment!"
 		else
