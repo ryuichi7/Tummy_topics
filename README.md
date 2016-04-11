@@ -10,13 +10,13 @@ Also gives users the ability to leave comments and anonymously rate other recipe
 Fork this repo 
 
 Run:
-
+```shell
 $ rake db:migrate
-
+```
 Then:
-
+```shell
 $ rails s
-
+```
 Create a user and list your recipes!
 
 ## Todo
