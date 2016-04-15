@@ -17,6 +17,7 @@ $(document).ready(function() {
 		});
 
 
+
 	$("#button").click(function(event) {
 		$.get($(this).data('url'), function(response) {
 			$('#new-form').append(response);

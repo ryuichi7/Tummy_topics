@@ -37,7 +37,7 @@ class RecipesController < ApplicationController
 
 	def update
 		if @recipe.update(recipe_params)
-			redirect_to @recipe, alert: "recipe successfully updated"
+			redirect_to @recipe, success: "recipe successfully updated"
 		else
 			render :edit, alert: "please fill in all fields"
 		end

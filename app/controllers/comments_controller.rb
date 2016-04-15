@@ -14,12 +14,17 @@ class CommentsController < ApplicationController
 	def create
 		@comment = Comment.new(comment_params)
 		@comment.commenter = current_user
-		
-		if @comment.save
-			redirect_to recipe_path(@comment.recipe), alert: "Thanks for your comment!"
-		else
-			redirect_to :back, alert: "please properly fill in comment field"
+		@comment.save
+
+		respond_to do |f|
+			f.js { flash.now[:notice] = "Thanks for your comment!" }
+			f.html { redirect_to recipe_path(@comment.recipe)}
 		end
+	# 		# redirect_to recipe_path(@comment.recipe), alert: "Thanks for your comment!"
+	# 		render json: @comment, status: 201
+	# 	# else
+	# 	# 	redirect_to :back, alert: "please properly fill in comment field"
+	# 	# end
 	end
 
 	def edit
@@ -35,7 +40,11 @@ class CommentsController < ApplicationController
 
 	def destroy
 		@comment.destroy
-		redirect_to recipes_path, alert: "comment successfully destroyed"
+
+		respond_to do |f|
+			f.js { flash.now[:alert] = "comment successfully destroyed" }
+		end
+		# redirect_to recipes_path, alert: "comment successfully destroyed"
 	end
 
 

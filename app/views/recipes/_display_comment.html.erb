@@ -1,15 +1,13 @@
-<div class="panel-body">
-	<% comments.each do |comment| %>
-		<div class="panel panel-default comment">
-			<div class="panel-heading">
-				<strong><%= link_to comment.commenter.email_name, user_path(comment.commenter) %></strong> 
-					posted on: <%= post_date(comment) %><br>
-			</div>
-			<div class="panel-body">
-				<p><%= comment.content %></p>
-				<p><%= link_to "edit", edit_comment_path(comment), class: "btn btn-default btn-xs" if can? :update, comment %> 
-		 			<%= link_to "delete", comment_path(comment), method: "DELETE", class: "btn btn-default btn-xs" if can? :destroy, comment %></p>
-			</div>
+<% comments.each do |comment| %>
+	<div class="panel panel-default comment">
+		<div class="panel-heading">
+			<strong><%= link_to comment.commenter.email_name, user_path(comment.commenter) %></strong> 
+				posted on: <%= post_date(comment) %><br>
 		</div>
-	<% end %>
-</div>
+		<div class="panel-body">
+			<p><%= comment.content %></p>
+			<p><%= link_to "edit", edit_comment_path(comment), class: "btn btn-default btn-xs" if can? :update, comment %> 
+	 			<%= link_to "delete", comment_path(comment), method: "DELETE", remote: true, data: { id: comment.id, confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" if can? :destroy, comment %></p>
+		</div>
+	</div>
+<% end %>

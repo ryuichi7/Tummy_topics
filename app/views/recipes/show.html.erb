@@ -58,25 +58,19 @@
 
 
 
-<% unless @recipe.comments.empty? %>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong>Comments:</strong>
-		</div>
-		
-		<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
+<% "<strong>Comments:</strong>" unless @recipe.comments.empty? %>
 	
-	</div>
-<% end %>
+		
+<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
 
 
-<div class="panel panel-default comment" >
+<div class="panel panel-default comment" id="comment_form" >
 	<div class="panel-heading">
 		<strong>Comment on the recipe:</strong>
 	</div>
 	
 	<div class="panel-body">
-		<%= form_for @recipe.comments.build, action: comments_path, method: 'post' do |f| %>
+		<%= form_for @recipe.comments.build, remote: true, data: { confirm: "Thanks for your comment!" }, action: comments_path, method: 'post' do |f| %>
 			<%= f.hidden_field :recipe_id, value: @recipe.id %>
 			<div class="form-group">
 				<%= f.label "Add a comment" %>
@@ -86,6 +80,8 @@
 		<% end %>
 	</div>
 </div>
+
+
 
 <div class="panel panel-default comment">
 	<div class="panel-heading">

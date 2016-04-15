@@ -6,7 +6,7 @@ class RatingsController < ApplicationController
 		@rating.rater = current_user
 		
 		if @rating.save
-			redirect_to recipe_path(@rating.recipe_id), notice: "Thanks for your rating!"
+			redirect_to recipe_path(@rating.recipe_id), success: "Thanks for your rating!"
 		else
 			redirect_to :back, alert: "please select valid rating"
 		end

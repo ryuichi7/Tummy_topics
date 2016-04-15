@@ -1,0 +1,4 @@
+html = '<%= j (render "comment", comment: @comment) %>'
+
+$('div#comment_form').before(html)
+$('#new_comment')[0].reset()
