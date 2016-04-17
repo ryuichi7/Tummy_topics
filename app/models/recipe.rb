@@ -8,14 +8,18 @@ class Recipe < ActiveRecord::Base
 	extend Concerns::Sortable
 
 	def ingredients_attributes=(ingredients)
-		ingredients.each do |ingredient|
-			ingr_name = ingredient[:name]
-			measurement = ingredient[:measurement]
+		recipe_ingredients.destroy_all if persisted?
 
-			i = Ingredient.find_or_create_by(name: ingr_name.downcase.singularize)
-				
-			if !self.ingredients.include?(i)
-				self.recipe_ingredients.build(ingredient: i, measurement: measurement, name: ingr_name)
+		ingredients.each do |ingredient|
+			unless ingredient[:name].blank?
+				ingr_name = ingredient[:name]
+				measurement = ingredient[:measurement]
+
+				i = Ingredient.find_or_create_by(name: ingr_name.downcase.singularize)
+					
+				if !ingredients.include?(i)
+					recipe_ingredients.build(ingredient: i, measurement: measurement, name: ingr_name)
+				end
 			end
 		end
 	end

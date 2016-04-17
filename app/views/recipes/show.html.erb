@@ -1,3 +1,12 @@
+<% flash.each do |key, value| %>
+ <%= content_tag(:div, class: "alert alert-#{key} alert-dismissable") do %>
+  <%= value %>
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;<button>   
+ <% end %> 
+<% end %>
+
+
+
 <div class='panel panel-default' >
 	<div class="panel-heading">
 		<h2><%= titleize(@recipe) %></h2> 
@@ -70,7 +79,7 @@
 	</div>
 	
 	<div class="panel-body">
-		<%= form_for @recipe.comments.build, remote: true, data: { confirm: "Thanks for your comment!" }, action: comments_path, method: 'post' do |f| %>
+		<%= form_for @recipe.comments.build, remote: true, action: comments_path, method: 'post' do |f| %>
 			<%= f.hidden_field :recipe_id, value: @recipe.id %>
 			<div class="form-group">
 				<%= f.label "Add a comment" %>

@@ -1,10 +1,10 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="search">
 	<div class="panel-heading">
 		<h2>Search:</h2>
 	</div>
 	<div class="panel-body">
-		<%= form_tag recipes_path, method: 'get' do %>
-			<%= text_field_tag :search, nil, class: "form-control comment", placeholder: "enter recipe name here" %><br>
+		<%= form_tag '/search', id: 'search_form', method: 'POST' do %>
+			<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "enter recipe name here" %><br>
 			<%= submit_tag 'Search Recipes', class: "btn btn-primary" %>
 		<% end %>
 		<p></p>
@@ -12,30 +12,35 @@
 	</div>
 </div>
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h2>Recipes:</h2>
-	</div>
-	<% if !@recipes.empty? %>
+<!-- insert results from search here -->
+<div id="recipes"></div>
+
+
+
+
+
+<!-- template to inject recipe data into -->
+
+<script id="recipe-template" type="text/x-handlebars-template">
+  <div class="panel panel-default comment">
+  	<div class="panel-heading" >
+    	<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="recipes/{{user_id}}">{{userName}}</a>
+    </div>
 		<div class="panel-body">
-		 	<% @recipes.each do |recipe| %>
-		 		<div class="panel panel-default comment">		
-				 	<div class="panel-heading">
-					 	<p><strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by
-					 	 	<%= link_to recipe.user_name, user_path(recipe.user) %></p>
-					</div>
-					<div class="panel-body">
-						<p>posted on: <%= post_date(recipe) %></p>
-					 	<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
-					 	<p><%= link_to "edit", edit_recipe_path(recipe), class: "btn btn-default btn-xs" if can? :update, recipe %>
-					 		<%= link_to "delete", recipe_path(recipe), method: "DELETE", class: "btn btn-default btn-xs" if can? :destroy, recipe %></p>
-					</div>
-				</div>
-			<% end %>
-		</div>
-	<% else %>
-		<div class="panel-body">
-			no recipes to display
-		</div>
-	<% end %>
-</div>
+      <p>Posted on: {{body}}</p>
+			{{#if rating}}
+				<p>Rating: {{rating}}
+			{{/if}}
+    </div>
+  </div>
+</script>
+
+
+
+
+
+
+
+
+
+

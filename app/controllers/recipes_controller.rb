@@ -12,6 +12,11 @@ class RecipesController < ApplicationController
 				@recipes = Recipe.alphabetized
 			end
 		end
+
+		respond_to do |f|
+			f.html { render :index }
+		  f.json { render json: @recipes }
+		end
 	end
 
 	def search
