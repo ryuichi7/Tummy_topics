@@ -4,10 +4,11 @@
 	</div>
 	<div class="panel-body">
 		<%= form_tag '/search', id: 'search_form', method: 'POST' do %>
-			<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "enter recipe name here" %><br>
+			<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search by name or ingredient" %><br>
 			<%= submit_tag 'Search Recipes', class: "btn btn-primary" %>
 		<% end %>
 		<p></p>
+			
 		<p><%= link_to "other search options", search_path %></p>
 	</div>
 </div>
@@ -15,8 +16,7 @@
 <!-- insert results from search here -->
 <div id="recipes"></div>
 
-
-
+<a href="" id="load">Load More Recipes</a>
 
 
 <!-- template to inject recipe data into -->
