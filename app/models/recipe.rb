@@ -29,11 +29,7 @@ class Recipe < ActiveRecord::Base
 	end
 
 	def self.search(params)
-		where("name like ?", "%#{params.singularize}%") 
-	end
-
-	def self.ingredient_search(params)
-		joins(:ingredients).where("ingredients.name like ?", "%#{params.singularize}%")
+		joins(:ingredients).where("ingredients.name like :params OR recipes.name like :params", params: "%#{params.singularize}%").uniq 
 	end
 
 	def self.rating_search(params)
