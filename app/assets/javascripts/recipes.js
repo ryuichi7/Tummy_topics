@@ -1,3 +1,4 @@
+// Models and prototypes
 
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1)
@@ -72,30 +73,44 @@ function formatForTemplate(recipe) {
 	return values;
 }
 
+// Error Handling
+$(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings) {
+	$('.form-group.has-error').each(function(){
+    $('.help-block', $(this)).html('');
+    $(this).removeClass('has-error');
+  });
+  alert("Thanks for your comment!");
+})
+.bind('ajaxError','form#new_comment', function(event, xhr, settings) {
+		$('textarea#comment_content').closest(".form-group").addClass('has-error')
+		.find('.help-block').html($.parseJSON(xhr.responseText).content);
+})
 
 
-
+// Loaded document actions
 
 $(window).bind('page:change', function() {
 	var recipes = [];
 	var source = $("#recipe-template").html();
 	var template = Handlebars.compile(source);
 
-	$(function() {
-		$('form#search_form').on('submit', function(e) {
-			e.preventDefault();
-			var values = $(this).serialize();
-			$.post('/search', values)
-			.done(function(response) {
-				$("div#recipes").empty();
+	$('form#search_form').on('submit', function(e) {
+		e.preventDefault();
+		var values = $(this).serialize();
+		$.post('/search', values)
+		.done(function(response) {
+			$("div#recipes").empty();
+			if (response.search.length > 0) {
 				response.search.forEach(function(recipe) {
 					values = formatForTemplate(createRecipe(recipe));
 					$('#recipes').append(template(values));
-
 				})
-			})
+			} else {
+				$('#recipes').html("<strong>Sorry no results found</strong>")
+			}
 		})
 	})
+
 
 	$('body').on('click', 'div.panel-heading:first h2', function() {
 		$("div.panel-body:first").toggle(1000);
@@ -108,11 +123,25 @@ $(window).bind('page:change', function() {
 		event.preventDefault();
 	})
 
-	$.get('/recipes.json', function(response) {
+
+	var data = { limit: 0 }
+	$.get('/recipes.json', data, function(response) {
 		response.recipes.forEach(function(recipe) {
 			var newRecipe = createRecipe(recipe);
 			recipes.push(newRecipe);
 			$('#recipes').append(template(formatForTemplate(newRecipe)))
+		})
+	})
+
+	$('a#load').on("click", function(e) {
+		e.preventDefault();
+		data["limit"] += 10;
+		$.get('/recipes.json', data, function(response) {
+			response.recipes.forEach(function(recipe) {
+				var newRecipe = createRecipe(recipe);
+				recipes.push(newRecipe);
+				$('#recipes').append(template(formatForTemplate(newRecipe)))
+			})
 		})
 	})			
 });

@@ -1,18 +1,14 @@
 class RecipesController < ApplicationController
 	load_and_authorize_resource
+	autocomplete :ingredient, :name
 
 	def index
-		if !params[:search].blank?
-			@recipes = Recipe.search(params[:search]).alphabetized
-			validate_search(@recipes)
+		if params[:user_id]
+			@recipes = User.find(params[:user_id]).recipes.alphabetized
 		else
-			if params[:user_id]
-				@recipes = User.find(params[:user_id]).recipes.alphabetized
-			else
-				@recipes = Recipe.alphabetized
-			end
+			@recipes = Recipe.alphabetized.limit(10).offset(params[:limit])
 		end
-
+		
 		respond_to do |f|
 			f.html { render :index }
 		  f.json { render json: @recipes }

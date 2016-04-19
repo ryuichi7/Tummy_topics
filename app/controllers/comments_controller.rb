@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-	load_and_authorize_resource
+	load_and_authorize_resource :except => [:create]
 
 	def index
 		if params[:user_id]
@@ -14,17 +14,16 @@ class CommentsController < ApplicationController
 	def create
 		@comment = Comment.new(comment_params)
 		@comment.commenter = current_user
-		@comment.save
-
+		
 		respond_to do |f|
-			f.js { flash.now[:notice] = "Thanks for your comment!" }
-			f.html { redirect_to recipe_path(@comment.recipe)}
+			if @comment.save
+				f.html { redirect_to recipe_path(@comment.recipe)}
+				f.js { render action: 'create', status: :created, location: @comment }
+			else
+				f.html { redirect_to :back, alert: "please properly fill in comment field" }
+				f.js { render json: @comment.errors, status: :unprocessable_entity }
+			end
 		end
-	# 		# redirect_to recipe_path(@comment.recipe), alert: "Thanks for your comment!"
-	# 		render json: @comment, status: 201
-	# 	# else
-	# 	# 	redirect_to :back, alert: "please properly fill in comment field"
-	# 	# end
 	end
 
 	def edit

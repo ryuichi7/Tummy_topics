@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   resources :recipe_ingredients
   resources :comments
   resources :ingredients
-  resources :recipes
+  resources :recipes do
+    get :autocomplete_ingredient_name, on: :collection
+  end
   resources :ratings
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :users do

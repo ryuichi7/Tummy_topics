@@ -4,6 +4,7 @@ require 'rails_helper'
 RSpec.describe Recipe, type: :model do
  
 	let(:recipe) { Recipe.create(name: "new recipe", directions: "ingredient directions", description: "yummy") }
+	let(:recipe2) { Recipe.create(name: "another recipe", directions: "cook it up", description: "tasty") }
 	let(:user) { User.create(email: "test@mail.com", password: "test1234") }
 	let(:ingredient) { Ingredient.create(name: "carrot") }
 	let(:ingredient2) { Ingredient.create(name: "steak") }
@@ -52,6 +53,18 @@ RSpec.describe Recipe, type: :model do
 
 	end
 
+	describe 'search methods' do
+		it "can find recipes by name or name of ingredient" do
+			recipe.ingredients << [ingredient, ingredient2]
+			recipe2.ingredients << [ingredient, ingredient2]
+			recipe.reload
+			recipe2.reload
+
+			expect(Recipe.ingredient_search("carrot")).to include(recipe)
+			expect(Recipe.ingredient_search("another recipe")).to include(recipe2)
+
+		end
+	end
 
 
 	  

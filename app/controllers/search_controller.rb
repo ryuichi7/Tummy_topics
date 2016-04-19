@@ -5,8 +5,12 @@ class SearchController < ApplicationController
 
 	# GET /search # /search?query=milk 
 	def create # search result
-		@search = Search.new(query: params[:query])
-		@results = @search.results
+		if params[:query].present?
+			@search = Search.new(query: params[:query])
+			@results = @search.results
+		else
+			@results = Recipe.all
+		end
 		render json: @results
 	end
 
