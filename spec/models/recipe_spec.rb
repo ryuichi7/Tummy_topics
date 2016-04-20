@@ -60,8 +60,8 @@ RSpec.describe Recipe, type: :model do
 			recipe.reload
 			recipe2.reload
 
-			expect(Recipe.ingredient_search("carrot")).to include(recipe)
-			expect(Recipe.ingredient_search("another recipe")).to include(recipe2)
+			expect(Recipe.search("carrot")).to include(recipe)
+			expect(Recipe.search("another recipe")).to include(recipe2)
 
 		end
 	end

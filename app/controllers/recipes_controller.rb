@@ -8,7 +8,6 @@ class RecipesController < ApplicationController
 		else
 			@recipes = Recipe.alphabetized.limit(10).offset(params[:limit])
 		end
-		
 		respond_to do |f|
 			f.html { render :index }
 		  f.json { render json: @recipes }
@@ -30,7 +29,11 @@ class RecipesController < ApplicationController
 		@recipe = Recipe.new
 	end
 
-	def show	
+	def show
+		respond_to do |f|
+			f.html { render :show }	
+			f.json { render json: @recipe }
+		end
 	end
 
 	def edit	

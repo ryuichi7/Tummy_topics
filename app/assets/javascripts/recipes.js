@@ -18,6 +18,7 @@ function Recipe(id, name, directions, description, user, createdAt, comments = n
 	this.description = description
 	this.user = user
 	this.createdAt = createdAt
+	this.comments = comments
 	this.ratings = ratings
 }
 
@@ -70,16 +71,21 @@ function formatForTemplate(recipe) {
 	if (recipe.ratings.length > 0) {
 		values["rating"] = recipe.ratingAvg()
 	};
+	if (recipe.comments.length > 0) {
+		values["comments"] = recipe.comments
+	};
 	return values;
 }
 
 // Error Handling
 $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings) {
-	$('.form-group.has-error').each(function(){
-    $('.help-block', $(this)).html('');
-    $(this).removeClass('has-error');
-  });
-  alert("Thanks for your comment!");
+	if (settings.url === '/comments') {
+		$('.form-group.has-error').each(function(){
+	    $('.help-block', $(this)).html('');
+	    $(this).removeClass('has-error');
+	  });
+	  alert("Thanks for your comment!");
+	}
 })
 .bind('ajaxError','form#new_comment', function(event, xhr, settings) {
 		$('textarea#comment_content').closest(".form-group").addClass('has-error')
@@ -123,15 +129,19 @@ $(window).bind('page:change', function() {
 		event.preventDefault();
 	})
 
+	$(document).on('click', 'button#see-comments', function() {
+		$(this).siblings('div#comments-list').toggleClass();
+	})
+
 
 	var data = { limit: 0 }
-	$.get('/recipes.json', data, function(response) {
-		response.recipes.forEach(function(recipe) {
-			var newRecipe = createRecipe(recipe);
-			recipes.push(newRecipe);
-			$('#recipes').append(template(formatForTemplate(newRecipe)))
-		})
-	})
+	// $.get('/recipes.json', data, function(response) {
+	// 	response.recipes.forEach(function(recipe) {
+	// 		var newRecipe = createRecipe(recipe);
+	// 		recipes.push(newRecipe);
+	// 		$('#recipes').append(template(formatForTemplate(newRecipe)))
+	// 	})
+	// })
 
 	$('a#load').on("click", function(e) {
 		e.preventDefault();
