@@ -12,13 +12,12 @@ class CommentsController < ApplicationController
 	end
 
 	def create
-		@comment = Comment.new(comment_params)
-		@comment.commenter = current_user
+		@comment = current_user.comments.build(comment_params)
 		
 		respond_to do |f|
 			if @comment.save
 				f.html { redirect_to recipe_path(@comment.recipe)}
-				f.js { render action: 'create', status: :created, location: @comment }
+				f.js { render action: :create, status: :created, location: @comment }
 			else
 				f.html { redirect_to :back, alert: "please properly fill in comment field" }
 				f.js { render json: @comment.errors, status: :unprocessable_entity }
@@ -31,9 +30,9 @@ class CommentsController < ApplicationController
 
 	def update
 		if @comment.update(comment_params)
-			redirect_to user_path(@comment.commenter), alert: "successfully updated"
+			redirect_to user_path(@comment.commenter), flash: { success: "successfully updated" }
 		else
-			render :edit, alert: "please fill in all fields"
+			render :edit, flash: { alert: "please fill in all fields" }
 		end
 	end
 
@@ -43,7 +42,6 @@ class CommentsController < ApplicationController
 		respond_to do |f|
 			f.js { flash.now[:alert] = "comment successfully destroyed" }
 		end
-		# redirect_to recipes_path, alert: "comment successfully destroyed"
 	end
 
 
