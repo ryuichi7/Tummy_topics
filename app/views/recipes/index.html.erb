@@ -4,12 +4,12 @@
 	</div>
 	<div class="panel-body">
 		<%= form_tag '/search', id: 'search_form', method: 'POST' do %>
-			<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search by name or ingredient" %><br>
+			<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search recipe name, ingredient or rating (1-5)" %><br>
 			<%= submit_tag 'Search Recipes', class: "btn btn-primary" %>
 		<% end %>
 		<p></p>
 			
-		<p><%= link_to "other search options", search_path %></p>
+		<p><%= link_to "Browse Ingredients", ingredients_path %></p>
 	</div>
 </div>
 
@@ -19,12 +19,15 @@
 
 		<% @recipes.each do |recipe| %>
 			<div class="panel panel-default comment">
+				
 				<div class="panel-heading">
 					<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
 				</div>
-				<div class="panel-body">
+				
+				<div class="panel-body">	
 					<p>Posted on: <%= post_date(recipe) %></p>
 					<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
+					
 					<div class="hidden" id="comments-list">
 						<% recipe.comments.each do |comment| %>
 							<div class="panel shadow">
@@ -33,10 +36,12 @@
 							</div>
 						<% end %>
 					</div>
+					
 					<%= button_tag "See Comments", class: 'btn btn-default', id: "see-comments", data: { id: recipe.id } unless recipe.comments.blank? %>
 				</div>
 			</div>
 		<% end %>
+	
 	<% else %>
 		<div class="panel">
 			no recipes to display

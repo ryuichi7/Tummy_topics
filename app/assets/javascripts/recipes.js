@@ -94,6 +94,14 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 
 
 // Loaded document actions
+$(document).ready(function() {
+	$("button#button").click(function(event) {
+		$.get($(this).data('url'), function(response) {
+			$('#new-form').append(response);
+		})
+		event.preventDefault();
+	})
+});
 
 $(window).bind('page:change', function() {
 	var recipes = [];
@@ -122,14 +130,14 @@ $(window).bind('page:change', function() {
 		$("div.panel-body:first").toggle(1000);
 	});
 
-	$("#button").click(function(event) {
+	$("button#button").click(function(event) {
 		$.get($(this).data('url'), function(response) {
 			$('#new-form').append(response);
 		})
 		event.preventDefault();
 	})
 
-	$(document).on('click', 'button#see-comments', function() {
+	$(document).on('mouseover', 'button#see-comments', function() {
 		$(this).siblings('div#comments-list').toggleClass();
 	})
 

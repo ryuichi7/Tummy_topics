@@ -5,6 +5,8 @@ class Recipe < ActiveRecord::Base
 	has_many :comments, dependent: :destroy
 	has_many :ratings, dependent: :destroy
 	validates_presence_of :name, :description, :directions
+	validate :ingredients_present?
+	
 	extend Concerns::Sortable
 
 	def ingredients_attributes=(ingredients)
@@ -29,7 +31,12 @@ class Recipe < ActiveRecord::Base
 	end
 
 	def self.search(params)
-		joins(:ingredients).where("ingredients.name like :params OR recipes.name like :params", params: "%#{params.singularize}%").uniq 
+		if params.match(/^[1-5]$/)
+			p = params.to_i
+			select("recipes.*, AVG(ratings.score) AS average_score").joins(:ratings).group('recipes.id').having('average_score BETWEEN ? and ?', p, p + 0.99)
+		else
+			joins(:ingredients).where("ingredients.name like :params OR recipes.name like :params", params: "%#{params.singularize}%").uniq
+		end 
 	end
 
 	def self.rating_search(params)
@@ -42,6 +49,12 @@ class Recipe < ActiveRecord::Base
 
 	def user_name
 		user.email_name.humanize
+	end
+
+	private
+
+	def ingredients_present?
+		errors.add(:ingredients, "recipe must have ingredients") if recipe_ingredients.empty?
 	end
 	
 end

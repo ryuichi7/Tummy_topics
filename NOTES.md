@@ -25,3 +25,13 @@ AJAX + JS - getScript or Remote True
 1. Event handler
 2. Fire a request
 3. do something with the response (inject HTML into the DOM or evaluate Javascript or process JSON and generally inject Html to the dom)
+
+
+
+todo:
+
+1. get rid of nested routes for user
+2. make modal for user to edit recipe? or give editing capabilites
+3. finish ansynchronous rating abilities
+4. ability to search by rating?
+
