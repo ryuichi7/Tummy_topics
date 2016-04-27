@@ -1,4 +1,4 @@
-// Models and prototypes
+// Models and prototypes //
 
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1)
@@ -77,7 +77,10 @@ function formatForTemplate(recipe) {
 	return values;
 }
 
-// Error Handling
+
+
+// Error Handling //
+
 $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings) {
 	if (settings.url === '/comments') {
 		$('.form-group.has-error').each(function(){
@@ -93,7 +96,8 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 })
 
 
-// Loaded document actions
+// Loaded document actions //
+
 $(document).ready(function() {
 	$("button#button").click(function(event) {
 		$.get($(this).data('url'), function(response) {
@@ -120,7 +124,7 @@ $(window).bind('page:change', function() {
 					$('#recipes').append(template(values));
 				})
 			} else {
-				$('#recipes').html("<strong>Sorry no results found</strong>")
+				$('#recipes').html("<div class='alert alert-danger' role='alert'><strong>Sorry no results found. Please refine your search</strong></div>")
 			}
 		})
 	})
@@ -153,7 +157,7 @@ $(window).bind('page:change', function() {
 
 	$('a#load').on("click", function(e) {
 		e.preventDefault();
-		data["limit"] += 10;
+		data["limit"] += 9;
 		$.get('/recipes.json', data, function(response) {
 			response.recipes.forEach(function(recipe) {
 				var newRecipe = createRecipe(recipe);

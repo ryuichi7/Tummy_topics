@@ -19,7 +19,11 @@
 @import "bootstrap";
 @import "themes/form";
 @import "themes/bootstrap_themes";
+@import "themes/comment_styles";
 
+.comment_box {
+  @extend .col-md-4;
+}
 
 
 

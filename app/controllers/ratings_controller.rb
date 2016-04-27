@@ -2,8 +2,7 @@ class RatingsController < ApplicationController
 	load_and_authorize_resource
 
 	def create
-		@rating = Rating.new(rating_params)
-		@rating.rater = current_user
+		@rating = current_user.ratings.build(rating_params)
 		
 		if @rating.save
 			redirect_to recipe_path(@rating.recipe_id), flash: { success: "Thanks for your rating!" }

@@ -6,7 +6,7 @@ class RecipesController < ApplicationController
 		if params[:user_id]
 			@recipes = User.find(params[:user_id]).recipes.alphabetized
 		else
-			@recipes = Recipe.alphabetized.limit(10).offset(params[:limit])
+			@recipes = Recipe.alphabetized.limit(9).offset(params[:limit])
 		end
 		respond_to do |f|
 			f.html { render :index }

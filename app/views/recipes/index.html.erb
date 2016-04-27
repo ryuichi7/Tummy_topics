@@ -14,33 +14,35 @@
 </div>
 
 <!-- insert results from search here -->
-<div id="recipes">
+<div class="row" id="recipes">
 	<% if !@recipes.empty? %>
-
+	
 		<% @recipes.each do |recipe| %>
-			<div class="panel panel-default comment">
-				
-				<div class="panel-heading">
-					<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
-				</div>
-				
-				<div class="panel-body">	
-					<p>Posted on: <%= post_date(recipe) %></p>
-					<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
-					
-					<div class="hidden" id="comments-list">
-						<% recipe.comments.each do |comment| %>
-							<div class="panel shadow">
-								<p><%= comment.content %></p>
-								<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %></p>
-							</div>
-						<% end %>
+			<div class="comment-box">
+				<div class="inner-comment-box">
+					<div class="panel-heading">
+						<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
 					</div>
 					
-					<%= button_tag "See Comments", class: 'btn btn-default', id: "see-comments", data: { id: recipe.id } unless recipe.comments.blank? %>
+					<div class="panel-body">	
+						<p>Posted on: <%= post_date(recipe) %></p>
+						<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
+						
+						<div class="hidden" id="comments-list">
+							<% recipe.comments.each do |comment| %>
+								<div class="panel shadow">
+									<p><%= comment.content %></p>
+									<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %></p>
+								</div>
+							<% end %>
+						</div>
+						
+						<%= button_tag "See Comments", class: 'btn btn-default', id: "see-comments", data: { id: recipe.id } unless recipe.comments.blank? %>
+					</div>
 				</div>
 			</div>
 		<% end %>
+	
 	
 	<% else %>
 		<div class="panel">
@@ -49,33 +51,34 @@
 	<% end %>
 </div>
 
-<a href="" id="load" class="btn btn-primary">Load More Recipes</a>
-
+	<p class='text-center'><a href="" id="load" class="btn btn-primary">Load More Recipes</a></p>
 
 <!-- template to inject recipe data into -->
 
 <script id="recipe-template" type="text/x-handlebars-template">
-  <div class="panel panel-default comment">
-  	<div class="panel-heading" >
-    	<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
-    </div>
-		<div class="panel-body">
-      <p>Posted on: {{body}}</p>
-			{{#if rating}}
-				<p>Rating: {{rating}}</p>
-			{{/if}}
-			{{#if comments}}
-				<div class="hidden" id="comments-list">
-					{{#each comments}}
-						<div class='panel shadow'>
-							<p>{{this.content}}</p>
-							<p>By: <a href="recipes/{{this.commenter.id}}">{{this.commenter.email}}</a></p>
-						</div>
-					{{/each}}
-				</div>
-				<button name="button" type="submit" class="btn btn-default" id="see-comments" data-id="{{id}}">See Comments</button>
-			{{/if}}
-    </div>
+	<div class="comment-box">
+	  <div class="inner-comment-box">
+	  	<div class="panel-heading" >
+	    	<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
+	    </div>
+			<div class="panel-body">
+	      <p>Posted on: {{body}}</p>
+				{{#if rating}}
+					<p>Rating: {{rating}}</p>
+				{{/if}}
+				{{#if comments}}
+					<div class="hidden" id="comments-list">
+						{{#each comments}}
+							<div class='panel shadow'>
+								<p>{{this.content}}</p>
+								<p>By: <a href="recipes/{{this.commenter.id}}">{{this.commenter.email}}</a></p>
+							</div>
+						{{/each}}
+					</div>
+					<button name="button" type="submit" class="btn btn-default" id="see-comments" data-id="{{id}}">See Comments</button>
+				{{/if}}
+	    </div>
+	  </div>
   </div>
 </script>
 
