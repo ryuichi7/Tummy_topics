@@ -12,6 +12,38 @@
 			<strong><%= submit_tag "Reviews", class: "btn btn-link" %></strong>
 		<% end %>
 	</div>
+</div>
 
-
+<div class="row">
+	<% if !@user.recipes.empty? %>
+		<% @user.recipes.each do |recipe| %>
+			<div class="comment-box">
+				<div class="inner-comment-box">
+					<div class="panel-heading">
+						<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
+					</div>
+					
+					<div class="panel-body">	
+						<p>Posted on: <%= post_date(recipe) %></p>
+						<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
+						
+						<div class="hidden" id="comments-list">
+							<% recipe.comments.each do |comment| %>
+								<div class="panel shadow">
+									<p><%= comment.content %></p>
+									<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %></p>
+								</div>
+							<% end %>
+						</div>
+						
+						<%= button_tag "See Comments", class: 'btn btn-default', id: "see-comments", data: { id: recipe.id } unless recipe.comments.blank? %>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	<% else %>
+		<div class="panel">
+			no recipes to display
+		</div>
+	<% end %>
 </div>

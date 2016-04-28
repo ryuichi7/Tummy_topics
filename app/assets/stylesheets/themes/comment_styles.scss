@@ -1,0 +1,16 @@
+.comment-box {
+	@extend .col-md-4;
+	position: relative;
+	height: 180px;
+	
+	:hover {
+		z-index: 1;
+	}
+}
+
+.inner-comment-box {
+	@extend .col-md-12;
+	@extend .panel;
+	@extend .panel-default;
+	padding: 0;
+}

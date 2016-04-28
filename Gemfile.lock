@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/bmc/jquery-raty-rails.git
+  revision: d36753c77c9b825e6e2746c1c70c3b11b85b86cc
+  specs:
+    jquery-raty-rails (0.0.2)
+      rails (>= 3.2.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -69,6 +76,7 @@ GEM
       json
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
+    choice (0.2.0)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -201,6 +209,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.4.7)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rails_12factor (0.0.3)
@@ -242,6 +255,7 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    ruby-graphviz (1.2.2)
     rubyzip (1.2.0)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -321,6 +335,7 @@ DEPENDENCIES
   guard-rspec
   jbuilder (~> 2.0)
   jquery-rails
+  jquery-raty-rails!
   jquery-ui-rails
   launchy
   omniauth
@@ -328,6 +343,7 @@ DEPENDENCIES
   pry
   rack_session_access
   rails (= 4.2.5.1)
+  rails-erd
   rails_12factor
   rake (< 11.0)
   rspec-rails

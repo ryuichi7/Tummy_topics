@@ -38,6 +38,8 @@ todo:
 
 6. why can't I delete comment right after creation with remote: true?
 7. recipe ingredients attributes: find better way to deal with updating field(not using #persisted?)
+8. puts number of ratings next to rating in display
+9. put number of recipes next to user display 
 
 fix error fields
 refactor controllers create action to use. (i.e. current_user.build_recipe...)

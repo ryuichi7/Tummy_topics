@@ -26,8 +26,9 @@
 					
 					<div class="panel-body">	
 						<p>Posted on: <%= post_date(recipe) %></p>
-						<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
-						
+						<% if recipe.try(:rating_avg) %>
+							<div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>	
+						<% end %>
 						<div class="hidden" id="comments-list">
 							<% recipe.comments.each do |comment| %>
 								<div class="panel shadow">
@@ -51,7 +52,7 @@
 	<% end %>
 </div>
 
-	<p class='text-center'><a href="" id="load" class="btn btn-primary">Load More Recipes</a></p>
+	<p class='text-center'><a href="" id="load" class="btn btn-primary">See More Recipes</a></p>
 
 <!-- template to inject recipe data into -->
 
@@ -64,7 +65,7 @@
 			<div class="panel-body">
 	      <p>Posted on: {{body}}</p>
 				{{#if rating}}
-					<p>Rating: {{rating}}</p>
+					<div class="display-rating" data-id={{id}} data-rating={{rating}}></div>
 				{{/if}}
 				{{#if comments}}
 					<div class="hidden" id="comments-list">
@@ -81,7 +82,6 @@
 	  </div>
   </div>
 </script>
-
 
 
 

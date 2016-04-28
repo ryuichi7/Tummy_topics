@@ -77,6 +77,15 @@ function formatForTemplate(recipe) {
 	return values;
 }
 
+function displayRating() {
+	$('.display-rating').raty({
+		readOnly: true,
+  	score: function() {
+    	return $(this).attr('data-rating');
+	  }
+	});	
+}
+
 
 
 // Error Handling //
@@ -87,12 +96,13 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 	    $('.help-block', $(this)).html('');
 	    $(this).removeClass('has-error');
 	  });
-	  alert("Thanks for your comment!");
 	}
 })
 .bind('ajaxError','form#new_comment', function(event, xhr, settings) {
+	if (settings.url === '/comments') {
 		$('textarea#comment_content').closest(".form-group").addClass('has-error')
 		.find('.help-block').html($.parseJSON(xhr.responseText).content);
+	}
 })
 
 
@@ -102,9 +112,12 @@ $(document).ready(function() {
 	$("button#button").click(function(event) {
 		$.get($(this).data('url'), function(response) {
 			$('#new-form').append(response);
-		})
+		});
 		event.preventDefault();
-	})
+	});
+
+	displayRating();
+
 });
 
 $(window).bind('page:change', function() {
@@ -115,6 +128,7 @@ $(window).bind('page:change', function() {
 	$('form#search_form').on('submit', function(e) {
 		e.preventDefault();
 		var values = $(this).serialize();
+
 		$.post('/search', values)
 		.done(function(response) {
 			$("div#recipes").empty();
@@ -162,8 +176,9 @@ $(window).bind('page:change', function() {
 			response.recipes.forEach(function(recipe) {
 				var newRecipe = createRecipe(recipe);
 				recipes.push(newRecipe);
-				$('#recipes').append(template(formatForTemplate(newRecipe)))
-			})
-		})
-	})			
+				$('#recipes').append(template(formatForTemplate(newRecipe)));
+				displayRating();
+			});
+		});
+	});			
 });

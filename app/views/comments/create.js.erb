@@ -1,6 +1,12 @@
 html = '<%= j (render "comment", comment: @comment) %>'
 
-$('div#comment_form').before(html);
-$('#new_comment')[0].reset();
+<% if @comment %>
+	$('div#comment_form').before(html);
+	$('#new_comment')[0].reset();  
+  $('#main-content').before("<div class='alert alert-success'>Successfully created comment</div>");
+<% else %>  
+  $('#main-content').before("<div class='alert alert-danger'>there was an error.</div>");
+<% end %>
+
 
 

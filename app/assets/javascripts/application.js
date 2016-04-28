@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require jquery.raty.min
 // require autocomplete-rails
 //= require bootstrap-sprockets
 //= require turbolinks

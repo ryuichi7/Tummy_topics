@@ -1,4 +1,4 @@
-<div class='panel panel-default' >
+<div class='panel panel-default' id="main-content" >
 	<div class="panel-heading">
 		<h2><%= titleize(@recipe) %></h2> 
 	</div>
@@ -14,7 +14,7 @@
 				</div>
 				
 				<div class="panel-body">
-					<%= @recipe.rating_avg %> (out of 5)
+					<div class="display-rating" data-id=<%=@recipe.id%> data-rating=<%=@recipe.rating_avg%>></div>
 				</div>
 			</div>
 		<% end %>
@@ -86,23 +86,26 @@
 
 
 
-<div class="panel panel-default comment">
+<div id="rating" class="panel panel-default comment">
 	<div class="panel-heading">
 		<strong>Rate this recipe:</strong>
 	</div>
 	
+	
+
+
 	<div class="panel-body">
 		<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
 			<%= f.hidden_field :recipe_id, value: @recipe.id %>
 			<div class="form-group">
-				<%= f.label "Add a rating" %>
-				<%= f.select :score, [1,2,3,4,5], { prompt: true }, class: "form-control" %>
+				<%= f.label "Add a rating", class: "control-label" %>
+				<div id="star" data-rated="false"></div>
+				<span class="help-block"></span>
 			</div>
 			<%= f.submit "submit", class: "btn btn-primary" %>
 		<% end %>
 	</div>
 </div>
-
 
 
 

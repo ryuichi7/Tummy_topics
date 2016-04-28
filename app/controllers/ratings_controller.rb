@@ -4,10 +4,11 @@ class RatingsController < ApplicationController
 	def create
 		@rating = current_user.ratings.build(rating_params)
 		
+
 		if @rating.save
-			redirect_to recipe_path(@rating.recipe_id), flash: { success: "Thanks for your rating!" }
+			render json: @rating, status: :created
 		else
-			redirect_to :back, alert: "please select valid rating"
+			render json: @rating.errors, status: :unprocessable_entity
 		end
 	end
 
@@ -17,3 +18,5 @@ class RatingsController < ApplicationController
 		params.require(:rating).permit(:score, :recipe_id)
 	end
 end
+
+
