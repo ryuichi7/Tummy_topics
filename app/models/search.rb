@@ -4,8 +4,6 @@ class Search
 	attr_accessor :query
 
 	def results
-		if !@query.blank?
-			Recipe.search(@query).alphabetized
-		end
+		Recipe.search(@query).alphabetized if !@query.blank?
 	end
 end

@@ -3,8 +3,6 @@
 		<h2><%= @user.email_name %>'s profile</h2>
 	</div>
 	<div class="panel-body">
-		<strong><%= link_to "Recipes", user_recipes_path(@user), class: "btn btn-link" %></strong>
-		<p></p>
 		<strong><%= link_to "Comments", user_comments_path(@user), class: "btn btn-link" %></strong>
 		<p></p>
 		<%= form_tag comments_path, method: 'get' do %>
@@ -14,36 +12,49 @@
 	</div>
 </div>
 
-<div class="row">
+
 	<% if !@user.recipes.empty? %>
-		<% @user.recipes.each do |recipe| %>
-			<div class="comment-box">
-				<div class="inner-comment-box">
-					<div class="panel-heading">
-						<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
-					</div>
-					
-					<div class="panel-body">	
-						<p>Posted on: <%= post_date(recipe) %></p>
-						<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
-						
-						<div class="hidden" id="comments-list">
-							<% recipe.comments.each do |comment| %>
-								<div class="panel shadow">
-									<p><%= comment.content %></p>
-									<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %></p>
+		<div id='user-recipes'>
+			<% @user.recipes.in_groups_of(3, false) do |group| %>
+				<div class="row">
+					<% group.each do |recipe| %> 
+						<div class="col-md-4">
+							<div class="inner-comment-box">
+								<div class="panel-heading">
+									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
 								</div>
-							<% end %>
+								
+								<div class="panel-body">	
+									<p>Posted on: <%= post_date(recipe) %></p>
+									<% if recipe.try(:rating_avg) %>
+										<div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>
+									<% end %>
+									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+									<div class="collapse" id="collapse<%=recipe.id%>">
+										<% recipe.comments.each do |comment| %>
+											<div class="comment-well">
+												<p><%= comment.content %></p>
+												<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
+											</div>
+										<% end %>
+									</div>
+									
+									<p></p>
+									<p><%= link_to 'edit', edit_recipe_path(recipe) if can? :update, recipe %>
+									<%= link_to 'delete', recipe_path(recipe), method: 'delete' if can? :destroy, recipe %></p>
+
+								</div>
+							</div>
 						</div>
-						
-						<%= button_tag "See Comments", class: 'btn btn-default', id: "see-comments", data: { id: recipe.id } unless recipe.comments.blank? %>
-					</div>
+					<% end %>
 				</div>
-			</div>
-		<% end %>
+			<% end %>
+		</div>
 	<% else %>
 		<div class="panel">
 			no recipes to display
 		</div>
 	<% end %>
-</div>
+
+
+

@@ -3,5 +3,6 @@ FactoryGirl.define do
     name "MyString"
     directions "MyString"
     description "yummy"
+    ingredients [FactoryGirl.create(:ingredient)]
   end
 end

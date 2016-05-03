@@ -14,7 +14,7 @@
 				</div>
 				
 				<div class="panel-body">
-					<div class="display-rating" data-id=<%=@recipe.id%> data-rating=<%=@recipe.rating_avg%>></div>
+					<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
 				</div>
 			</div>
 		<% end %>
@@ -91,9 +91,6 @@
 		<strong>Rate this recipe:</strong>
 	</div>
 	
-	
-
-
 	<div class="panel-body">
 		<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
 			<%= f.hidden_field :recipe_id, value: @recipe.id %>

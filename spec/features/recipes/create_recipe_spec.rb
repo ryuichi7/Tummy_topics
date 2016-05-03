@@ -22,15 +22,14 @@ feature 'create recipe' do
 		fill_in 'recipe_description', with: 'yummy'
 		fill_in 'recipe_directions', with: 'make them taste good'
 
-		fill_in 'recipe_ingredient_attributes_ingredients', with: "1 tbs. - salt\r\n 3 - carrots\n\r 2 - zuchinnis"
+		fill_in 'recipe_ingredients_attributes_name', with: "Salt"
 
 		click_button 'Create Recipe'
 		@recipe = Recipe.last
-		@recipe.reload
 		
 		expect(page).to have_content('Cookies')
 		expect(page).to have_content('Salt')
-		expect(@recipe.ingredients.size).to eq(3)
+		expect(@recipe.ingredients.size).to eq(1)
 		  
   end
 

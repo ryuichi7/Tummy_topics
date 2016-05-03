@@ -15,6 +15,6 @@
 //= require jquery_ujs
 //= require jquery.raty.min
 // require autocomplete-rails
+//= require tether
 //= require bootstrap-sprockets
-//= require turbolinks
 //= require_tree .

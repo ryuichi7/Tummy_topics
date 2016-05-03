@@ -20,9 +20,9 @@
 	<div class="panel panel-default">	
 		<div class="panel-heading"><%= f.label 'Ingredients:' %></div>
 		<div class="panel-body">
-			<% if recipe.errors[:ingredients].any? %>
+			<% if recipe.errors[:ingredients_attributes].any? %>
 				<div class="form-group has-error" >
-					<span class="help-block"><%= recipe.errors.full_messages_for(:ingredients).to_sentence %></span>
+					<span class="help-block"><%= recipe.errors.full_messages_for(:ingredients_attributes).to_sentence %></span>
 				</div>
 			<% end %>
 			<%= f.fields_for :ingredients_attributes do |ingredients| %>

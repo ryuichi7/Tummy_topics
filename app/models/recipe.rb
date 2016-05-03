@@ -54,7 +54,7 @@ class Recipe < ActiveRecord::Base
 	private
 
 	def ingredients_present?
-		errors.add(:ingredients, "recipe must have ingredients") if recipe_ingredients.empty?
+		errors.add(:ingredients_attributes, "recipe must have ingredients") if recipe_ingredients.empty?
 	end
 	
 end

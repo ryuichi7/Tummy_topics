@@ -1,3 +1,8 @@
+<script type="text/javascript">
+	$(function () {
+	  $('[data-toggle="popover"]').popover()
+	})
+</script>
 <div class="panel panel-default" id="search">
 	<div class="panel-heading">
 		<h2>Search:</h2>
@@ -14,37 +19,38 @@
 </div>
 
 <!-- insert results from search here -->
-<div class="row" id="recipes">
 	<% if !@recipes.empty? %>
-	
-		<% @recipes.each do |recipe| %>
-			<div class="comment-box">
-				<div class="inner-comment-box">
-					<div class="panel-heading">
-						<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
-					</div>
-					
-					<div class="panel-body">	
-						<p>Posted on: <%= post_date(recipe) %></p>
-						<% if recipe.try(:rating_avg) %>
-							<div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>	
-						<% end %>
-						<div class="hidden" id="comments-list">
-							<% recipe.comments.each do |comment| %>
-								<div class="panel shadow">
-									<p><%= comment.content %></p>
-									<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %></p>
+		<div id="recipes">
+			<% @recipes.in_groups_of(3, false) do |group| %>
+				<div class="row">
+					<% group.each do |recipe| %>
+						<div class="col-md-4">
+							<div class="inner-comment-box">
+								<div class="panel-heading">
+									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
 								</div>
-							<% end %>
+								
+								<div class="panel-body">	
+									<p>Posted on: <%= post_date(recipe) %></p>
+									<% if recipe.try(:rating_avg) %>
+										<div class="display-rating" data-rating=<%=recipe.rating_avg%>></div>	
+									<% end %>
+									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+									<div class="collapse" id="collapse<%=recipe.id%>">
+										<% recipe.comments.each do |comment| %>
+											<div class="comment-well">
+												<p><%= comment.content %></p>
+												<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
+											</div>
+										<% end %>
+									</div>
+								</div>
+							</div>
 						</div>
-						
-						<%= button_tag "See Comments", class: 'btn btn-default', id: "see-comments", data: { id: recipe.id } unless recipe.comments.blank? %>
-					</div>
+					<% end %>
 				</div>
-			</div>
-		<% end %>
-	
-	
+			<% end %>
+		</div>
 	<% else %>
 		<div class="panel">
 			no recipes to display
@@ -52,12 +58,14 @@
 	<% end %>
 </div>
 
-	<p class='text-center'><a href="" id="load" class="btn btn-primary">See More Recipes</a></p>
+	<p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p>
+
+
 
 <!-- template to inject recipe data into -->
 
 <script id="recipe-template" type="text/x-handlebars-template">
-	<div class="comment-box">
+	<div class="col-md-4">
 	  <div class="inner-comment-box">
 	  	<div class="panel-heading" >
 	    	<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
@@ -65,24 +73,23 @@
 			<div class="panel-body">
 	      <p>Posted on: {{body}}</p>
 				{{#if rating}}
-					<div class="display-rating" data-id={{id}} data-rating={{rating}}></div>
+					<div class="display-rating" data-rating={{rating}}></div>
 				{{/if}}
 				{{#if comments}}
-					<div class="hidden" id="comments-list">
+					<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{id}}" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false">See Comments</button>
+					<div class="collapse" id="collapse{{id}}">
 						{{#each comments}}
-							<div class='panel shadow'>
+							<div class='comment-well'>
 								<p>{{this.content}}</p>
 								<p>By: <a href="recipes/{{this.commenter.id}}">{{this.commenter.email}}</a></p>
 							</div>
 						{{/each}}
 					</div>
-					<button name="button" type="submit" class="btn btn-default" id="see-comments" data-id="{{id}}">See Comments</button>
 				{{/if}}
 	    </div>
 	  </div>
   </div>
 </script>
-
 
 
 
