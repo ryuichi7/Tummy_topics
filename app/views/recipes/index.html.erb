@@ -33,7 +33,7 @@
 								<div class="panel-body">	
 									<p>Posted on: <%= post_date(recipe) %></p>
 									<% if recipe.try(:rating_avg) %>
-										<div class="display-rating" data-rating=<%=recipe.rating_avg%>></div>	
+										<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
 									<% end %>
 									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
 									<div class="collapse" id="collapse<%=recipe.id%>">
