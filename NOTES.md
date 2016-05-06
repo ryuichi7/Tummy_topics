@@ -30,16 +30,18 @@ AJAX + JS - getScript or Remote True
 
 todo:
 
-1. get rid of nested routes for user
+1. ~~get rid of nested routes for user~~
 2. make modal for user to edit recipe? or give editing capabilites
 3. finish ansynchronous rating abilities
-4. ability to search by rating?
+4. ~~ability to search by rating?~~
 5. fix load comments button. should only show when there are more items to be loaded
 
 6. why can't I delete comment right after creation with remote: true?
 7. recipe ingredients attributes: find better way to deal with updating field(not using #persisted?)
 8. puts number of ratings next to rating in display
 9. put number of recipes next to user display 
+10. create popovers on index page that displays truncated version of recipe.
+11. add footer
 
-fix error fields
-refactor controllers create action to use. (i.e. current_user.build_recipe...)
+~~fix error fields~~
+~~refactor controllers create action to use. (i.e. current_user.build_recipe...)~~

@@ -3,6 +3,9 @@
 		<h2><%= @user.email_name %>'s profile</h2>
 	</div>
 	<div class="panel-body">
+		<div class="media">
+			<%= image_tag @user.avatar.url(:original), class: 'media-object' %>
+		</div>
 		<strong><%= link_to "Comments", user_comments_path(@user), class: "btn btn-link" %></strong>
 		<p></p>
 		<%= form_tag comments_path, method: 'get' do %>
@@ -27,7 +30,7 @@
 								<div class="panel-body">	
 									<p>Posted on: <%= post_date(recipe) %></p>
 									<% if recipe.try(:rating_avg) %>
-										<div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>
+										<div class="rating-box"><div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>(<%=recipe.ratings.length%>)</div>
 									<% end %>
 									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
 									<div class="collapse" id="collapse<%=recipe.id%>">
@@ -41,7 +44,7 @@
 									
 									<p></p>
 									<p><%= link_to 'edit', edit_recipe_path(recipe) if can? :update, recipe %>
-									<%= link_to 'delete', recipe_path(recipe), method: 'delete' if can? :destroy, recipe %></p>
+									<%= link_to 'delete', recipe_path(recipe), method: 'delete', data: { confirm: 'Are you sure?' } if can? :destroy, recipe %></p>
 
 								</div>
 							</div>

@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 # 		redirect_to root_path, :alert => exception.message
 # 	end
 # end
+before_filter :configure_permitted_parameters, if: :devise_controller?
 	
 	def raise_not_found
 		raise ActionController::RoutingError.new("No route matches #{params[:unmatched_route]}")
@@ -36,6 +37,13 @@ class ApplicationController < ActionController::Base
       format.html { render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found  }
       format.all { render nothing: true, status: :not_found }
     end
+  end
+
+protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :avatar) }
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :email, :password, :current_password, :avatar) }
   end
 
 end

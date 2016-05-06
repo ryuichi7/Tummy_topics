@@ -14,9 +14,6 @@ body {
   margin: 5px 0;
 }
 
-#main {
-	text-align: center;
-}
 
 .shadow {
   -webkit-box-shadow: 5px 4px 5px 0px rgba(189,197,199,1);
@@ -25,8 +22,14 @@ body {
 }
 
 .navbar {
-	background: #F2F2F2;
+	background: rgba(255, 255, 255, 0.6);
 	border-bottom: solid 1px #B6B6B6;
+  
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: black;
+    font-family: 'Pacifico', cursive;
 }
 
 .dropdown {

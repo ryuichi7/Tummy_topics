@@ -20,7 +20,68 @@
 @import "themes/form";
 @import "themes/bootstrap_themes";
 @import "themes/comment_styles";
-@import "ratings"
+@import "ratings";
+@import url(https://fonts.googleapis.com/css?family=Chewy);
+@import url(https://fonts.googleapis.com/css?family=Pacifico);
+@import url(https://fonts.googleapis.com/css?family=Indie+Flower);
+
+
+
+body { 
+  background: url(/assets/vegetables.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.main {
+	text-align: center;
+	a.btn {
+		border: solid .5px;
+		background: none;
+	};
+	a.btn:hover {
+			background: rgba(255, 255, 255, 0.6);
+		};
+
+}
+
+.logo {
+	h1 {
+		font-size: 100px;
+		color: white;
+	  // -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+	  -webkit-text-stroke-width: 2px;
+	  -webkit-text-stroke-color: black;
+	};
+	p {
+		font-size: 25px;
+		margin-top: 20px;
+		color: white;
+	};
+	font-family: 'Indie Flower', cursive;
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 10%
+}
+
+.navbar-inverse .navbar-brand {
+	font-family: 'Pacifico';
+	color: black;
+  // -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-color: white;
+}
+
+.navbar-inverse .navbar-brand:hover {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.panel {
+	background: none;
+}
+
 
 
 

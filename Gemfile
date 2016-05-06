@@ -18,6 +18,8 @@ gem 'active_model_serializers'
 # Use jquery as the JavaScript library
 gem 'jquery-ui-rails'
 gem 'jquery-rails'
+gem 'paperclip'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end

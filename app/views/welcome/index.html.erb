@@ -1,17 +1,29 @@
-<div id="main" class="container">
-	<h1>Welcome to Tummy Topics!</h1>
-	<p>Here you can list your favorite recipes and see what others have to say about them!</p>
+<div class='logo'>
+	<h1>Tummy Topics!</h1>
+	<p>list your favorite recipes and see what others have to say about them!</p>
 </div>
 <% unless user_signed_in? %>
-	<div id='main' class="container">
+	<div class='main container'>
 		<%= link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-xs" %>
 	</div>
 	<p></p>
-	<div id='main' class="container">
+	<div class='main container'>
 		<%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary btn-xs" %>
 	</div>
 	<p></p>
-	<div id='main' class="container">
+	<div class='main container'>
 		<%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), class: "btn btn-primary btn-xs"%>
 	</div>
 <% end %>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $(window).scroll(function() { // check if scroll event happened
+	    if ($(document).scrollTop() > 0) { // check if user scrolled more than 50 from top of the browser window
+	      $(".navbar").css("background", "#f8f8f8"); // if yes, then change the color of class "navbar-fixed-top" to white (#f8f8f8)
+	    } else {
+	      $(".navbar").css("background", "transparent"); // if not, change it back to transparent
+	    }
+	  });
+	});
+</script>

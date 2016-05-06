@@ -33,9 +33,11 @@ class Recipe < ActiveRecord::Base
 	def self.search(params)
 		if params.match(/^[1-5]$/)
 			p = params.to_i
-			select("recipes.*, AVG(ratings.score) AS average_score").joins(:ratings).group('recipes.id').having('average_score BETWEEN ? and ?', p, p + 0.99)
+			select("recipes.*, AVG(ratings.score) AS average_score").joins(:ratings)
+			.group('recipes.id').having('average_score BETWEEN ? and ?', p, p + 0.99)
 		else
-			joins(:ingredients).where("ingredients.name like :params OR recipes.name like :params", params: "%#{params.singularize}%").uniq
+			joins(:ingredients)
+			.where("ingredients.name like :params OR recipes.name like :params", params: "%#{params.singularize}%").uniq
 		end 
 	end
 

@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   has_many :received_ratings, through: :recipes, source: "ratings", dependent: :destroy
   has_many :ratings, foreign_key: :rater_id, dependent: :destroy
 
+  has_attached_file :avatar, default_url: ':style/placeholder_image.png', styles: { thumb: "100x100>", original: "300X300>" }
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
   def email_name
   	email.split("@").first.humanize
   end
