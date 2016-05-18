@@ -128,7 +128,41 @@ function addRecipeForm() {
 	});
 }
 
+function parseAndDisplay(recipes) {
+	inGroupsOf(recipes, 3).forEach(function(group) {
+		var source = $("#recipe-template").html();
+		var template = Handlebars.compile(source);
+		var recipeRow = '<div class="row">';
+		group.forEach(function(recipe) {
+			if (recipe !== null) {
+				var rec = createRecipe(recipe);
+				recipeRow += template(formatForTemplate(rec));
+			}
+		});
+		recipeRow += '</div>';
+		$('#recipes').append(recipeRow);
+		displayRating();
+	});
+}
 
+function searchRecipes() {
+	$('form#search_form').on('submit', function(e) {
+		e.preventDefault();
+		var values = $(this).serialize();
+
+		$.post('/search', values).done(function(response) {
+			$("div#recipes").empty();
+			if (response.search.length > 0) {
+				var recipes = response.search;
+				parseAndDisplay(recipes);
+				$('.alert').remove();
+			} else {
+				$('.alert').remove();
+				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
+			}
+		})
+	})
+}
 
 // Error Handling //
 
@@ -161,35 +195,7 @@ $(document).ready(function() {
 	// display stars for ratings
 	displayRating();
 
-
-	var recipes = [];
-	var source = $("#recipe-template").html();
-	var template = Handlebars.compile(source);
-
-	$('form#search_form').on('submit', function(e) {
-		e.preventDefault();
-		var values = $(this).serialize();
-
-		$.post('/search', values).done(function(response) {
-			$("div#recipes").empty();
-			if (response.search.length > 0) {
-				response.search.forEach(function(recipe) {
-					values = formatForTemplate(createRecipe(recipe));
-					$('#recipes').append(template(values));
-					displayRating();
-					$('.alert').remove();
-				})
-			} else {
-				$('.alert').remove();
-				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
-			}
-		})
-	})
-
-
-	$('body').on('click', 'div.panel-heading:first h2', function() {
-		$("div.panel-body:first").toggle(1000);
-	});
+	searchRecipes();
 
 	//comment box rendering. revisit this again?
 

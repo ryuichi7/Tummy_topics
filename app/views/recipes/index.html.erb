@@ -104,18 +104,20 @@
 
 	function getMoreRecipes(data) {	
 		$.get('/recipes.json', data, function(response) {
-			inGroupsOf(response.recipes, 3).forEach(function(group) {
-				var source = $("#recipe-template").html();
-				var template = Handlebars.compile(source);
-				var recipeRow = '<div class="row">';
-				group.forEach(function(recipe) {
-					var newRecipe = createRecipe(recipe);
-					recipeRow += template(formatForTemplate(newRecipe));
-				});
-				recipeRow += '</div>';
-				$('#recipes').append(recipeRow);
-				displayRating();
-			});
+			var recipes = response.recipes;
+			parseAndDisplay(recipes);
+			// inGroupsOf(response.recipes, 3).forEach(function(group) {
+			// 	var source = $("#recipe-template").html();
+			// 	var template = Handlebars.compile(source);
+			// 	var recipeRow = '<div class="row">';
+			// 	group.forEach(function(recipe) {
+			// 		var newRecipe = createRecipe(recipe);
+			// 		recipeRow += template(formatForTemplate(newRecipe));
+			// 	});
+			// 	recipeRow += '</div>';
+			// 	$('#recipes').append(recipeRow);
+			// 	displayRating();
+			// });
 		});	
 	}		
 
