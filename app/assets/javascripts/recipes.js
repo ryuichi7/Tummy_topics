@@ -85,10 +85,11 @@ function formatForTemplate(recipe, openRow = false, closeRow = false) {
 	};
 
 	if (recipe.ratings.length > 0) {
-		values["rating"] = recipe.ratingAvg()
+		values["rating"] = recipe.ratingAvg();
+		values["ratingLength"] = recipe.ratings.length;
 	};
 	if (recipe.comments.length > 0) {
-		values["comments"] = recipe.comments
+		values["comments"] = recipe.comments;
 	};
 	if (openRow === true) {
 		values["open"] = true;
@@ -145,24 +146,7 @@ function parseAndDisplay(recipes) {
 	});
 }
 
-function searchRecipes() {
-	$('form#search_form').on('submit', function(e) {
-		e.preventDefault();
-		var values = $(this).serialize();
-
-		$.post('/search', values).done(function(response) {
-			$("div#recipes").empty();
-			if (response.search.length > 0) {
-				var recipes = response.search;
-				parseAndDisplay(recipes);
-				$('.alert').remove();
-			} else {
-				$('.alert').remove();
-				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
-			}
-		})
-	})
-}
+function searchRecipes() {}
 
 // Error Handling //
 
@@ -186,8 +170,7 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 
 $(document).ready(function() {
 
-	navScrollFill();
-	queryRecipes();	
+	navScrollFill();	
 
 	// append extra ingredient forms to DOM
 	addRecipeForm();
@@ -195,7 +178,31 @@ $(document).ready(function() {
 	// display stars for ratings
 	displayRating();
 
-	searchRecipes();
+
+	
+
+	$('form#search_form').on('submit', function(e) {
+		e.preventDefault();
+		var values = $(this).serialize();
+
+		$.post('/search', values).done(function(response) {
+			$("div#recipes").empty();
+			if (response.search.length > 0) {
+				var recipes = response.search;
+				parseAndDisplay(recipes);
+				$('.alert').remove();
+			} else {
+				$('.alert').remove();
+				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
+			}
+		});
+	});
+
+
+
+	$('body').on('click', 'div.panel-heading:first h2', function() {
+		$("div.panel-body:first").toggle(1000);
+	});
 
 	//comment box rendering. revisit this again?
 

@@ -6,6 +6,9 @@ class Recipe < ActiveRecord::Base
 	has_many :ratings, dependent: :destroy
 	validates_presence_of :name, :description, :directions
 	validate :ingredients_present?
+	has_attached_file :image, default_url: ':style/default_recipe_image.jpg',
+		styles: { original: '100X100#'}
+	validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 	
 	extend Concerns::Sortable
 

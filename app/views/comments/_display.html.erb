@@ -9,8 +9,10 @@
 				<div class="panel-body">
 					<p><%= comment.content %></p>
 					<p><%= link_to "edit", edit_comment_path(comment), class: "btn btn-default btn-xs" if can? :update, comment %>
-			 			<%= link_to "delete", comment_path(comment), method: "DELETE", class: "btn btn-default btn-xs" if can? :destroy, comment %></p>
+			 			<%= link_to "delete", comment_path(comment), method: "DELETE", remote: true, data: { id: comment.id, confirm: 'Are you sure?' }, class: "btn btn-default btn-xs" if can? :destroy, comment %></p>
 				</div>
 			</div>
 		<% end %>
 	</div>
+
+	

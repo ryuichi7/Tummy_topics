@@ -1,5 +1,5 @@
 
-<%= form_for recipe do |f| %>
+<%= form_for recipe, html: { multipart: true } do |f| %>
 
 	<div class="form-group <%= 'has-error' if recipe.errors[:name].any? %>">
 		<%= f.label 'Recipe Name:', class: "control-label" %><br>
@@ -39,6 +39,14 @@
 	<div class="form-group <%= 'has-error' if recipe.errors[:directions].any? %>">
 		<%= f.label 'Directions:', class: "control-label"  %><br>
 		<%= f.text_area :directions,  cols: 55, rows: 10, placeholder: "Please put each step on a separate line", class: "form-control" %>
+		<% if recipe.errors[:directions].any? %>
+			<span class="help-block"><%= recipe.errors.full_messages_for(:directions).to_sentence %></span>
+		<% end %>
+	</div>
+
+	<div class="form-group <%= 'has-error' if recipe.errors[:directions].any? %>">
+		<%= f.label 'Add Image:', class: "control-label"  %><br>
+		<%= f.file_field :image %>
 		<% if recipe.errors[:directions].any? %>
 			<span class="help-block"><%= recipe.errors.full_messages_for(:directions).to_sentence %></span>
 		<% end %>

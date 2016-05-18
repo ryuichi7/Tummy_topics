@@ -31,6 +31,7 @@
 								</div>
 								
 								<div class="panel-body">	
+									<%= image_tag recipe.image.url(:original), class: 'index-image' %>
 									<p>Posted on: <%= post_date(recipe) %></p>
 									<% if recipe.try(:rating_avg) %>
 										<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
@@ -73,7 +74,7 @@
 			<div class="panel-body">
 	      <p>Posted on: {{body}}</p>
 				{{#if rating}}
-					<div class="display-rating" data-rating={{rating}}></div>
+					<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
 				{{/if}}
 				{{#if comments}}
 					<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{id}}" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false">See Comments</button>
@@ -106,20 +107,10 @@
 		$.get('/recipes.json', data, function(response) {
 			var recipes = response.recipes;
 			parseAndDisplay(recipes);
-			// inGroupsOf(response.recipes, 3).forEach(function(group) {
-			// 	var source = $("#recipe-template").html();
-			// 	var template = Handlebars.compile(source);
-			// 	var recipeRow = '<div class="row">';
-			// 	group.forEach(function(recipe) {
-			// 		var newRecipe = createRecipe(recipe);
-			// 		recipeRow += template(formatForTemplate(newRecipe));
-			// 	});
-			// 	recipeRow += '</div>';
-			// 	$('#recipes').append(recipeRow);
-			// 	displayRating();
-			// });
 		});	
-	}		
+	}
+
+	queryRecipes();		
 
 </script>
 
