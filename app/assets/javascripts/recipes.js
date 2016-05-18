@@ -26,7 +26,7 @@ String.prototype.titleize = function() {
 	}).join(" ")
 }
 
-function Recipe(id, name, directions, description, user, createdAt, comments = null, ratings = null) {
+function Recipe(id, name, directions, description, user, createdAt, comments = null, ratings = null, image) {
 	this.id = id
 	this.name = name
 	this.directions = directions
@@ -35,6 +35,7 @@ function Recipe(id, name, directions, description, user, createdAt, comments = n
 	this.createdAt = createdAt
 	this.comments = comments
 	this.ratings = ratings
+	this.image = image
 }
 
 Recipe.prototype.userName = function() {
@@ -70,7 +71,8 @@ function createRecipe(recipe) {
 				recipe.user,
 				recipe.created_at,
 				recipe.comments,
-				recipe.ratings
+				recipe.ratings,
+				recipe.image
 	);
 	return newRecipe;
 }
@@ -81,7 +83,8 @@ function formatForTemplate(recipe, openRow = false, closeRow = false) {
 					user_id: recipe.user.id,
 					name: recipe.name.titleize(),
 					userName: recipe.userName(),
-					body: formattedDate(recipe.createdAt)
+					body: formattedDate(recipe.createdAt),
+					imageUrl: recipe.image
 	};
 
 	if (recipe.ratings.length > 0) {

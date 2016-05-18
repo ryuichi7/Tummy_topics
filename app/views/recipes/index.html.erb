@@ -31,7 +31,8 @@
 								</div>
 								
 								<div class="panel-body">	
-									<%= image_tag recipe.image.url(:original), class: 'index-image' %>
+									<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
+									<p></p>
 									<p>Posted on: <%= post_date(recipe) %></p>
 									<% if recipe.try(:rating_avg) %>
 										<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
@@ -72,6 +73,8 @@
 	    	<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
 	    </div>
 			<div class="panel-body">
+				<a href="/recipes/{{id}}"><img class="index-image" src="/assets/{{imageUrl}}" alt="recipe image"></a>
+				<p></p>
 	      <p>Posted on: {{body}}</p>
 				{{#if rating}}
 					<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
