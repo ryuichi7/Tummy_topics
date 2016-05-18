@@ -1,17 +1,27 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h2><%= @user.email_name %>'s profile</h2>
-	</div>
-	<div class="panel-body">
-		<div class="media">
-			<%= image_tag @user.avatar.url(:original), class: 'media-object' %>
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default" id="user-card">
+			<div class="panel-heading">
+				<h2><%= @user.email_name %>'s profile</h2>
+			</div>
+			<div class="panel-body">
+				<div class="media">
+					<a class="media-left" href='/users/<%=@user.id%>'>
+						<%= image_tag @user.avatar.url(:original), class: 'media-object img-circle img-fluid pull-xs-left' %>
+					</a>
+					<div class="media-body text-center">
+						<div><%= link_to "Add a recipe", new_recipe_path, class: "btn btn-link card-link" if @user == current_user %></div>
+						<div><%= link_to "Comments", user_comments_path(@user), class: "btn btn-link card-link" %></div>
+						<div>
+							<%= form_tag comments_path, method: 'get' do %>
+								<%= hidden_field_tag :commenter_id, @user.id %>
+								<%= submit_tag "Reviews", class: "btn btn-link card-link" %>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<strong><%= link_to "Comments", user_comments_path(@user), class: "btn btn-link" %></strong>
-		<p></p>
-		<%= form_tag comments_path, method: 'get' do %>
-			<%= hidden_field_tag :commenter_id, @user.id %>
-			<strong><%= submit_tag "Reviews", class: "btn btn-link" %></strong>
-		<% end %>
 	</div>
 </div>
 

@@ -58,7 +58,7 @@
 	<% end %>
 </div>
 
-	<p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p>
+	<!-- <p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p> -->
 
 
 
@@ -89,6 +89,36 @@
 	    </div>
 	  </div>
   </div>
+</script>
+
+<script type="text/javascript">
+	function queryRecipes() {
+		var data = { limit: 0 };
+		$(window).scroll(function() {
+	    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+	     	data["limit"] += 9;
+	      getMoreRecipes(data);
+	    }
+	  });
+	}
+
+	function getMoreRecipes(data) {	
+		$.get('/recipes.json', data, function(response) {
+			inGroupsOf(response.recipes, 3).forEach(function(group) {
+				var source = $("#recipe-template").html();
+				var template = Handlebars.compile(source);
+				var recipeRow = '<div class="row">';
+				group.forEach(function(recipe) {
+					var newRecipe = createRecipe(recipe);
+					recipeRow += template(formatForTemplate(newRecipe));
+				});
+				recipeRow += '</div>';
+				$('#recipes').append(recipeRow);
+				displayRating();
+			});
+		});	
+	}		
+
 </script>
 
 

@@ -99,22 +99,6 @@ function formatForTemplate(recipe, openRow = false, closeRow = false) {
 	return values;
 };
 
-function getMoreRecipes(data) {	
-	$.get('/recipes.json', data, function(response) {
-		inGroupsOf(response.recipes, 3).forEach(function(group) {
-			var source = $("#recipe-template").html();
-			var template = Handlebars.compile(source);
-			var recipeRow = '<div class="row">';
-			group.forEach(function(recipe) {
-				var newRecipe = createRecipe(recipe);
-				recipeRow += template(formatForTemplate(newRecipe));
-			});
-			recipeRow += '</div>';
-			$('#recipes').append(recipeRow);
-			displayRating();
-		});
-	});	
-}		
 
 function displayRating() {
 	$('.display-rating').raty({
@@ -124,6 +108,25 @@ function displayRating() {
 	  }
 	});	
 };
+
+function navScrollFill() {
+	$(window).scroll(function() { // check if scroll event happened	
+    if ($(document).scrollTop() > 25) { // check if user scrolled more than 50 from top of the browser window
+      $(".navbar").css("background", "#f8f8f8"); // if yes, then change the color of class "navbar-fixed-top" to white (#f8f8f8)
+    } else {
+      $(".navbar").css("background", "rgba(255, 255, 255, 0.6)"); // if not, change it back to transparent
+    }
+  });
+}
+
+function addRecipeForm() {
+	$("button#button").click(function(e) {
+		$.get($(this).data('url'), function(response) {
+			$('#new-form').append(response);
+		});
+		e.preventDefault();
+	});
+}
 
 
 
@@ -149,14 +152,13 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 
 $(document).ready(function() {
 
+	navScrollFill();
+	queryRecipes();	
+
 	// append extra ingredient forms to DOM
-	$("button#button").click(function(e) {
-		$.get($(this).data('url'), function(response) {
-			$('#new-form').append(response);
-		});
-		e.preventDefault();
-	});
-		// display stars for ratings
+	addRecipeForm();
+	
+	// display stars for ratings
 	displayRating();
 
 
@@ -200,13 +202,19 @@ $(document).ready(function() {
 	// 	$(this).siblings('div.comments-list').toggleClass('hidden')
 	// 	.closest('div.inner-comment-box').css('z-index', 0);
 	// })
-	var data = { limit: 0 };
+	// var data = { limit: 0 };
+	// $(window).scroll(function() {
+ //    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+ //     	data["limit"] += 9;
+ //      getMoreRecipes(data);
+ //    }
+ //  });
 
-	$('a#get-recipes').on("click", function(e) {
-		data["limit"] += 9;
-		e.preventDefault();
-		getMoreRecipes(data);
-	});	
+	// $('a#get-recipes').on("click", function(e) {
+	// 	data["limit"] += 9;
+	// 	e.preventDefault();
+	// 	getMoreRecipes(data);
+	// });	
 });
 
 

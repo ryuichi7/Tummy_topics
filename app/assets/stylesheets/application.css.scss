@@ -79,8 +79,66 @@ body {
 }
 
 .panel {
-	background: none;
+	.panel-heading {
+		background: rgba(255, 255, 255, 0.6);
+	};
+	
+	background: rgba(255, 255, 255, 0.6);
 }
+
+.form-control {
+	background: rgba(255, 255, 255, 0.8)
+}
+
+#user-card {
+	
+}
+
+#front-logo {
+	text-align: center;
+	img {
+		height: 200px;
+		widows: 200px;
+	}
+}
+
+.fill {
+	fill: white;
+}
+
+.card-link {
+	font-family: 'Chewy';
+	font-size: 20px;
+	color: #333333;
+	  // -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+	  -webkit-text-stroke-width: .5px;
+	  -webkit-text-stroke-color: black;
+	margin-bottom: 5%;
+}
+
+.card-link:hover {
+	color: #a6a6a6;
+	text-decoration: none;
+}
+
+.devise-links {
+	a {
+		color: #E8E8E8;
+	};
+	a:hover {
+		color: #D8D8D8; 
+	}
+}
+
+
+/* //////fonts//////// */
+
+h2 {
+	font-family: 'Chewy';
+}
+
+
+
 
 
 

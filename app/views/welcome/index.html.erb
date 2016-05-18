@@ -16,14 +16,17 @@
 	</div>
 <% end %>
 
+<!-- <div id='front-logo'>
+	<#%= image_tag 'fork-knife.svg' %>
+</div> -->
+
 <script type="text/javascript">
-	$(document).ready(function(){
+	
 	  $(window).scroll(function() { // check if scroll event happened
+	  	
 	    if ($(document).scrollTop() > 0) { // check if user scrolled more than 50 from top of the browser window
 	      $(".navbar").css("background", "#f8f8f8"); // if yes, then change the color of class "navbar-fixed-top" to white (#f8f8f8)
-	    } else {
-	      $(".navbar").css("background", "transparent"); // if not, change it back to transparent
 	    }
 	  });
-	});
+
 </script>

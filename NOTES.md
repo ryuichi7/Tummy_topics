@@ -42,6 +42,11 @@ todo:
 9. put number of recipes next to user display 
 10. create popovers on index page that displays truncated version of recipe.
 11. add footer
+12 use dotenv gem for storing facebook data
+13.try to use google api for authenti cation?
+14. keep users from being able to vote more than once. use query to see if rater is included in recipe's ratings. or set some sort of boolean on one of the models?
+
+
 
 ~~fix error fields~~
 ~~refactor controllers create action to use. (i.e. current_user.build_recipe...)~~
