@@ -2,57 +2,64 @@
 	<div class="panel-heading">
 		<h2><%= titleize(@recipe) %></h2> 
 	</div>
-		<div class='panel-body' > 
-			by <%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %> 
-			<p>posted on: <%= post_date(@recipe) %></p>
-			<p></p>
+	<div class='panel-body'> 
+		<div class="row">
+			<div class="col-md-6">
+				by <%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %> 
+				<p>posted on: <%= post_date(@recipe) %></p>
+				<p></p>
 
-		<% unless @recipe.ratings.empty? %>
-			<div class='panel panel-default comment' >
-				<div class="panel-heading">
-					<strong>Overall rating:</strong>
+				<% unless @recipe.ratings.empty? %>
+					<div class='panel panel-default' >
+						<div class="panel-heading">
+							<strong>Overall rating:</strong>
+						</div>
+						
+						<div class="panel-body">
+							<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
+						</div>
+					</div>
+				<% end %>
+				
+				<div class='panel panel-default' >
+					<div class="panel-heading">
+						<strong>Description:</strong>
+					</div>
+					<div class="panel-body">
+						<%= @recipe.description %>
+					</div>
+				</div>	
+					
+				<div class='panel panel-default' >
+					<div class="panel-heading">	
+						<strong>Ingredients:</strong>
+					</div>
+					<div class="panel-body">
+						<ul>
+							<% @recipe.recipe_ingredients.each do |ingredient| %>
+								<li><%= ingredient.measurement %>  <%= titleize(ingredient) %></li>
+							<% end %>
+						</ul>
+					</div>
 				</div>
 				
-				<div class="panel-body">
-					<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
+				<div class='panel panel-default' >
+					<div class="panel-heading">
+						<strong>Directions:</strong>
+					</div>
+					<div class="panel-body">
+						<ol>
+							<% @recipe.directions_to_list.each do |direction| %>
+								<li><%= direction.capitalize %></li>
+							<% end %>
+						</ol>
+					</div>
 				</div>
 			</div>
-		<% end %>
-		
-		<div class='panel panel-default comment' >
-			<div class="panel-heading">
-				<strong>Description:</strong>
+			<div class="col-md-6">
+				<%= link_to (image_tag @recipe.image.url(:original), class: 'index-image'), recipe_path(@recipe) %>
 			</div>
-			<div class="panel-body">
-				<%= @recipe.description %>
-			</div>
-		</div>	
-			
-		<div class='panel panel-default comment' >
-			<div class="panel-heading">	
-				<strong>Ingredients:</strong>
-			</div>
-			<div class="panel-body">
-				<ul>
-					<% @recipe.recipe_ingredients.each do |ingredient| %>
-						<li><%= ingredient.measurement %>  <%= titleize(ingredient) %></li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-		
-		<div class='panel panel-default comment' >
-			<div class="panel-heading">
-				<strong>Directions:</strong>
-			</div>
-			<div class="panel-body">
-				<ol>
-					<% @recipe.directions_to_list.each do |direction| %>
-						<li><%= direction.capitalize %></li>
-					<% end %>
-				</ol>
-			</div>
-		</div>
+		</div><!-- row -->
 	</div>
 </div>
 
