@@ -21,6 +21,7 @@
 @import "themes/bootstrap_themes";
 @import "themes/comment_styles";
 @import "ratings";
+@import "recipes";
 @import url(https://fonts.googleapis.com/css?family=Chewy);
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 @import url(https://fonts.googleapis.com/css?family=Indie+Flower);
@@ -128,10 +129,6 @@ body {
 	a:hover {
 		color: #D8D8D8; 
 	}
-}
-
-.index-image {
-	width: 100%;
 }
 
 

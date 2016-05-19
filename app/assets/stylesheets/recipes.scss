@@ -4,6 +4,20 @@
 
 
 
-h2.title { 
-	display: inline;
+
+.recipe-profile-card {
+  border-top: 1px dotted #e6e6e6;
+  padding-top: 3%;
+  margin-top: 3%;
+}
+
+.index-image {
+	width: 100%;
+}
+
+.recipe-index {
+	padding: 10px 15px;
+  border-radius: 3px;
+	background: #f8f8f8;
+	margin-bottom: 5%;
 }

@@ -24,28 +24,26 @@
 			<% @recipes.in_groups_of(3, false) do |group| %>
 				<div class="row">
 					<% group.each do |recipe| %>
-						<div class="col-md-4">
-							<div class="inner-comment-box">
-								<div class="panel-heading">
-									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
-								</div>
-								
-								<div class="panel-body">	
-									<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
-									<p></p>
-									<p>Posted on: <%= post_date(recipe) %></p>
-									<% if recipe.try(:rating_avg) %>
-										<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
+						<div class="col-md-4" >
+							<div class="col-md-12 recipe-index">
+								<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
+								<p></p>
+								<p>Posted on: <%= post_date(recipe) %></p>
+								<% if recipe.try(:rating_avg) %>
+									<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
+								<% end %>
+								<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+								<div class="collapse" id="collapse<%=recipe.id%>">
+									<% recipe.comments.each do |comment| %>
+										<div class="comment-well">
+											<p><%= comment.content %></p>
+											<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
+										</div>
 									<% end %>
-									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
-									<div class="collapse" id="collapse<%=recipe.id%>">
-										<% recipe.comments.each do |comment| %>
-											<div class="comment-well">
-												<p><%= comment.content %></p>
-												<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
-											</div>
-										<% end %>
-									</div>
+								</div>
+								<div class="recipe-profile-card">
+									<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
+									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
 								</div>
 							</div>
 						</div>
@@ -68,29 +66,27 @@
 
 <script id="recipe-template" type="text/x-handlebars-template">
 	<div class="col-md-4">
-	  <div class="inner-comment-box">
-	  	<div class="panel-heading" >
-	    	<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
-	    </div>
-			<div class="panel-body">
-				<a href="/recipes/{{id}}"><img class="index-image" src="/assets/{{imageUrl}}" alt="recipe image"></a>
-				<p></p>
-	      <p>Posted on: {{body}}</p>
-				{{#if rating}}
-					<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
-				{{/if}}
-				{{#if comments}}
-					<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{id}}" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false">See Comments</button>
-					<div class="collapse" id="collapse{{id}}">
-						{{#each comments}}
-							<div class='comment-well'>
-								<p>{{this.content}}</p>
-								<p>By: <a href="recipes/{{this.commenter.id}}">{{this.commenter.email}}</a></p>
-							</div>
-						{{/each}}
-					</div>
-				{{/if}}
-	    </div>
+	  <div class="col-md-12 recipe-index">	
+			<a href="/recipes/{{id}}"><img class="index-image" src="/assets/{{imageUrl}}" alt="recipe image"></a>
+			<p></p>
+      <p>Posted on: {{body}}</p>
+			{{#if rating}}
+				<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
+			{{/if}}
+			{{#if comments}}
+				<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{id}}" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false">See Comments</button>
+				<div class="collapse" id="collapse{{id}}">
+					{{#each comments}}
+						<div class='comment-well'>
+							<p>{{this.content}}</p>
+							<p>By: <a href="recipes/{{this.commenter.id}}">{{this.commenter.email}}</a></p>
+						</div>
+					{{/each}}
+				</div>
+			{{/if}}
+			<div class="recipe-profile-card">
+	  		<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
+	  	</div>
 	  </div>
   </div>
 </script>
