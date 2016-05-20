@@ -84,7 +84,8 @@ function formatForTemplate(recipe, openRow = false, closeRow = false) {
 					name: recipe.name.titleize(),
 					userName: recipe.userName(),
 					body: formattedDate(recipe.createdAt),
-					imageUrl: recipe.image
+					imageUrl: recipe.image,
+					thumb: recipe.user.thumb
 	};
 
 	if (recipe.ratings.length > 0) {
@@ -114,11 +115,11 @@ function displayRating() {
 };
 
 function navScrollFill() {
-	$(window).scroll(function() { // check if scroll event happened	
-    if ($(document).scrollTop() > 25) { // check if user scrolled more than 50 from top of the browser window
-      $(".navbar").css("background", "#f8f8f8"); // if yes, then change the color of class "navbar-fixed-top" to white (#f8f8f8)
+	$(window).scroll(function() {
+    if ($(document).scrollTop() > 25) { 
+      $(".navbar").css("background", "#f8f8f8");
     } else {
-      $(".navbar").css("background", "rgba(255, 255, 255, 0.6)"); // if not, change it back to transparent
+      $(".navbar").css("background", "rgba(255, 255, 255, 0.6)");
     }
   });
 }

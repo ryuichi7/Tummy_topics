@@ -28,6 +28,8 @@
 							<div class="col-md-12 recipe-index">
 								<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
 								<p></p>
+								<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
+								<p></p>
 								<p>Posted on: <%= post_date(recipe) %></p>
 								<% if recipe.try(:rating_avg) %>
 									<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
@@ -43,7 +45,7 @@
 								</div>
 								<div class="recipe-profile-card">
 									<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
-									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by: <%= link_to recipe.user_name, user_path(recipe.user) %>
+									Recipe by: <%= link_to recipe.user_name, user_path(recipe.user) %>
 								</div>
 							</div>
 						</div>
@@ -69,6 +71,8 @@
 	  <div class="col-md-12 recipe-index">	
 			<a href="/recipes/{{id}}"><img class="index-image" src="/assets/{{imageUrl}}" alt="recipe image"></a>
 			<p></p>
+			<strong><a href="/recipes/{{id}}">{{name}}</a></strong>
+			<p></p>
       <p>Posted on: {{body}}</p>
 			{{#if rating}}
 				<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
@@ -85,8 +89,9 @@
 				</div>
 			{{/if}}
 			<div class="recipe-profile-card">
-	  		<strong><a href="recipes/{{id}}">{{name}}</a></strong> by: <a href="users/{{user_id}}">{{userName}}</a>
-	  	</div>
+				<a href="/users/{{user_id}}"><img class="img-circle" src="/assets/{{thumb}}" alt="User thumb"></a>
+				Recipe by: <a href="/users/{{user_id}}">{{userName}}</a>
+			</div>
 	  </div>
   </div>
 </script>
@@ -112,9 +117,6 @@
 	queryRecipes();		
 
 </script>
-
-
-
 
 
 
