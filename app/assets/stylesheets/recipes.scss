@@ -18,6 +18,11 @@
 .recipe-index {
 	padding: 10px 15px;
   border-radius: 3px;
-	background: #f8f8f8;
+	background: rgba(255, 255, 255, 0.6);
 	margin-bottom: 5%;
+	box-shadow: 0 0 2px 1px #CCC;
+}
+
+input#query {
+	display: inline;
 }

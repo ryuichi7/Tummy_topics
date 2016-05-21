@@ -116,7 +116,7 @@ function displayRating() {
 
 function navScrollFill() {
 	$(window).scroll(function() {
-    if ($(document).scrollTop() > 25) { 
+    if ($(document).scrollTop() > 406) { 
       $(".navbar").css("background", "#f8f8f8");
     } else {
       $(".navbar").css("background", "rgba(255, 255, 255, 0.6)");

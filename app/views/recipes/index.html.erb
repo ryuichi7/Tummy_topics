@@ -3,63 +3,69 @@
 	  $('[data-toggle="popover"]').popover()
 	})
 </script>
-<div class="panel panel-default" id="search">
-	<div class="panel-heading">
-		<h2>Search:</h2>
-	</div>
-	<div class="panel-body">
-		<%= form_tag '/search', id: 'search_form', method: 'POST' do %>
-			<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search recipe name, ingredient or rating (1-5)" %><br>
-			<%= submit_tag 'Search Recipes', class: "btn btn-primary" %>
-		<% end %>
-		<p></p>
-			
-		<p><%= link_to "Browse Ingredients", ingredients_path %></p>
+<div class="search-moment-container">
+
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<h2>Search Recipes</h2>
+			<%= form_tag '/search', id: 'search_form', method: 'POST' do %>
+				
+				<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search recipe name, ingredient or rating (1-5)" %>
+				
+					
+				<button type="submit" name="commit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			<% end %>
+		
+				
+			<%= link_to "Browse Ingredients", ingredients_path, class: 'btn btn-primary' %>
+		</div>
 	</div>
 </div>
-
-<!-- insert results from search here -->
-	<% if !@recipes.empty? %>
-		<div id="recipes">
-			<% @recipes.in_groups_of(3, false) do |group| %>
-				<div class="row">
-					<% group.each do |recipe| %>
-						<div class="col-md-4" >
-							<div class="col-md-12 recipe-index">
-								<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
-								<p></p>
-								<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
-								<p></p>
-								<p>Posted on: <%= post_date(recipe) %></p>
-								<% if recipe.try(:rating_avg) %>
-									<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
-								<% end %>
-								<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
-								<div class="collapse" id="collapse<%=recipe.id%>">
-									<% recipe.comments.each do |comment| %>
-										<div class="comment-well">
-											<p><%= comment.content %></p>
-											<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
-										</div>
+<div class="container" id="main">
+	<!-- insert results from search here -->
+		<% if !@recipes.empty? %>
+			<div id="recipes">
+				<% @recipes.in_groups_of(3, false) do |group| %>
+					<div class="row">
+						<% group.each do |recipe| %>
+							<div class="col-md-4" >
+								<div class="col-md-12 recipe-index">
+									<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
+									<p></p>
+									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
+									<p></p>
+									<p><h6>Posted on: <%= post_date(recipe) %></h6></p>
+									<% if recipe.try(:rating_avg) %>
+										<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
 									<% end %>
-								</div>
-								<div class="recipe-profile-card">
-									<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
-									Recipe by: <%= link_to recipe.user_name, user_path(recipe.user) %>
+									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+									<div class="collapse" id="collapse<%=recipe.id%>">
+										<% recipe.comments.each do |comment| %>
+											<div class="comment-well">
+												<p><%= comment.content %></p>
+												<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
+											</div>
+										<% end %>
+									</div>
+									<div class="recipe-profile-card">
+										<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
+										Recipe by: <%= link_to recipe.user_name, user_path(recipe.user) %>
+									</div>
 								</div>
 							</div>
-						</div>
-					<% end %>
-				</div>
-			<% end %>
-		</div>
-	<% else %>
-		<div class="panel">
-			no recipes to display
-		</div>
-	<% end %>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+		<% else %>
+			<div class="panel">
+				no recipes to display
+			</div>
+		<% end %>
+	</div>
 </div>
-
 	<!-- <p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p> -->
 
 

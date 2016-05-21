@@ -25,15 +25,54 @@
 @import url(https://fonts.googleapis.com/css?family=Chewy);
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 @import url(https://fonts.googleapis.com/css?family=Indie+Flower);
+@import url(https://fonts.googleapis.com/css?family=Cantarell);
 
 
 
 body { 
-  background: url(/assets/vegetables.jpg) no-repeat center center fixed; 
+  background: rgba(255, 255, 255, 0.6) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+.search-moment-container {
+	background: url(/assets/vegetables.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 486px;
+  line-height: 0;
+  position: relative;
+  width: 100%;
+  margin-top: -100px;
+  h2 {
+  	text-transform: uppercase;
+  	color: white;
+  	font-family: 'Cantarell', sans-serif;
+  	margin-top: 10%;
+  };
+  form {
+  	margin: 2%;
+  	input {
+  		border-radius: 0px;
+  	};
+  	.btn {
+  		border-radius: 0px;
+  		margin: 0px 0px 2px -4px;
+  		border: solid .5px;
+			background: grey;
+  	}
+  };
+  a.btn {
+		border: solid .5px;
+		background: none;
+	};
+	a.btn:hover {
+			background: rgba(255, 255, 255, 0.6);
+	};
 }
 
 .main {
@@ -44,8 +83,14 @@ body {
 	};
 	a.btn:hover {
 			background: rgba(255, 255, 255, 0.6);
-		};
+	};
 
+}
+
+#main {
+	background: none;
+	height: 100%;
+	padding-top: 20px;
 }
 
 .logo {
