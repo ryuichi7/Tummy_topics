@@ -7,10 +7,11 @@ class Recipe < ActiveRecord::Base
 	validates_presence_of :name, :description, :directions
 	validate :ingredients_present?
 	has_attached_file :image, default_url: ':style/default_recipe_image.jpg',
-		styles: { original: '100X100#'}
+		styles: { original: '330x379#'}
 	validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
 	
 	extend Concerns::Sortable
+	include Concerns::Dateable
 
 	def ingredients_attributes=(ingredients)
 		recipe_ingredients.destroy_all if persisted?

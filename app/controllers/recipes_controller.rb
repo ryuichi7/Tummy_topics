@@ -9,7 +9,7 @@ class RecipesController < ApplicationController
 			@recipes = Recipe.alphabetized.limit(9).offset(params[:limit])
 		end
 		respond_to do |f|
-			f.html { render :index }
+			f.html { render :layout => 'recipe_index' }
 		  f.json { render json: @recipes }
 		end
 	end

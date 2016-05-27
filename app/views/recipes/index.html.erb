@@ -3,27 +3,12 @@
 	  $('[data-toggle="popover"]').popover()
 	})
 </script>
-<div class="search-moment-container">
 
 	<div class="row">
-		<div class="col-md-12 text-center">
-			<h2>Search Recipes</h2>
-			<%= form_tag '/search', id: 'search_form', method: 'POST' do %>
-				
-				<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search recipe name, ingredient or rating (1-5)" %>
-				
-					
-				<button type="submit" name="commit" class="btn btn-primary">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-			<% end %>
-		
-				
-			<%= link_to "Browse Ingredients", ingredients_path, class: 'btn btn-primary' %>
+		<div class="col-md-12 text-center result-box">
+			<h2>Recipes</h2>
 		</div>
 	</div>
-</div>
-<div class="container" id="main">
 	<!-- insert results from search here -->
 		<% if !@recipes.empty? %>
 			<div id="recipes">
@@ -69,7 +54,7 @@
 			</div>
 		<% end %>
 	</div>
-</div>
+
 	<!-- <p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p> -->
 
 
@@ -79,28 +64,32 @@
 <script id="recipe-template" type="text/x-handlebars-template">
 	<div class="col-md-4">
 	  <div class="col-md-12 recipe-index">	
-			<a href="/recipes/{{id}}"><img class="index-image" src="/assets/{{imageUrl}}" alt="recipe image"></a>
+			<a href="/recipes/{{recipe.id}}"><img class="index-image" src="/assets/{{recipe.image}}" alt="recipe image"></a>
 			<p></p>
-			<strong><a href="/recipes/{{id}}">{{name}}</a></strong>
+			<strong><a href="/recipes/{{recipe.id}}">{{name}}</a></strong>
 			<p></p>
-      <p>Posted on: {{body}}</p>
+      <h6>Posted on: {{recipe.postDate}}</h6>
 			{{#if rating}}
 				<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
 			{{/if}}
-			{{#if comments}}
-				<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{id}}" data-toggle="collapse" data-target="#collapse{{id}}" aria-expanded="false">See Comments</button>
-				<div class="collapse" id="collapse{{id}}">
-					{{#each comments}}
+			{{#if recipe.comments}}
+				<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{recipe.id}}" data-toggle="collapse" data-target="#collapse{{recipe.id}}" aria-expanded="false">See Comments</button>
+				<div class="collapse" id="collapse{{recipe.id}}">
+					{{#each recipe.comments}}
 						<div class='comment-well'>
 							<p>{{this.content}}</p>
-							<p>By: <a href="recipes/{{this.commenter.id}}">{{this.commenter.email}}</a></p>
+							<h6>Posted on: {{this.post_date}}</h6>
+							<div class="recipe-profile-card">
+								<a href="/users/{{this.commenter.id}}"><img class="img-circle" src="/assets/{{this.commenter.thumb}}" alt="User thumb"></a>
+								By: <a href="/users/{{this.commenter.id}}">{{this.commenter.email_name}}</a>
+							</div>
 						</div>
 					{{/each}}
 				</div>
 			{{/if}}
 			<div class="recipe-profile-card">
-				<a href="/users/{{user_id}}"><img class="img-circle" src="/assets/{{thumb}}" alt="User thumb"></a>
-				Recipe by: <a href="/users/{{user_id}}">{{userName}}</a>
+				<a href="/users/{{user.id}}"><img class="img-circle" src="/assets/{{user.thumb}}" alt="User thumb"></a>
+				Recipe by: <a href="/users/{{user.id}}">{{user.email_name}}</a>
 			</div>
 	  </div>
   </div>
@@ -124,7 +113,8 @@
 		});	
 	}
 
-	queryRecipes();		
+	queryRecipes();
+	navScrollFill(406);		
 
 </script>
 

@@ -52,7 +52,7 @@ body {
   	text-transform: uppercase;
   	color: white;
   	font-family: 'Cantarell', sans-serif;
-  	margin-top: 10%;
+  	margin-top: 5%;
   };
   form {
   	margin: 2%;
@@ -64,7 +64,7 @@ body {
   		margin: 0px 0px 2px -4px;
   		border: solid .5px;
 			background: grey;
-  	}
+  	};
   };
   a.btn {
 		border: solid .5px;
@@ -98,18 +98,17 @@ body {
 		font-size: 100px;
 		color: white;
 	  // -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-	  -webkit-text-stroke-width: 2px;
-	  -webkit-text-stroke-color: black;
+	  // -webkit-text-stroke-width: 2px;
+	  // -webkit-text-stroke-color: black;
 	};
 	p {
 		font-size: 25px;
 		margin-top: 20px;
 		color: white;
 	};
-	font-family: 'Indie Flower', cursive;
+	font-family: 'Cantarell', sans-serif;
   text-align: center;
-  margin-top: 5%;
-  margin-bottom: 10%
+  margin-top: 9%; 
 }
 
 .navbar-inverse .navbar-brand {

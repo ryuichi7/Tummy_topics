@@ -26,3 +26,12 @@
 input#query {
 	display: inline;
 }
+
+.result-box {
+	border-bottom: 2px solid #e6e6e6;
+	margin-bottom: 2%;
+	padding: 1%;
+	h2 {
+		font-family: 'Cantarell', sans-serif;
+	};
+}

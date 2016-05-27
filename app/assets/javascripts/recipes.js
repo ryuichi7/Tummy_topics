@@ -26,20 +26,16 @@ String.prototype.titleize = function() {
 	}).join(" ")
 }
 
-function Recipe(id, name, directions, description, user, createdAt, comments = null, ratings = null, image) {
+function Recipe(id, name, directions, description, user, postDate, comments = null, ratings = null, image) {
 	this.id = id
 	this.name = name
 	this.directions = directions
 	this.description = description
 	this.user = user
-	this.createdAt = createdAt
+	this.postDate = postDate
 	this.comments = comments
 	this.ratings = ratings
 	this.image = image
-}
-
-Recipe.prototype.userName = function() {
-	return this.user.email.split("@")[0]
 }
 
 Recipe.prototype.ratingAvg = function() {
@@ -69,7 +65,7 @@ function createRecipe(recipe) {
 				recipe.directions,
 				recipe.description,
 				recipe.user,
-				recipe.created_at,
+				recipe.post_date,
 				recipe.comments,
 				recipe.ratings,
 				recipe.image
@@ -79,21 +75,14 @@ function createRecipe(recipe) {
 
 function formatForTemplate(recipe, openRow = false, closeRow = false) {
 	var values = {
-					id: recipe.id,
-					user_id: recipe.user.id,
-					name: recipe.name.titleize(),
-					userName: recipe.userName(),
-					body: formattedDate(recipe.createdAt),
-					imageUrl: recipe.image,
-					thumb: recipe.user.thumb
+		name: recipe.name.titleize(),
+		recipe: recipe,
+		user: recipe.user
 	};
 
 	if (recipe.ratings.length > 0) {
 		values["rating"] = recipe.ratingAvg();
 		values["ratingLength"] = recipe.ratings.length;
-	};
-	if (recipe.comments.length > 0) {
-		values["comments"] = recipe.comments;
 	};
 	if (openRow === true) {
 		values["open"] = true;
@@ -114,9 +103,9 @@ function displayRating() {
 	});	
 };
 
-function navScrollFill() {
+function navScrollFill(trigger) {
 	$(window).scroll(function() {
-    if ($(document).scrollTop() > 406) { 
+    if ($(document).scrollTop() > trigger) { 
       $(".navbar").css("background", "#f8f8f8");
     } else {
       $(".navbar").css("background", "rgba(255, 255, 255, 0.6)");
@@ -174,7 +163,7 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 
 $(document).ready(function() {
 
-	navScrollFill();	
+	navScrollFill(406);	
 
 	// append extra ingredient forms to DOM
 	addRecipeForm();

@@ -11,11 +11,9 @@ Rails.application.routes.draw do
 
   get '/recipes/ingredients/new' => 'ingredients#new'
   
-  get "/search" => "recipes#search"
-
   post '/search' => 'search#create'
 
-  root "welcome#index"
+  root "recipes#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
