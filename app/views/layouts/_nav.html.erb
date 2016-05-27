@@ -13,28 +13,33 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <% if user_signed_in? %>
-            <li><%= link_to "Hello #{current_user.email_name}!", user_path(current_user) %></li>
-          <% else %>
-            <li><%= link_to "Sign In", new_user_session_path %></li>
-            <li><%= link_to "Sign Up", new_user_registration_path %></li> 
-          <% end %>
-          <li><%= link_to " All Recipes", recipes_path %></li>
-         <!--  nav here -->
+          <li><%= link_to "All Recipes", recipes_path %></li>
+          <li><%= link_to "Ingredients", ingredients_path %></li>
+          <!--  nav here -->
         </ul>
         <% if user_signed_in? %>
-          <div class="dropdown nav navbar-right">
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Menu
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><%= link_to "Add Recipe", new_recipe_path %></li>
-              <li><%= link_to "Edit Profile", edit_registration_path(current_user) %></li>
-              <li role="separator" class="divider"></li>
-              <li><%= link_to "Sign Out", destroy_user_session_path, method: "DELETE" %></li>
-            </ul>
-          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Hello #{current_user.email_name}!", user_path(current_user) %></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Menu
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li><%= link_to "Your Profile", user_path(current_user) %></li>
+                <li><%= link_to "Add Recipe", new_recipe_path %></li>
+                <li><%= link_to "Edit Profile", edit_registration_path(current_user) %></li>
+                <li role="separator" class="divider"></li>
+                <li><%= link_to "Sign Out", destroy_user_session_path, method: "DELETE" %></li>
+              </ul>
+            </li>
+          </ul>
+        <% else %>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Sign In", new_user_session_path %></li>
+            <li style="padding-bottom: 15px; padding-top: 15px;">|</li>
+            <li><%= link_to "Sign Up", new_user_registration_path %></li> 
+          </ul>
         <% end %>  
       </div><!--/.nav-collapse -->
     </div>

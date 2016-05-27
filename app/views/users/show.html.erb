@@ -39,7 +39,7 @@
 								<div class="panel-body">	
 									<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
 									<p></p>
-									<p>Posted on: <%= post_date(recipe) %></p>
+									<h6>Posted on: <%= post_date(recipe) %></h6>
 									<% if recipe.try(:rating_avg) %>
 										<div class="rating-box"><div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>(<%=recipe.ratings.length%>)</div>
 									<% end %>

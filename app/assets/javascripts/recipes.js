@@ -162,9 +162,7 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 // Loaded document actions //
 
 $(document).ready(function() {
-
-	navScrollFill(406);	
-
+	
 	// append extra ingredient forms to DOM
 	addRecipeForm();
 	
