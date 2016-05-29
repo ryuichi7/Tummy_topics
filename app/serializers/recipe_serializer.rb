@@ -3,4 +3,12 @@ class RecipeSerializer < ActiveModel::Serializer
   has_many :ratings
   has_many :comments
   has_one :user
+
+  def image
+  	object.image.url.tap do |image|
+  		if image.match(/default_recipe_image|placeholder_image/)
+  			return "/assets/#{image}"
+  		end
+  	end
+  end
 end
