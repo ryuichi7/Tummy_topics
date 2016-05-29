@@ -130,6 +130,7 @@ function parseAndDisplay(recipes) {
 		group.forEach(function(recipe) {
 			if (recipe !== null) {
 				var rec = createRecipe(recipe);
+
 				recipeRow += template(formatForTemplate(rec));
 			}
 		});
@@ -139,7 +140,25 @@ function parseAndDisplay(recipes) {
 	});
 }
 
-function searchRecipes() {}
+function searchRecipes() {
+	$('#recipes').data('is-searched', true);
+	$('form#search_form').on('submit', function(e) {
+		e.preventDefault();
+		var values = $(this).serialize();
+
+		$.post('/search', values).done(function(response) {
+			$("div#recipes").empty();
+			if (response.search.length > 0) {
+				var recipes = response.search;
+				parseAndDisplay(recipes);
+				$('.alert').remove();
+			} else {
+				$('.alert').remove();
+				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
+			}
+		});
+	});
+}
 
 // Error Handling //
 
@@ -168,27 +187,6 @@ $(document).ready(function() {
 	
 	// display stars for ratings
 	displayRating();
-
-
-	
-
-	$('form#search_form').on('submit', function(e) {
-		e.preventDefault();
-		var values = $(this).serialize();
-
-		$.post('/search', values).done(function(response) {
-			$("div#recipes").empty();
-			if (response.search.length > 0) {
-				var recipes = response.search;
-				parseAndDisplay(recipes);
-				$('.alert').remove();
-			} else {
-				$('.alert').remove();
-				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
-			}
-		});
-	});
-
 
 
 	$('body').on('click', 'div.panel-heading:first h2', function() {

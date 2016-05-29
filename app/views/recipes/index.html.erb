@@ -11,7 +11,7 @@
 	</div>
 	<!-- insert results from search here -->
 		<% if !@recipes.empty? %>
-			<div id="recipes">
+			<div id="recipes" data-is-searched="false">
 				<% @recipes.in_groups_of(3, false) do |group| %>
 					<div class="row">
 						<% group.each do |recipe| %>
@@ -57,6 +57,9 @@
 
 	<!-- <p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p> -->
 
+<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on top
+</button>
 
 
 <!-- template to inject recipe data into -->
@@ -64,7 +67,7 @@
 <script id="recipe-template" type="text/x-handlebars-template">
 	<div class="col-md-4">
 	  <div class="col-md-12 recipe-index">	
-			<a href="/recipes/{{recipe.id}}"><img class="index-image" src="/assets/{{recipe.image}}" alt="recipe image"></a>
+			<a href="/recipes/{{recipe.id}}"><img class="index-image" src="{{recipe.image}}" alt="recipe image"></a>
 			<p></p>
 			<strong><a href="/recipes/{{recipe.id}}">{{name}}</a></strong>
 			<p></p>
@@ -80,7 +83,7 @@
 							<p>{{this.content}}</p>
 							<h6>Posted on: {{this.post_date}}</h6>
 							<div class="recipe-profile-card">
-								<a href="/users/{{this.commenter.id}}"><img class="img-circle" src="/assets/{{this.commenter.thumb}}" alt="User thumb"></a>
+								<a href="/users/{{this.commenter.id}}"><img class="img-circle" src="{{this.commenter.thumb}}" alt="User thumb"></a>
 								By: <a href="/users/{{this.commenter.id}}">{{this.commenter.email_name}}</a>
 							</div>
 						</div>
@@ -88,7 +91,7 @@
 				</div>
 			{{/if}}
 			<div class="recipe-profile-card">
-				<a href="/users/{{user.id}}"><img class="img-circle" src="/assets/{{user.thumb}}" alt="User thumb"></a>
+				<a href="/users/{{user.id}}"><img class="img-circle" src="{{user.thumb}}" alt="User thumb"></a>
 				Recipe by: <a href="/users/{{user.id}}">{{user.email_name}}</a>
 			</div>
 	  </div>
@@ -97,13 +100,15 @@
 
 <script type="text/javascript">
 	function queryRecipes() {
-		var data = { limit: 0 };
-		$(window).scroll(function() {
-	    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-	     	data["limit"] += 9;
-	      getMoreRecipes(data);
-	    }
-	  });
+		if ($('#recipes').data('is-searched') === false) {
+			var data = { limit: 0 };
+			$(window).scroll(function() {
+		    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+		     	data["limit"] += 9;
+		      getMoreRecipes(data);
+		    }
+		  });
+		};
 	}
 
 	function getMoreRecipes(data) {	
@@ -114,7 +119,19 @@
 	}
 
 	queryRecipes();
+	searchRecipes();
 	navScrollFill(406);		
+
+	function showPopover() {
+		$(".btn-secondary").on('mouseover', function() {
+			$(this).popover('show');
+		});
+		$(".btn-secondary").on('mouseout', function() {
+			$(this).popover('hide');
+		})
+	}
+
+	showPopover();
 
 </script>
 

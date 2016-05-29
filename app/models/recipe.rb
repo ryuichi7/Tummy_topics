@@ -41,7 +41,7 @@ class Recipe < ActiveRecord::Base
 			.group('recipes.id').having('average_score BETWEEN ? and ?', p, p + 0.99)
 		else
 			joins(:ingredients)
-			.where("ingredients.name like :params OR recipes.name like :params", params: "%#{params.singularize}%").uniq
+			.where("ingredients.name like :params OR recipes.name like :params", params: "%#{params}%").uniq
 		end 
 	end
 
