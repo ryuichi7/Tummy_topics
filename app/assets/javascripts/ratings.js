@@ -14,7 +14,12 @@ $(function() {
 				$("#star").parent().removeClass("has-error").find(".help-block").html('');
 				$('#star').data('rated', 'true');
 			}).fail(function(response) {
-				$("#star").parent().addClass("has-error").find(".help-block").html(response.responseJSON.score[0])
+				if (response.status === 500) {
+					$('.alert').remove();
+					$("#rating").children('.panel-body').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please sign in to create a rating!</div>');
+				} else {
+					$("#star").parent().addClass("has-error").find(".help-block").html(response.responseJSON.score[0])
+				}
 			})
 		} else {
 			$('.alert').remove();

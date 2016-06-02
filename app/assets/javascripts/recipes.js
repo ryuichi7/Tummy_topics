@@ -141,19 +141,20 @@ function parseAndDisplay(recipes) {
 }
 
 function searchRecipes() {
-	$('#recipes').data('is-searched', true);
 	$('form#search_form').on('submit', function(e) {
+		$('#recipes').data('is-searched', true);
 		e.preventDefault();
-		var values = $(this).serialize();
-
-		$.post('/search', values).done(function(response) {
+		var data = $(this).serialize();
+		$.post('/search', data).done(function(response) {
 			$("div#recipes").empty();
 			if (response.search.length > 0) {
 				var recipes = response.search;
 				parseAndDisplay(recipes);
+				$('.result-box').html('<h2>Results for: ' + $('input#query').val() + '</h2>');
 				$('.alert').remove();
 			} else {
 				$('.alert').remove();
+				$('.result-box').empty();
 				$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
 			}
 		});
@@ -172,8 +173,13 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 })
 .bind('ajaxError','form#new_comment', function(event, xhr, settings) {
 	if (settings.url === '/comments') {
-		$('textarea#comment_content').closest(".form-group").addClass('has-error')
-		.find('.help-block').html($.parseJSON(xhr.responseText).content);
+		$('.alert').remove();
+		if (xhr.status === 500) {
+			$("#comment_form").children('.panel-body').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please sign in to create a comment!</div>');
+		} else {
+			$('textarea#comment_content').closest(".form-group").addClass('has-error')
+			.find('.help-block').html($.parseJSON(xhr.responseText).content);
+		};
 	}
 })
 
