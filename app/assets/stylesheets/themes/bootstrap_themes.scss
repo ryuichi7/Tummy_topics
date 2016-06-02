@@ -69,7 +69,11 @@ body {
 .popover {
   z-index: 1;
   color: rgba(0,0,0,0.8);
+  .popover-title {
+    color: white;
+    background: rgba(0,0,0,0.6);
+  }
   
-  background: rgba(255,255,255,0.8);
+  // background: rgba(255,255,255,0.8);
 }
 

@@ -147,6 +147,16 @@ body {
 	}
 }
 
+.card-image {
+	@extend .index-image;
+	margin: 10%;
+}
+
+.card-text {
+	padding: 10%;
+	text-align: center;
+}
+
 
 /* //////fonts//////// */
 
