@@ -16,7 +16,10 @@
 						</div>
 						
 						<div class="panel-body">
-							<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
+							<div class="rating-box">
+								<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
+								(<%= @recipe.ratings.size%>)
+							</div>
 						</div>
 					</div>
 				<% end %>

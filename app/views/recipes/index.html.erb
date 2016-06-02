@@ -1,73 +1,71 @@
 <script type="text/javascript">
-	$(function () {
-	  $('[data-toggle="popover"]').popover()
-	})
+	$(document).on('mouseenter', '.recipe-index', function() {
+		$(this).popover('show');
+	 });
 </script>
-
-	<div class="row">
-		<div class="col-md-12 text-center result-box">
-			<h2>Recipes</h2>
-		</div>
+	
+<div class="row">
+	<div class="col-md-12 text-center result-box">
+		<h2>Recipes</h2>
 	</div>
-	<!-- insert results from search here -->
-		<% if !@recipes.empty? %>
-			<div id="recipes" data-is-searched="false">
-				<% @recipes.in_groups_of(3, false) do |group| %>
-					<div class="row">
-						<% group.each do |recipe| %>
-							<div class="col-md-4" >
-								<div class="col-md-12 recipe-index">
-									<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
-									<p></p>
-									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
-									<p></p>
-									<p><h6>Posted on: <%= post_date(recipe) %></h6></p>
-									<% if recipe.try(:rating_avg) %>
-										<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
-									<% end %>
-									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
-									<div class="collapse" id="collapse<%=recipe.id%>">
-										<% recipe.comments.each do |comment| %>
-											<div class="comment-well">
-												<p><%= comment.content %></p>
-												<h6>posted on: <%= post_date(comment) %></h6>
-												<div class="recipe-profile-card">
-													<%= link_to (image_tag comment.commenter.avatar.url(:thumb), class: 'img-circle'), user_path(comment.commenter) %>
-													By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %>
-												</div>
+</div>
+<!-- insert results from search here -->
+	<% if !@recipes.empty? %>
+		<div id="recipes" data-is-searched="false">
+			<% @recipes.in_groups_of(3, false) do |group| %>
+				<div class="row">
+					<% group.each do |recipe| %>
+						<div class="col-md-4" >
+							<div class="col-md-12 recipe-index" title="" data-toggle="popover" data-trigger="hover" data-placement="auto left" data-content="<%=recipe.description%>" data-original-title="<%=titleize(recipe)%>">
+								<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
+
+								<p></p>
+								<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
+								<p></p>
+								<p><h6>Posted on: <%= post_date(recipe) %></h6></p>
+								<% if recipe.try(:rating_avg) %>
+									<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
+								<% end %>
+								<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+								<div class="collapse" id="collapse<%=recipe.id%>">
+									<% recipe.comments.each do |comment| %>
+										<div class="comment-well">
+											<p><%= comment.content %></p>
+											<h6>posted on: <%= post_date(comment) %></h6>
+											<div class="recipe-profile-card">
+												<%= link_to (image_tag comment.commenter.avatar.url(:thumb), class: 'img-circle'), user_path(comment.commenter) %>
+												By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %>
 											</div>
-										<% end %>
-									</div>
-									<div class="recipe-profile-card">
-										<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
-										Recipe by: <%= link_to recipe.user_name, user_path(recipe.user) %>
-									</div>
+										</div>
+									<% end %>
+								</div>
+								<div class="recipe-profile-card">
+									<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
+									Recipe by: <%= link_to recipe.user_name, user_path(recipe.user) %>
 								</div>
 							</div>
-						<% end %>
-					</div>
-				<% end %>
-			</div>
-		<% else %>
-			<div class="panel">
-				no recipes to display
-			</div>
-		<% end %>
-	</div>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	<% else %>
+		<div class="panel">
+			no recipes to display
+		</div>
+	<% end %>
+</div>
 
-	<!-- <p class='text-center'><a href="" id="get-recipes" class="btn btn-primary">See More Recipes</a></p> -->
-
-<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on top
-</button>
 
 
 <!-- template to inject recipe data into -->
 
 <script id="recipe-template" type="text/x-handlebars-template">
 	<div class="col-md-4">
-	  <div class="col-md-12 recipe-index">	
-			<a href="/recipes/{{recipe.id}}"><img class="index-image" src="{{recipe.image}}" alt="recipe image"></a>
+	  <div class="col-md-12 recipe-index" title="" data-toggle="popover" data-trigger="hover" data-placement="auto left" data-content="{{recipe.description}}" data-original-title="{{name}}">	
+			<a href="/recipes/{{recipe.id}}">
+				<img class="index-image" src="{{recipe.image}}" alt="recipe image">
+			</a>
 			<p></p>
 			<strong><a href="/recipes/{{recipe.id}}">{{name}}</a></strong>
 			<p></p>
@@ -100,15 +98,16 @@
 
 <script type="text/javascript">
 	function queryRecipes() {
-		if ($('#recipes').data('is-searched') === false) {
-			var data = { limit: 0 };
-			$(window).scroll(function() {
+		
+		var data = { limit: 0 };
+		$(window).scroll(function() {
+			if ($('#recipes').data('is-searched') === false) {
 		    if($(window).scrollTop() + $(window).height() == $(document).height()) {
 		     	data["limit"] += 9;
 		      getMoreRecipes(data);
 		    }
-		  });
-		};
+	    };
+	  });
 	}
 
 	function getMoreRecipes(data) {	
@@ -120,18 +119,7 @@
 
 	queryRecipes();
 	searchRecipes();
-	navScrollFill(406);		
-
-	function showPopover() {
-		$(".btn-secondary").on('mouseover', function() {
-			$(this).popover('show');
-		});
-		$(".btn-secondary").on('mouseout', function() {
-			$(this).popover('hide');
-		})
-	}
-
-	showPopover();
+	navScrollFill(406);
 
 </script>
 

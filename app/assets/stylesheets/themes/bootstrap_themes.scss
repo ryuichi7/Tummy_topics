@@ -32,6 +32,44 @@ body {
     font-family: 'Pacifico', cursive;
 }
 
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+  color: rgba(100, 100, 100, 0.6);
+}
+
+.navbar-inverse .navbar-brand {
+  font-family: 'Pacifico';
+  color: black;
+  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-color: white;
+}
+
+.navbar-inverse .navbar-brand:hover {
+  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-color: black;
+}
+
+.panel {
+  .panel-heading {
+    background: rgba(255, 255, 255, 0.6);
+  };
+  
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.form-control {
+  background: rgba(255, 255, 255, 0.8)
+}
+
 .dropdown {
 	padding-top: 1%;
 }
+
+/*/////popover stylings//////*/
+
+.popover {
+  z-index: 1;
+  color: rgba(0,0,0,0.8);
+  
+  background: rgba(255,255,255,0.8);
+}
+
