@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	$(document).on('mouseenter', '.recipe-index', function() {
+	$(document).on('mouseenter', '.index-image', function() {
 		$(this).popover('show');
 	 });
 </script>
@@ -16,9 +16,8 @@
 				<div class="row">
 					<% group.each do |recipe| %>
 						<div class="col-md-4" >
-							<div class="col-md-12 recipe-index" title="" data-toggle="popover" data-trigger="hover" data-placement="auto left" data-content="<%=recipe.description%>" data-original-title="<%=titleize(recipe)%>">
-								<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
-
+							<div class="col-md-12 recipe-index">
+								<div class='image-hover'><%= link_to (image_tag recipe.image.url(:original), class: 'index-image', title:titleize(recipe), data: { toggle: "popover", trigger:"hover", placement:"auto left", content: recipe.description }), recipe_path(recipe) %></div>
 								<p></p>
 								<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
 								<p></p>
@@ -62,10 +61,12 @@
 
 <script id="recipe-template" type="text/x-handlebars-template">
 	<div class="col-md-4">
-	  <div class="col-md-12 recipe-index" title="" data-toggle="popover" data-trigger="hover" data-placement="auto left" data-content="{{recipe.description}}" data-original-title="{{name}}">	
-			<a href="/recipes/{{recipe.id}}">
-				<img class="index-image" src="{{recipe.image}}" alt="recipe image">
-			</a>
+	  <div class="col-md-12 recipe-index">
+	  	<div class='image-hover'>	
+				<a href="/recipes/{{recipe.id}}">
+					<img class="index-image" title="" data-toggle="popover" data-trigger="hover" data-placement="auto left" data-content="{{recipe.description}}" data-original-title="{{name}}" src="{{recipe.image}}" alt="recipe image">
+				</a>
+			</div>
 			<p></p>
 			<strong><a href="/recipes/{{recipe.id}}">{{name}}</a></strong>
 			<p></p>
@@ -97,18 +98,18 @@
 </script>
 
 <script type="text/javascript">
-	function queryRecipes() {
+	
 		
-		var data = { limit: 0 };
-		$(window).scroll(function() {
-			if ($('#recipes').data('is-searched') === false) {
-		    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-		     	data["limit"] += 9;
-		      getMoreRecipes(data);
-		    }
-	    };
-	  });
-	}
+	var data = { limit: 0 };
+	$(window).scroll(function() {
+		if ($('#recipes').data('is-searched') === false) {
+	    if($(window).scrollTop() + $(window).height() == $(document).height()) {
+	     	data["limit"] += 9;
+	      getMoreRecipes(data);
+	    }
+    };
+  });
+	
 
 	function getMoreRecipes(data) {	
 		$.get('/recipes.json', data, function(response) {
@@ -117,9 +118,14 @@
 		});	
 	}
 
-	queryRecipes();
 	searchRecipes();
 	navScrollFill(406);
+
+	$(document).on('mouseover', '.index-image', function () {
+		$(this).fadeTo(200,0.6)
+	}).on('mouseout', '.index-image', function() {
+		$(this).fadeTo(200,1)
+	})
 
 </script>
 
