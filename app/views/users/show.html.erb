@@ -54,8 +54,23 @@
 									</div>
 									
 									<p></p>
-									<p><%= link_to 'edit', edit_recipe_path(recipe) if can? :update, recipe %>
-									<%= link_to 'delete', recipe_path(recipe), method: 'DELETE', data: { confirm: 'Are you sure?' } if can? :destroy, recipe %></p>
+									<p><%= link_to 'edit', "#recipeModal_#{recipe.id}", class: 'btn btn-default btn-xs', data: { toggle: "modal", target: "#recipeModal_#{recipe.id}" }  if can? :update, recipe %>
+									<%= link_to 'delete', recipe_path(recipe), class: 'btn btn-default btn-xs',method: 'DELETE', data: { confirm: 'Are you sure?' } if can? :destroy, recipe %></p>
+
+									<div class="modal fade" id="recipeModal_<%=recipe.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+									  <div class="modal-dialog" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h4 class="modal-title" id="myModalLabel">Edit Recipe</h4>
+									      </div>
+									      <div class="modal-body">
+									        <%= render partial: 'recipes/form', locals: { recipe: recipe} %>
+									      </div>
+									    </div>
+									  </div>
+									</div>
+
 
 								</div>
 							</div>
@@ -69,6 +84,41 @@
 			no recipes to display
 		</div>
 	<% end %>
+
+	<div id="dialog" title="Tummy Topics">Recipe Successfully Updated!</div>
+
+	<script type="text/javascript">
+		$('form.edit_recipe').on('submit', function(e) {
+			e.preventDefault();
+			var values = $(this).serialize();
+			var url = $(this).attr('action')
+			$.ajax({
+				url: url,
+				method: 'PATCH',
+				data: values
+			}).done(function(response) {
+				var recipe = response.recipe
+				$('#recipeModal_' + recipe.id).modal('hide');
+				$('form').clear_previous_errors();	
+				$("#dialog").dialog( "open" );
+			}).fail(function(response) {
+				$('form').clear_previous_errors();
+				var modalForm = $('form[action="' + this.url + '"]')
+				$.each(response.responseJSON, function(field, message) {
+					var element;
+					if (field === 'ingredients_attributes') {
+						element = $(modalForm).find('[name="recipe[ingredients_attributes][][name]"]');
+					} else {
+						element = $(modalForm).find('[name="recipe[' + field + ']"]');
+					}; 
+					$(element).closest('.form-group').addClass('has-error').append('<span class="help-block">' + message[0] + '</span>');
+				})
+			})
+		})
+
+		$( "#dialog" ).dialog({ autoOpen: false, modal: true });
+
+	</script>
 
 
 

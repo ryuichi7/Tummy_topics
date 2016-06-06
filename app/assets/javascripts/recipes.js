@@ -225,6 +225,13 @@ $(document).ready(function() {
 	// });	
 });
 
+ $.prototype.clear_previous_errors = function () {
+    $('.form-group.has-error', this).each(function(){
+      $('.help-block', $(this)).remove();
+      $(this).removeClass('has-error');
+    });
+  }
+
 
 
 

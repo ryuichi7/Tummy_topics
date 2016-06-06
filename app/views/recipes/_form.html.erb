@@ -17,19 +17,15 @@
 		<% end %>
 	</div>
 	
-	<div class="panel panel-default">	
-		<div class="panel-heading"><%= f.label 'Ingredients:' %></div>
-		<div class="panel-body">
-			<% if recipe.errors[:ingredients_attributes].any? %>
-				<div class="form-group has-error" >
-					<span class="help-block"><%= recipe.errors.full_messages_for(:ingredients_attributes).to_sentence %></span>
-				</div>
-			<% end %>
-			<%= f.fields_for :ingredients_attributes do |ingredients| %>
-				<%= render 'ingredients/fields', ingredients: ingredients %>
-			<% end %>
-			<div id="new-form"></div>
-		</div>
+	<div class="form-group <%= 'has-error' if recipe.errors[:ingredients_attributes].any? %>">	
+		<%= f.label 'Ingredients:', class: "control-label" %><br>
+		<%= f.fields_for :ingredients_attributes do |ingredients| %>
+			<%= render 'ingredients/fields', ingredients: ingredients %>
+		<% end %>
+		<div id="new-form"></div>
+		<% if recipe.errors[:ingredients_attributes].any? %>
+				<span class="help-block"><%= recipe.errors.full_messages_for(:ingredients_attributes).to_sentence %></span>
+		<% end %>
 	</div>
 	
 	<div class='form-group'>

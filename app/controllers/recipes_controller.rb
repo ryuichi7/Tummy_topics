@@ -40,9 +40,9 @@ class RecipesController < ApplicationController
 
 	def update
 		if @recipe.update(recipe_params)
-			redirect_to @recipe, flash: { success: "recipe successfully updated" }
+			render json: @recipe, status: :created
 		else
-			render :edit
+			render json: @recipe.errors, status: :unprocessable_entity
 		end
 	end
 
