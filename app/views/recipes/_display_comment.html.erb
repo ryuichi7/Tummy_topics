@@ -1,7 +1,8 @@
 <% comments.each do |comment| %>
 	<div class="panel panel-default comment">
 		<div class="panel-heading">
-			<strong><%= link_to comment.commenter.email_name, user_path(comment.commenter) %></strong> 
+				<%= link_to (image_tag comment.commenter.avatar.url(:thumb), class: 'img-circle'), user_path(comment.commenter) %>
+				<%= link_to comment.commenter.email_name, user_path(comment.commenter) %>
 				posted on: <%= post_date(comment) %><br>
 		</div>
 		<div class="panel-body">
@@ -11,3 +12,4 @@
 		</div>
 	</div>
 <% end %>
+

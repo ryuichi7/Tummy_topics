@@ -66,12 +66,11 @@
 	</div>
 </div>
 
-
-
-<% "<strong>Comments:</strong>" unless @recipe.comments.empty? %>
+<h2><%= "Comments:" unless @recipe.comments.empty? %></h2>
 	
-		
-<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
+<div id='comments_display'>
+	<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
+</div>	
 <div class="row">
 	<div class="col-md-6">
 		<div class="panel panel-default" id="comment_form" >
@@ -116,9 +115,11 @@
 	</div>
 </div>
 
+<div id="dialog" title="Tummy Topics">Thanks for your comment!</div>
 
-
-
+<script type="text/javascript">
+	$("#dialog").dialog({ autoOpen: false, modal: true });
+</script>
 
 
 

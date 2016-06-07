@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
 		respond_to do |f|
 			if @comment.save
 				f.html { redirect_to recipe_path(@comment.recipe)}
-				f.js { render action: :create, status: :created, location: @comment }
+				f.js {}
 			else
 				f.html { redirect_to :back, alert: "please properly fill in comment field" }
 				f.js { render json: @comment.errors, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class CommentsController < ApplicationController
 		@comment.destroy
 
 		respond_to do |f|
-			f.js { flash.now[:alert] = "comment successfully destroyed" }
+			f.js {}
 		end
 	end
 
