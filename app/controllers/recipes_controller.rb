@@ -3,11 +3,8 @@ class RecipesController < ApplicationController
 	
 
 	def index
-		if params[:user_id]
-			@recipes = User.find(params[:user_id]).recipes.alphabetized
-		else
-			@recipes = Recipe.alphabetized.limit(9).offset(params[:limit])
-		end
+		@recipes = Recipe.alphabetized.limit(9).offset(params[:limit])
+		
 		respond_to do |f|
 			f.html { render :layout => 'recipe_index' }
 		  f.json { render json: @recipes }

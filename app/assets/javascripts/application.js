@@ -19,4 +19,4 @@
 //= require bootstrap-sprockets
 //= require ratings
 //= require recipes
-
+//= require errors

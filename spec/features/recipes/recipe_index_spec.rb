@@ -20,4 +20,14 @@ feature 'display recipes' do
   	expect(page).to have_content(recipe.name.titleize)
   end
 
+  scenario "index page displays only 9 recipes on load" do
+    10.times do
+      recipe = FactoryGirl.create(:recipe)
+      recipe.user = user
+      recipe.save
+    end
+    visit '/recipes'
+    expect(page).to have_css('div.col-md-4', count: 9)
+  end
+
 end

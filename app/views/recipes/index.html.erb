@@ -99,17 +99,26 @@
 
 <script type="text/javascript">
 	
-		
-	var data = { limit: 0 };
-	$(window).scroll(function() {
-		if ($('#recipes').data('is-searched') === false) {
-	    if($(window).scrollTop() + $(window).height() == $(document).height()) {
-	     	data["limit"] += 9;
-	      getMoreRecipes(data);
-	    }
-    };
-  });
-	
+	function appendRecipes() {
+		var data = { limit: 0 };
+		$(window).scroll(function() {
+			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+				if ($('#recipes').data('is-searched') === false) {
+		     	data["limit"] += 9;
+		      getMoreRecipes(data);
+			    
+		    } else if ($('#recipes').data('is-searched') === true) {
+	    		
+	    		var limit = $('form').data('search-limit')
+	    		$('form').data('search-limit', limit + 9)
+		     	data["limit"] = limit + 9
+		     	data["query"] = $('form').data('current-query');
+
+		      postSearch(data);
+		    }
+		  }
+	  });
+	}
 
 	function getMoreRecipes(data) {	
 		$.get('/recipes.json', data, function(response) {
@@ -118,6 +127,7 @@
 		});	
 	}
 
+	appendRecipes()
 	searchRecipes();
 	navScrollFill(406);
 
