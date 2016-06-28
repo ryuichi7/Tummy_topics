@@ -171,14 +171,17 @@ function postSearch(data) {
 			$('.alert').remove();
 			$('.result-box').empty();
 			$('#recipes').before('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Sorry no results found. Please refine your search</div>')
+			alertTimeout();
 		}
 	});
 }
 
+
 // Loaded document actions //
 
 $(document).ready(function() {
-	
+
+	alertTimeout();
 	// append extra ingredient forms to DOM
 	addRecipeForm();
 	

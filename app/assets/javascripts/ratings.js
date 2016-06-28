@@ -17,6 +17,7 @@ $(function() {
 				if (response.status === 500) {
 					$('.alert').remove();
 					$("#rating").children('.panel-body').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please sign in to create a rating!</div>');
+					alertTimeout();
 				} else {
 					$("#star").parent().addClass("has-error").find(".help-block").html(response.responseJSON.score[0])
 				}
@@ -24,6 +25,7 @@ $(function() {
 		} else {
 			$('.alert').remove();
 			$("#rating").children('.panel-body').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>You can only rate a recipe once!</div>');
+			alertTimeout();
 		}
 
 	});

@@ -20,3 +20,5 @@
 //= require ratings
 //= require recipes
 //= require errors
+//= require alert
+

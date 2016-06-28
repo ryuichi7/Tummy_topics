@@ -13,6 +13,7 @@ $(document).bind('ajaxSuccess','form#new_comment', function(event, xhr, settings
 		$('.alert').remove();
 		if (xhr.status === 500) {
 			$("#comment_form").children('.panel-body').prepend('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please sign in to create a comment!</div>');
+			alertTimeout();
 		} else {
 			$('textarea#comment_content').closest(".form-group").addClass('has-error')
 			.find('.help-block').html($.parseJSON(xhr.responseText).content);
