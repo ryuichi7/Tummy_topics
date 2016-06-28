@@ -58,4 +58,5 @@ Questions for peter:
 -recipe ingredients attributes: find better way to deal with updating field(not using #persisted?)
 -use cucumber or possibly protractor for BDD? want to test asynchronous db queries on recipe index page.
 - how can I beter organize my js files?
+- how an I create better search functionality?
 
