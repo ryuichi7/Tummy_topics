@@ -7,16 +7,13 @@ Also gives users the ability to leave comments and anonymously rate other recipe
 
 ## Usage
 
-Fork this repo 
+- Fork this repo 
+- Clone your fork
+- cd tummy_topics
+- bundle install
+- rake db:migrate
+- rails s
 
-Run:
-```shell
-$ rake db:migrate
-```
-Then:
-```shell
-$ rails s
-```
 Create a user and list your recipes!
 
 ## Todo
