@@ -1,7 +1,0 @@
-== README
-
-A place for users to list their favorite recipes and get feedback and tips from chef's and other users!
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.

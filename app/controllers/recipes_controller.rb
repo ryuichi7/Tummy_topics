@@ -1,10 +1,10 @@
 class RecipesController < ApplicationController
 	load_and_authorize_resource
-	
+
 
 	def index
 		@recipes = Recipe.alphabetized.limit(9).offset(params[:limit])
-		
+
 		respond_to do |f|
 			f.html { render :layout => 'recipe_index' }
 		  f.json { render json: @recipes }
@@ -17,7 +17,7 @@ class RecipesController < ApplicationController
 
 	def create
 		@recipe = current_user.recipes.build(recipe_params)
-		
+
 		if @recipe.save
 			redirect_to @recipe, flash: { success: "recipe successfully created" }
 		else
@@ -27,12 +27,12 @@ class RecipesController < ApplicationController
 
 	def show
 		respond_to do |f|
-			f.html { render :show }	
+			f.html { render :show }
 			f.json { render json: @recipe }
 		end
 	end
 
-	def edit	
+	def edit
 	end
 
 	def update
@@ -43,7 +43,6 @@ class RecipesController < ApplicationController
 		end
 	end
 
-
 	def destroy
 		@recipe.destroy
 		redirect_to user_path(current_user), flash: { alert: "Your recipe has been deleted" }
@@ -53,7 +52,16 @@ class RecipesController < ApplicationController
 	private
 
 	def recipe_params
-		params.require(:recipe).permit(:name, :user_id, :description, :directions, :image, ingredients_attributes: [:name, :measurement])
+		params
+		.require(:recipe)
+		.permit(
+			:name,
+			:user_id,
+			:description,
+			:directions,
+			:image,
+			ingredients_attributes: [:name, :measurement]
+		)
 	end
 
 end

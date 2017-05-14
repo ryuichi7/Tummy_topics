@@ -1,11 +1,11 @@
 <div class='panel panel-default' id="main-content" >
 	<div class="panel-heading">
-		<h2><%= titleize(@recipe) %></h2> 
+		<h2><%= titleize(@recipe) %></h2>
 	</div>
-	<div class='panel-body'> 
+	<div class='panel-body'>
 		<div class="row">
 			<div class="col-md-6">
-				by <%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %> 
+				by <%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %>
 				<p>posted on: <%= post_date(@recipe) %></p>
 				<p></p>
 
@@ -14,7 +14,7 @@
 						<div class="panel-heading">
 							<strong>Overall rating:</strong>
 						</div>
-						
+
 						<div class="panel-body">
 							<div class="rating-box">
 								<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
@@ -23,7 +23,7 @@
 						</div>
 					</div>
 				<% end %>
-				
+
 				<div class='panel panel-default' >
 					<div class="panel-heading">
 						<strong>Description:</strong>
@@ -31,10 +31,10 @@
 					<div class="panel-body">
 						<%= @recipe.description %>
 					</div>
-				</div>	
-					
+				</div>
+
 				<div class='panel panel-default' >
-					<div class="panel-heading">	
+					<div class="panel-heading">
 						<strong>Ingredients:</strong>
 					</div>
 					<div class="panel-body">
@@ -45,7 +45,7 @@
 						</ul>
 					</div>
 				</div>
-				
+
 				<div class='panel panel-default' >
 					<div class="panel-heading">
 						<strong>Directions:</strong>
@@ -67,17 +67,17 @@
 </div>
 
 <h2><%= "Comments:" unless @recipe.comments.empty? %></h2>
-	
+
 <div id='comments_display'>
 	<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
-</div>	
+</div>
 <div class="row">
 	<div class="col-md-6">
 		<div class="panel panel-default" id="comment_form" >
 			<div class="panel-heading">
 				<strong>Comment on this recipe:</strong>
 			</div>
-			
+
 			<div class="panel-body">
 				<%= form_for @recipe.comments.build, remote: true, action: comments_path, method: 'post' do |f| %>
 					<%= f.hidden_field :recipe_id, value: @recipe.id %>
@@ -99,7 +99,7 @@
 			<div class="panel-heading">
 				<strong>Rate this recipe:</strong>
 			</div>
-			
+
 			<div class="panel-body">
 				<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
 					<%= f.hidden_field :recipe_id, value: @recipe.id %>
@@ -120,14 +120,3 @@
 <script type="text/javascript">
 	$("#dialog").dialog({ autoOpen: false, modal: true });
 </script>
-
-
-
-
-
-
-
-
-
-
-

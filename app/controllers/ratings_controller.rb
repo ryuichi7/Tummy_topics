@@ -3,7 +3,6 @@ class RatingsController < ApplicationController
 
 	def create
 		@rating = current_user.ratings.build(rating_params)
-		
 
 		if @rating.save
 			render json: @rating, status: :created
@@ -18,5 +17,3 @@ class RatingsController < ApplicationController
 		params.require(:rating).permit(:score, :recipe_id)
 	end
 end
-
-

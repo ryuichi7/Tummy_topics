@@ -6,14 +6,14 @@ class CommentsController < ApplicationController
 			@comments = User.find(params[:user_id]).comments.dated
 		elsif params[:commenter_id]
 			@reviews = User.find(params[:commenter_id]).reviews.dated
-		else 
+		else
 			@comments = Comment.dated
 		end
 	end
 
 	def create
 		@comment = current_user.comments.build(comment_params)
-		
+
 		respond_to do |f|
 			if @comment.save
 				f.html { redirect_to recipe_path(@comment.recipe)}
