@@ -1,0 +1,13 @@
+<div class="panel panel-default comment">
+	<div class="panel-heading">
+			<%= link_to (image_tag comment.commenter.avatar.url(:thumb), class: 'img-circle'), user_path(comment.commenter) %>
+			<%= link_to comment.commenter.email_name, user_path(comment.commenter) %>
+			posted on: <%= post_date(comment) %><br>
+	</div>
+	<div class="panel-body">
+		<p><%= comment.content %></p>
+		<p><%= link_to "edit", edit_comment_path(comment), class: "btn btn-default btn-xs" if can? :update, comment %> 
+ 			<%= link_to "delete", comment_path(comment), remote: true, method: "DELETE", class: "btn btn-default btn-xs" if can? :destroy, comment %></p>
+	</div>
+</div>
+

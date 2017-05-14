@@ -11,6 +11,14 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require jquery.raty.min
+// require autocomplete-rails
+//= require tether
+//= require bootstrap-sprockets
+//= require ratings
+//= require recipes
+//= require errors
+//= require alert
+

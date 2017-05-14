@@ -1,41 +1,145 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h2>Search:</h2>
-	</div>
-	<div class="panel-body">
-		<%= form_tag recipes_path, method: 'get' do %>
-			<%= text_field_tag :search, nil, class: "form-control comment", placeholder: "enter recipe name here" %><br>
-			<%= submit_tag 'Search Recipes', class: "btn btn-primary" %>
-		<% end %>
-		<p></p>
-		<p><%= link_to "other search options", search_path %></p>
+<script type="text/javascript">
+	$(document).on('mouseenter', '.index-image', function() {
+		$(this).popover('show');
+	 });
+</script>
+	
+<div class="row">
+	<div class="col-md-12 text-center result-box">
+		<h2>Recipes</h2>
 	</div>
 </div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h2>Recipes:</h2>
-	</div>
+<!-- insert results from search here -->
 	<% if !@recipes.empty? %>
-		<div class="panel-body">
-		 	<% @recipes.each do |recipe| %>
-		 		<div class="panel panel-default comment">		
-				 	<div class="panel-heading">
-					 	<p><strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong> by
-					 	 	<%= link_to recipe.user_name, user_path(recipe.user) %></p>
-					</div>
-					<div class="panel-body">
-						<p>posted on: <%= post_date(recipe) %></p>
-					 	<p><%= "Rating: #{recipe.rating_avg}" if recipe.try(:rating_avg) %></p>
-					 	<p><%= link_to "edit", edit_recipe_path(recipe), class: "btn btn-default btn-xs" if can? :update, recipe %>
-					 		<%= link_to "delete", recipe_path(recipe), method: "DELETE", class: "btn btn-default btn-xs" if can? :destroy, recipe %></p>
-					</div>
+		<div id="recipes" data-is-searched="false">
+			<% @recipes.in_groups_of(3, false) do |group| %>
+				<div class="row">
+					<% group.each do |recipe| %>
+						<div class="col-md-4" >
+							<div class="col-md-12 recipe-index">
+								<div class='image-hover'><%= link_to (image_tag recipe.image.url(:original), class: 'index-image', title:titleize(recipe), data: { toggle: "popover", trigger:"hover", placement:"auto left", content: recipe.description }), recipe_path(recipe) %></div>
+								<p></p>
+								<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
+								<p></p>
+								<p><h6>Posted on: <%= post_date(recipe) %></h6></p>
+								<% if recipe.try(:rating_avg) %>
+									<div class="rating-box"><div class="display-rating" data-rating=<%=recipe.rating_avg%>></div> (<%= recipe.ratings.size%>)</div>
+								<% end %>
+								<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+								<div class="collapse" id="collapse<%=recipe.id%>">
+									<% recipe.comments.each do |comment| %>
+										<div class="comment-well">
+											<p><%= comment.content %></p>
+											<h6>posted on: <%= post_date(comment) %></h6>
+											<div class="recipe-profile-card">
+												<%= link_to (image_tag comment.commenter.avatar.url(:thumb), class: 'img-circle'), user_path(comment.commenter) %>
+												By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %>
+											</div>
+										</div>
+									<% end %>
+								</div>
+								<div class="recipe-profile-card">
+									<%= link_to (image_tag recipe.user.avatar.url(:thumb), class: 'img-circle'), user_path(recipe.user) %>
+									Recipe by: <%= link_to recipe.user_name, user_path(recipe.user) %>
+								</div>
+							</div>
+						</div>
+					<% end %>
 				</div>
 			<% end %>
 		</div>
 	<% else %>
-		<div class="panel-body">
+		<div class="panel">
 			no recipes to display
 		</div>
 	<% end %>
 </div>
+
+
+
+<!-- template to inject recipe data into -->
+
+<script id="recipe-template" type="text/x-handlebars-template">
+	<div class="col-md-4">
+	  <div class="col-md-12 recipe-index">
+	  	<div class='image-hover'>	
+				<a href="/recipes/{{recipe.id}}">
+					<img class="index-image" title="" data-toggle="popover" data-trigger="hover" data-placement="auto left" data-content="{{recipe.description}}" data-original-title="{{name}}" src="{{recipe.image}}" alt="recipe image">
+				</a>
+			</div>
+			<p></p>
+			<strong><a href="/recipes/{{recipe.id}}">{{name}}</a></strong>
+			<p></p>
+      <h6>Posted on: {{recipe.postDate}}</h6>
+			{{#if rating}}
+				<div class="rating-box"><div class="display-rating" data-rating={{rating}}></div> ({{ratingLength}})</div>
+			{{/if}}
+			{{#if recipe.comments}}
+				<button name="button" type="submit" class="see-comments btn btn-default collapsed" data-id="{{recipe.id}}" data-toggle="collapse" data-target="#collapse{{recipe.id}}" aria-expanded="false">See Comments</button>
+				<div class="collapse" id="collapse{{recipe.id}}">
+					{{#each recipe.comments}}
+						<div class='comment-well'>
+							<p>{{this.content}}</p>
+							<h6>Posted on: {{this.post_date}}</h6>
+							<div class="recipe-profile-card">
+								<a href="/users/{{this.commenter.id}}"><img class="img-circle" src="{{this.commenter.thumb}}" alt="User thumb"></a>
+								By: <a href="/users/{{this.commenter.id}}">{{this.commenter.email_name}}</a>
+							</div>
+						</div>
+					{{/each}}
+				</div>
+			{{/if}}
+			<div class="recipe-profile-card">
+				<a href="/users/{{user.id}}"><img class="img-circle" src="{{user.thumb}}" alt="User thumb"></a>
+				Recipe by: <a href="/users/{{user.id}}">{{user.email_name}}</a>
+			</div>
+	  </div>
+  </div>
+</script>
+
+<script type="text/javascript">
+	
+	function appendRecipes() {
+		var data = { limit: 0 };
+		$(window).scroll(function() {
+			if($(window).scrollTop() + $(window).height() == $(document).height()) {
+				if ($('#recipes').data('is-searched') === false) {
+		     	data["limit"] += 9;
+		      getMoreRecipes(data);
+			    
+		    } else if ($('#recipes').data('is-searched') === true) {
+	    		
+	    		var limit = $('form').data('search-limit')
+	    		$('form').data('search-limit', limit + 9)
+		     	data["limit"] = limit + 9
+		     	data["query"] = $('form').data('current-query');
+
+		      postSearch(data);
+		    }
+		  }
+	  });
+	}
+
+	function getMoreRecipes(data) {	
+		$.get('/recipes.json', data, function(response) {
+			var recipes = response.recipes;
+			parseAndDisplay(recipes);
+		});	
+	}
+
+	appendRecipes()
+	searchRecipes();
+	navScrollFill(406);
+
+	$(document).on('mouseover', '.index-image', function () {
+		$(this).fadeTo(200,0.6)
+	}).on('mouseout', '.index-image', function() {
+		$(this).fadeTo(200,1)
+	})
+
+</script>
+
+
+
+
+

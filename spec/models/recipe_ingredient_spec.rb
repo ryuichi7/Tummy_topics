@@ -18,7 +18,7 @@ RSpec.describe RecipeIngredient, type: :model do
 
 	describe "associations" do
 		it "belongs to recipe" do
-			recipe_ingredient.recipe = recipe
+			recipe.recipe_ingredients.build(ingredient: ingredient)
 
 			expect(recipe_ingredient.recipe).to eq(recipe)
 		end

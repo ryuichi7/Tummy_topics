@@ -10,100 +10,155 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.eot"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.woff"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.ttf"
  //= depend_on_asset "bootstrap/glyphicons-halflings-regular.svg"
  */
+@import "bootstrap-sprockets";
 @import "bootstrap";
-/* Some Style from the Bootstrap Default Theme */
-body {
-  padding-top: 70px;
-  padding-bottom: 30px;
+@import "themes/form";
+@import "themes/bootstrap_themes";
+@import "themes/comment_styles";
+@import "ratings";
+@import "recipes";
+@import url(https://fonts.googleapis.com/css?family=Chewy);
+@import url(https://fonts.googleapis.com/css?family=Pacifico);
+@import url(https://fonts.googleapis.com/css?family=Indie+Flower);
+@import url(https://fonts.googleapis.com/css?family=Cantarell);
+
+
+
+body { 
+  background: rgba(255, 255, 255, 0.6) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
-.theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
+.search-moment-container {
+	background: url(/assets/vegetables.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 486px;
+  line-height: 0;
+  position: relative;
+  width: 100%;
+  margin-top: -100px;
+  h2 {
+  	text-transform: uppercase;
+  	color: white;
+  	font-family: 'Cantarell', sans-serif;
+  	margin-top: 5%;
+  };
+  form {
+  	margin: 2%;
+  	input {
+  		border-radius: 0px;
+  	};
+  	.btn {
+  		border-radius: 0px;
+  		margin: 0px 0px 2px -4px;
+  		border: solid .5px;
+			background: grey;
+  	};
+  };
+  a.btn {
+		border: solid .5px;
+		background: none;
+	};
+	a.btn:hover {
+			background: rgba(255, 255, 255, 0.6);
+	};
 }
 
-.theme-showcase > p > .btn {
-  margin: 5px 0;
+.main {
+	text-align: center;
+	a.btn {
+		border: solid .5px;
+		background: none;
+	};
+	a.btn:hover {
+			background: rgba(255, 255, 255, 0.6);
+	};
+
 }
 
 #main {
+	background: none;
+	height: 100%;
+	padding-top: 20px;
+}
+
+.logo {
+	h1 {
+		font-size: 100px;
+		color: white;
+	  // -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+	  // -webkit-text-stroke-width: 2px;
+	  // -webkit-text-stroke-color: black;
+	};
+	p {
+		font-size: 25px;
+		margin-top: 20px;
+		color: white;
+	};
+	font-family: 'Cantarell', sans-serif;
+  text-align: center;
+  margin-top: 9%; 
+}
+
+#front-logo {
+	text-align: center;
+	img {
+		height: 200px;
+		widows: 200px;
+	}
+}
+
+.fill {
+	fill: white;
+}
+
+.card-link {
+	font-family: 'Chewy';
+	font-size: 20px;
+	color: #333333;
+	  // -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+	  -webkit-text-stroke-width: .5px;
+	  -webkit-text-stroke-color: black;
+	margin-bottom: 5%;
+}
+
+.card-link:hover {
+	color: #a6a6a6;
+	text-decoration: none;
+}
+
+
+.card-image {
+	@extend .index-image;
+	margin: 10%;
+}
+
+.card-text {
+	padding: 10%;
 	text-align: center;
 }
 
-.navbar {
-	background: #F2F2F2;
-	border-bottom: solid 1px #B6B6B6;
-}
 
-.dropdown {
-	padding-top: 1%;
-}
+/* //////fonts//////// */
 
-.comment {
-  width: 40%;
-}
-
-.form {
-  width: 70%;
-}
-
-#display {
-	border-radius: 10px;
-	background: #f5f5f5;
-	width: 40%;
-	margin: 1%;
-	padding: 1%;
-	box-shadow: 1px 1px 1px 1px #ddd;
+h2 {
+	font-family: 'Chewy';
 }
 
 
-textarea {
-  border:1px solid #999999;
-  width:100%;
-  margin:5px 0;
-  padding:3px;
-}
 
 
-#notice {
-  color: green;
-}
 
-.field_with_errors {
-  padding: 2px;
-  background-color: red;
-  display: table;
-}
 
-#error_explanation {
-  width: 450px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 0;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
 
-  h2 {
-    text-align: left;
-    font-weight: bold;
-    padding: 5px 5px 5px 15px;
-    font-size: 12px;
-    margin: -7px;
-    margin-bottom: 0px;
-    background-color: #c00;
-    color: #fff;
-  }
-
-  ul li {
-    font-size: 12px;
-    list-style: square;
-  }
-}

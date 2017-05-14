@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-	let(:recipe) { Recipe.create(name: "new recipe", directions: "ingredient directions", description: "yummy") }
+	let(:recipe) { Recipe.create(name: "new recipe", directions: "ingredient directions", description: "yummy", ingredients: [ingredient2]) }
 	let(:user) { User.create(email: "test@mail.com", password: "test1234") }
 	let(:user2) { User.create(email: "test2@mail.com", password: "test1234") }
 	let(:ingredient) { Ingredient.create(name: "carrot") }

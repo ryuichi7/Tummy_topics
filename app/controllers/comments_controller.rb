@@ -6,19 +6,22 @@ class CommentsController < ApplicationController
 			@comments = User.find(params[:user_id]).comments.dated
 		elsif params[:commenter_id]
 			@reviews = User.find(params[:commenter_id]).reviews.dated
-		else 
+		else
 			@comments = Comment.dated
 		end
 	end
 
 	def create
-		@comment = Comment.new(comment_params)
-		@comment.commenter = current_user
-		
-		if @comment.save
-			redirect_to recipe_path(@comment.recipe), alert: "Thanks for your comment!"
-		else
-			redirect_to :back, alert: "please properly fill in comment field"
+		@comment = current_user.comments.build(comment_params)
+
+		respond_to do |f|
+			if @comment.save
+				f.html { redirect_to recipe_path(@comment.recipe)}
+				f.js {}
+			else
+				f.html { redirect_to :back, alert: "please properly fill in comment field" }
+				f.js { render json: @comment.errors, status: :unprocessable_entity }
+			end
 		end
 	end
 
@@ -27,22 +30,25 @@ class CommentsController < ApplicationController
 
 	def update
 		if @comment.update(comment_params)
-			redirect_to user_path(@comment.commenter), alert: "successfully updated"
+			redirect_to user_path(@comment.commenter), flash: { success: "successfully updated" }
 		else
-			render :edit, alert: "please fill in all fields"
+			render :edit, flash: { alert: "please fill in all fields" }
 		end
 	end
 
 	def destroy
 		@comment.destroy
-		redirect_to recipes_path, alert: "comment successfully destroyed"
+
+		respond_to do |f|
+			f.js {}
+		end
 	end
 
 
 	private
 
 	def comment_params
-		params.require(:comment).permit(:content, :recipe_id, :commenter_id)
+		params.require(:comment).permit(:content, :recipe_id)
 	end
 
 end

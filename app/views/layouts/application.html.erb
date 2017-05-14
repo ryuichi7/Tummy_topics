@@ -2,26 +2,28 @@
 <html>
 <head>
   <title>TummyTopics</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 </head>
 <body>
 	<header>
 		<%= render "layouts/nav" %>
 	</header>
 
-	<div class="container">
-		<% flash.each do |key, value| %>
-    	<%= content_tag(:div, class: flash_class(key)) do %>
-    		<%= value %>
-    	<% end %>
-  	<% end %>
+	<div class="container" id="main">
+
+		<%= flash_messages %>
+		
 		
 		<%= yield %>
 	</div>
+
+	<script type="text/javascript">
+		navScrollFill(39);
+	</script>
 
 </body>
 </html>

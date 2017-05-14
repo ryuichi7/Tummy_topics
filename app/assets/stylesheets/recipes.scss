@@ -4,6 +4,39 @@
 
 
 
-h2.title { 
+
+.recipe-profile-card {
+  border-top: 1px dotted #e6e6e6;
+  padding-top: 3%;
+  margin-top: 3%;
+}
+
+.index-image {
+	width: 100%;
+	box-shadow: 0 0 2px 1px #CCC;
+}
+
+.recipe-index {
+	padding: 10px 15px;
+  border-radius: 3px;
+	background: rgba(255, 255, 255, 0.6);
+	margin-bottom: 5%;
+	box-shadow: 0 0 2px 1px #CCC;
+}
+
+.image-hover {
+	background: rgba(20, 20, 20, 0.6);
+}
+
+input#query {
 	display: inline;
+}
+
+.result-box {
+	border-bottom: 2px solid #e6e6e6;
+	margin-bottom: 2%;
+	padding: 1%;
+	h2 {
+		font-family: 'Cantarell', sans-serif;
+	};
 }

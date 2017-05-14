@@ -5,19 +5,27 @@ class Recipe < ActiveRecord::Base
 	has_many :comments, dependent: :destroy
 	has_many :ratings, dependent: :destroy
 	validates_presence_of :name, :description, :directions
+	validate :ingredients_present?
+	has_attached_file :image, default_url: ':style/default_recipe_image.jpg',
+		styles: { original: '330x379#'}
+	validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+	
 	extend Concerns::Sortable
+	include Concerns::Dateable
 
-	def ingredient_attributes=(ingredient_attributes)
-		ingredient_attributes[:ingredients].split(/\r\n/).each do |ingredient|
-			
-			x = ingredient.split("-")
-			measurment = x.first.strip
-			ingr_name = x.last.strip
-			
-			i = Ingredient.find_or_create_by(name: ingr_name.downcase.singularize)
-			
-			if !self.ingredients.include?(i)
-				self.recipe_ingredients.build(ingredient: i, measurement: measurment, name: ingr_name)
+	def ingredients_attributes=(ingredients)
+		recipe_ingredients.destroy_all if persisted?
+
+		ingredients.each do |ingredient|
+			unless ingredient[:name].blank?
+				ingr_name = ingredient[:name]
+				measurement = ingredient[:measurement]
+
+				i = Ingredient.find_or_create_by(name: ingr_name.downcase.singularize)
+					
+				if !ingredients.include?(i)
+					recipe_ingredients.build(ingredient: i, measurement: measurement, name: ingr_name)
+				end
 			end
 		end
 	end
@@ -26,12 +34,15 @@ class Recipe < ActiveRecord::Base
 		directions.split(/\r\n/)
 	end
 
-	def self.search(params)
-		where("name like ?", "%#{params.singularize}%") 
-	end
-
-	def self.ingredient_search(params)
-		joins(:ingredients).where("ingredients.name like ?", "%#{params.singularize}%")
+	def self.search(query, limit)
+		if query.match(/^[1-5]$/)
+			q = query.to_i
+			select("recipes.*, AVG(ratings.score) AS average_score").joins(:ratings)
+			.group('recipes.id').having('average_score BETWEEN ? and ?', q, q + 0.99).limit(9).offset(limit.to_i)
+		else
+			joins(:ingredients)
+			.where("ingredients.name like :params OR recipes.name like :params", params: "%#{query}%").limit(9).offset(limit.to_i).uniq
+		end 
 	end
 
 	def self.rating_search(params)
@@ -45,5 +56,13 @@ class Recipe < ActiveRecord::Base
 	def user_name
 		user.email_name.humanize
 	end
+
+	private
+
+	def ingredients_present?
+		errors.add(:ingredients_attributes, "must be present in recipe") if recipe_ingredients.empty?
+	end
 	
 end
+
+

@@ -1,121 +1,122 @@
-<div class='panel panel-default' >
+<div class='panel panel-default' id="main-content" >
 	<div class="panel-heading">
-		<h2><%= titleize(@recipe) %></h2> 
+		<h2><%= titleize(@recipe) %></h2>
 	</div>
-		<div class='panel-body' > 
-			by <%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %> 
-			<p>posted on: <%= post_date(@recipe) %></p>
-			<p></p>
+	<div class='panel-body'>
+		<div class="row">
+			<div class="col-md-6">
+				by <%= link_to @recipe.user.email_name, user_path(@recipe.user.id) %>
+				<p>posted on: <%= post_date(@recipe) %></p>
+				<p></p>
 
-		<% unless @recipe.ratings.empty? %>
-			<div class='panel panel-default comment' >
-				<div class="panel-heading">
-					<strong>Overall rating:</strong>
+				<% unless @recipe.ratings.empty? %>
+					<div class='panel panel-default' >
+						<div class="panel-heading">
+							<strong>Overall rating:</strong>
+						</div>
+
+						<div class="panel-body">
+							<div class="rating-box">
+								<div class="display-rating" data-rating=<%=@recipe.rating_avg%>></div>
+								(<%= @recipe.ratings.size%>)
+							</div>
+						</div>
+					</div>
+				<% end %>
+
+				<div class='panel panel-default' >
+					<div class="panel-heading">
+						<strong>Description:</strong>
+					</div>
+					<div class="panel-body">
+						<%= @recipe.description %>
+					</div>
 				</div>
-				
-				<div class="panel-body">
-					<%= @recipe.rating_avg %> (out of 5)
+
+				<div class='panel panel-default' >
+					<div class="panel-heading">
+						<strong>Ingredients:</strong>
+					</div>
+					<div class="panel-body">
+						<ul>
+							<% @recipe.recipe_ingredients.each do |ingredient| %>
+								<li><%= ingredient.measurement %>  <%= titleize(ingredient) %></li>
+							<% end %>
+						</ul>
+					</div>
+				</div>
+
+				<div class='panel panel-default' >
+					<div class="panel-heading">
+						<strong>Directions:</strong>
+					</div>
+					<div class="panel-body">
+						<ol>
+							<% @recipe.directions_to_list.each do |direction| %>
+								<li><%= direction.capitalize %></li>
+							<% end %>
+						</ol>
+					</div>
 				</div>
 			</div>
-		<% end %>
-		
-		<div class='panel panel-default comment' >
+			<div class="col-md-6">
+				<%= link_to (image_tag @recipe.image.url(:original), class: 'index-image'), recipe_path(@recipe) %>
+			</div>
+		</div><!-- row -->
+	</div>
+</div>
+
+<h2><%= "Comments:" unless @recipe.comments.empty? %></h2>
+
+<div id='comments_display'>
+	<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default" id="comment_form" >
 			<div class="panel-heading">
-				<strong>Description:</strong>
+				<strong>Comment on this recipe:</strong>
 			</div>
+
 			<div class="panel-body">
-				<%= @recipe.description %>
-			</div>
-		</div>	
-			
-		<div class='panel panel-default comment' >
-			<div class="panel-heading">	
-				<strong>Ingredients:</strong>
-			</div>
-			<div class="panel-body">
-				<ul>
-					<% @recipe.recipe_ingredients.each do |ingredient| %>
-						<li><%= ingredient.measurement %>  <%= titleize(ingredient) %></li>
-					<% end %>
-				</ul>
+				<%= form_for @recipe.comments.build, remote: true, action: comments_path, method: 'post' do |f| %>
+					<%= f.hidden_field :recipe_id, value: @recipe.id %>
+					<div class="form-group">
+						<%= f.label "Add a comment" %>
+						<%= f.text_area :content, cols: 55, rows: 5, class: "form-control" %>
+						<span class="help-block"></span>
+					</div>
+					<%= f.submit class: "btn btn-primary" %>
+				<% end %>
 			</div>
 		</div>
-		
-		<div class='panel panel-default comment' >
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div id="rating" class="panel panel-default">
 			<div class="panel-heading">
-				<strong>Directions:</strong>
+				<strong>Rate this recipe:</strong>
 			</div>
+
 			<div class="panel-body">
-				<ol>
-					<% @recipe.directions_to_list.each do |direction| %>
-						<li><%= direction.capitalize %></li>
-					<% end %>
-				</ol>
+				<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
+					<%= f.hidden_field :recipe_id, value: @recipe.id %>
+					<div class="form-group">
+						<%= f.label "Add a rating", class: "control-label" %>
+						<div id="star" data-rated="false"></div>
+						<span class="help-block"></span>
+					</div>
+					<%= f.submit "submit", class: "btn btn-primary" %>
+				<% end %>
 			</div>
 		</div>
 	</div>
 </div>
 
+<div id="dialog" title="Tummy Topics">Thanks for your comment!</div>
 
-
-<% unless @recipe.comments.empty? %>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong>Comments:</strong>
-		</div>
-		
-		<%= render partial: 'display_comment', locals: { comments: @recipe.comments.dated } %>
-	
-	</div>
-<% end %>
-
-
-<div class="panel panel-default comment" >
-	<div class="panel-heading">
-		<strong>Comment on the recipe:</strong>
-	</div>
-	
-	<div class="panel-body">
-		<%= form_for @recipe.comments.build, action: comments_path, method: 'post' do |f| %>
-			<%= f.hidden_field :recipe_id, value: @recipe.id %>
-			<div class="form-group">
-				<%= f.label "Add a comment" %>
-				<%= f.text_area :content, cols: 55, rows: 5, class: "form-control" %>
-			</div>
-			<%= f.submit class: "btn btn-primary" %>
-		<% end %>
-	</div>
-</div>
-
-<div class="panel panel-default comment">
-	<div class="panel-heading">
-		<strong>Rate this recipe:</strong>
-	</div>
-	
-	<div class="panel-body">
-		<%= form_for @recipe.ratings.build, action: ratings_path, method: 'post' do |f| %>
-			<%= f.hidden_field :recipe_id, value: @recipe.id %>
-			<div class="form-group">
-				<%= f.label "Add a rating" %>
-				<%= f.select :score, [1,2,3,4,5], { prompt: true }, class: "form-control" %>
-			</div>
-			<%= f.submit "submit", class: "btn btn-primary" %>
-		<% end %>
-	</div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script type="text/javascript">
+	$("#dialog").dialog({ autoOpen: false, modal: true });
+</script>

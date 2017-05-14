@@ -1,32 +1,50 @@
+<%= form_for recipe, html: { multipart: true } do |f| %>
 
-<%= form_for recipe do |f| %>
+	<div class="form-group <%= 'has-error' if recipe.errors[:name].any? %>">
+		<%= f.label 'Recipe Name:', class: "control-label" %><br>
+		<%= f.text_field :name, class: "form-control" %>
+		<% if recipe.errors[:name].any? %>
+			<span class="help-block"><%= recipe.errors.full_messages_for(:name).to_sentence %></span>
+		<% end %>
+	</div>
 
-	<div class="form-group">
-		<%= f.label 'Recipe Name:' %><br>
-		<%= f.text_field :name, class: "form-control" %><br>
+	<div class="form-group <%= 'has-error' if recipe.errors[:description].any? %>">
+		<%= f.label 'Description:', class: "control-label" %><br>
+		<%= f.text_area :description,  cols: 55, rows: 10, class: "form-control" %>
+		<% if recipe.errors[:description].any? %>
+			<span class="help-block"><%= recipe.errors.full_messages_for(:description).to_sentence %></span>
+		<% end %>
+	</div>
+
+	<div class="form-group <%= 'has-error' if recipe.errors[:ingredients_attributes].any? %>">
+		<%= f.label 'Ingredients:', class: "control-label" %><br>
+		<%= f.fields_for :ingredients_attributes do |ingredients| %>
+			<%= render 'ingredients/fields', ingredients: ingredients %>
+		<% end %>
+		<div class="ingredient-form" id="new-form"></div>
+		<% if recipe.errors[:ingredients_attributes].any? %>
+				<span class="help-block"><%= recipe.errors.full_messages_for(:ingredients_attributes).to_sentence %></span>
+		<% end %>
+	</div>
+
+	<div class='form-group'>
+		<button class='btn btn-primary' id='get-form' data-url="/recipes/ingredients/new">add another ingredient</button>
+	</div>
+
+	<div class="form-group <%= 'has-error' if recipe.errors[:directions].any? %>">
+		<%= f.label 'Directions:', class: "control-label"  %><br>
+		<%= f.text_area :directions,  cols: 55, rows: 10, placeholder: "Please put each step on a separate line", class: "form-control" %>
+		<% if recipe.errors[:directions].any? %>
+			<span class="help-block"><%= recipe.errors.full_messages_for(:directions).to_sentence %></span>
+		<% end %>
 	</div>
 
 	<div class="form-group">
-		<%= f.label 'Description:' %><br>
-		<%= f.text_area :description,  cols: 55, rows: 10, class: "form-control" %><br>
-	</div>
-	
-	<%= f.fields_for :ingredient_attributes do |ingredients| %>
-		<div class="form-group">
-			<%= ingredients.label "Add Ingredients: Please put each ingredient on a separate line", autofocus: true %><br>
-			<p>( add a " - " between measurment and ingredient )</p>
-			<%= ingredients.text_area :ingredients, cols: 55, rows: 10, placeholder: "ex: 1 1/2 cups - flour", class: "form-control" %><br>
-		</div>
-	<% end %>
-	
-	<div class="form-group">
-		<%= f.label 'Directions:' %><br>
-		<%= f.text_area :directions,  cols: 55, rows: 10, placeholder: "Please put each step on a separate line", class: "form-control" %><br>
+		<%= f.label 'Add Image:', class: "control-label"  %><br>
+		<%= f.file_field :image %>
 	</div>
 
 	<div>
 		<%= f.submit nil, class: "btn btn-primary" %><br>
 	</div>
 <% end %>
-
-

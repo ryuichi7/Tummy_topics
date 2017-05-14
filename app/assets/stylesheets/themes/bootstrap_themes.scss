@@ -1,0 +1,79 @@
+/* Some Style from the Bootstrap Default Theme */
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+
+.shadow {
+  -webkit-box-shadow: 5px 4px 5px 0px rgba(189,197,199,1);
+  -moz-box-shadow: 5px 4px 5px 0px rgba(189,197,199,1);
+  box-shadow: 5px 4px 5px 0px rgba(189,197,199,1);
+}
+
+.navbar {
+	background: rgba(255, 255, 255, 0.6);
+	border-bottom: solid 1px #B6B6B6;
+  
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: black;
+    font-family: 'Pacifico', cursive;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+  color: rgba(100, 100, 100, 0.6);
+}
+
+.navbar-inverse .navbar-brand {
+  font-family: 'Pacifico';
+  color: black;
+  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-color: white;
+}
+
+.navbar-inverse .navbar-brand:hover {
+  -webkit-text-stroke-width: .5px;
+  -webkit-text-stroke-color: black;
+}
+
+.panel {
+  .panel-heading {
+    background: rgba(255, 255, 255, 0.6);
+  };
+  
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.form-control {
+  background: rgba(255, 255, 255, 0.8)
+}
+
+.dropdown {
+	padding-top: 1%;
+}
+
+/*/////popover stylings//////*/
+
+.popover {
+  z-index: 1;
+  color: rgba(0,0,0,0.8);
+  .popover-title {
+    color: white;
+    background: rgba(0,0,0,0.6);
+  }
+  
+  // background: rgba(255,255,255,0.8);
+}
+

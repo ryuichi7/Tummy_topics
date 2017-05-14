@@ -1,17 +1,125 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h2><%= @user.email_name %>'s profile</h2>
-	</div>
-	<div class="panel-body">
-		<strong><%= link_to "Recipes", user_recipes_path(@user), class: "btn btn-link" %></strong>
-		<p></p>
-		<strong><%= link_to "Comments", user_comments_path(@user), class: "btn btn-link" %></strong>
-		<p></p>
-		<%= form_tag comments_path, method: 'get' do %>
-			<%= hidden_field_tag :commenter_id, @user.id %>
-			<strong><%= submit_tag "Reviews", class: "btn btn-link" %></strong>
-		<% end %>
-	</div>
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default" id="user-card">
+			<div class="panel-heading">
+				<h2><%= @user.email_name %>'s profile</h2>
+			</div>
+			<div class="row">
+				<div class=" col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<%= link_to (image_tag @user.avatar.url(:original), class: 'img-circle card-image'), user_path(@user) %>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 card-text">
+					<div><%= link_to "Add a recipe", new_recipe_path, class: "btn btn-link card-link" if @user == current_user %></div>
+					<div><%= link_to "Comments", user_comments_path(@user), class: "btn btn-link card-link" %></div>
 
-
+					<div>
+						<%= form_tag comments_path, method: 'get' do %>
+							<%= hidden_field_tag :commenter_id, @user.id %>
+							<%= submit_tag "Reviews", class: "btn btn-link card-link" %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+
+	<% if !@user.recipes.empty? %>
+		<div id='user-recipes'>
+			<% @user.recipes.in_groups_of(3, false) do |group| %>
+				<div class="row">
+					<% group.each do |recipe| %> 
+						<div class="col-md-4">
+							<div class="inner-comment-box">
+								<div class="panel-heading">
+									<strong><%= link_to titleize(recipe), recipe_path(recipe) %></strong>
+								</div>
+								
+								<div class="panel-body">	
+									<%= link_to (image_tag recipe.image.url(:original), class: 'index-image'), recipe_path(recipe) %>
+									<p></p>
+									<h6>Posted on: <%= post_date(recipe) %></h6>
+									<% if recipe.try(:rating_avg) %>
+										<div class="rating-box"><div class="display-rating" data-id=<%=recipe.id%> data-rating=<%=recipe.rating_avg%>></div>(<%=recipe.ratings.length%>)</div>
+									<% end %>
+									<%= button_tag "See Comments", class: 'see-comments btn btn-default', data: { id: recipe.id, toggle: 'collapse', target: "#collapse#{recipe.id}" } unless recipe.comments.blank? %>
+									<div class="collapse" id="collapse<%=recipe.id%>">
+										<% recipe.comments.each do |comment| %>
+											<div class="comment-well">
+												<p><%= comment.content %></p>
+												<p>By: <%= link_to comment.commenter.email_name, user_path(comment.commenter) %> posted on: <%= post_date(comment) %></p>
+											</div>
+										<% end %>
+									</div>
+									
+									<p></p>
+									<p><%= link_to 'edit', "#recipeModal_#{recipe.id}", class: 'btn btn-default btn-xs', data: { toggle: "modal", target: "#recipeModal_#{recipe.id}" }  if can? :update, recipe %>
+									<%= link_to 'delete', recipe_path(recipe), class: 'btn btn-default btn-xs',method: 'DELETE', data: { confirm: 'Are you sure?' } if can? :destroy, recipe %></p>
+
+									<div class="modal fade" id="recipeModal_<%=recipe.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+									  <div class="modal-dialog" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h4 class="modal-title" id="myModalLabel">Edit Recipe</h4>
+									      </div>
+									      <div class="modal-body">
+									        <%= render partial: 'recipes/form', locals: { recipe: recipe} %>
+									      </div>
+									    </div>
+									  </div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	<% else %>
+		<div class="panel">
+			no recipes to display
+		</div>
+	<% end %>
+
+	<div id="dialog" title="Tummy Topics">Recipe Successfully Updated!</div>
+
+	<script type="text/javascript">
+		$('form.edit_recipe').on('submit', function(e) {
+			e.preventDefault();
+			var values = $(this).serialize();
+			var url = $(this).attr('action')
+			$.ajax({
+				url: url,
+				method: 'PATCH',
+				data: values
+			}).done(function(response) {
+				var recipe = response.recipe
+				$('#recipeModal_' + recipe.id).modal('hide');
+				$('form').clear_previous_errors();	
+				$("#dialog").dialog( "open" );
+			}).fail(function(response) {
+				$('form').clear_previous_errors();
+				var modalForm = $('form[action="' + this.url + '"]')
+				$.each(response.responseJSON, function(field, message) {
+					var element;
+					if (field === 'ingredients_attributes') {
+						element = $(modalForm).find('[name="recipe[ingredients_attributes][][name]"]');
+					} else {
+						element = $(modalForm).find('[name="recipe[' + field + ']"]');
+					}; 
+					$(element).closest('.form-group').addClass('has-error').append('<span class="help-block">' + message[0] + '</span>');
+				})
+			})
+		})
+
+		$( "#dialog" ).dialog({ autoOpen: false, modal: true });
+
+	</script>
+
+
+
+

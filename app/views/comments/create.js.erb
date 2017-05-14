@@ -1,0 +1,6 @@
+html = '<%= j (render @comment) %>'
+
+$('div#comments_display').append(html);
+$('#new_comment')[0].reset();  
+$("#dialog").dialog('open');
+

@@ -1,0 +1,12 @@
+
+.inner-comment-box {
+	@extend .col-md-12;
+	@extend .panel;
+	@extend .panel-default;
+	padding: 0;
+}
+
+.comment-well {
+	@extend .well;
+	margin-top: 10px;
+}

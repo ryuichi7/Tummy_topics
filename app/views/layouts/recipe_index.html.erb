@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TummyTopics</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+</head>
+<body>
+	<header>
+		<%= render "layouts/nav" %>
+	</header>
+
+	<div class="search-moment-container">
+
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div class='logo'>
+					<h1>Tummy Topics</h1>
+				</div>
+				<h2>Search Recipes</h2>
+				<%= form_tag '/search', id: 'search_form', method: 'POST', data: { current_query: "", search_limit: 0 } do %>
+					
+					<%= text_field_tag :query, nil, class: "form-control comment", placeholder: "search recipe name, ingredient or rating (1-5)" %>
+					
+						
+					<button type="submit" name="commit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button>
+				<% end %>
+			
+					
+				<%= link_to "Browse Ingredients", ingredients_path, class: 'btn btn-primary' %>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" id="main">
+
+		<%= flash_messages %>
+		
+		
+		<%= yield %>
+	</div>
+
+</body>
+</html>
